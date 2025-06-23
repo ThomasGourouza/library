@@ -35,7 +35,7 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - formulaire de creation et d'edition (create, update)
 - formulaire de suppression (delete)
 
-Auteurs:
+# Auteurs:
 
 - page de recherche d'auteurs avec filtres sous forme de tableau (getAll)
 - page de detail (get)
