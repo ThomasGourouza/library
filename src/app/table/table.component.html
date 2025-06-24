@@ -1,0 +1,28 @@
+<div class="container mt-5">
+  <div class="rounded overflow-hidden border">
+    <table class="table table-bordered table-striped mb-0">
+      <thead class="table-dark">
+        <tr>
+          <th *ngFor="let header of headers">{{ header.label }}</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          *ngFor="let data of paginatedData"
+          (click)="onRowClick(data)"
+          class="table-row-clickable"
+        >
+          <td *ngFor="let header of headers">
+            {{ data[header.name] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <app-paginator
+    [currentPage]="currentPage"
+    [totalPages]="totalPages"
+    (changePage)="onChangePage($event)"
+  ></app-paginator>
+</div>

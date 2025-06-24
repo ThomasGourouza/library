@@ -1,0 +1,8 @@
+.table-row-clickable {
+  cursor: pointer;
+  transition: background-color 0.2s;
+}
+
+.table-row-clickable:hover {
+  --bs-table-bg: var(--table-row-hover);
+}
