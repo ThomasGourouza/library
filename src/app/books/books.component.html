@@ -1,7 +1,10 @@
 <app-table
   [data]="books"
   [headers]="headers"
+  [dataId]="bookId"
+  [currentPage]="currentPage"
   (selectedRow)="OnSelectedRow($event)"
+  (selectedPage)="OnSelectedPage($event)"
 ></app-table>
 
 <router-outlet></router-outlet>

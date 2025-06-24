@@ -11,6 +11,7 @@
           *ngFor="let data of paginatedData"
           (click)="onRowClick(data)"
           class="table-row-clickable"
+          [class.table-primary]="data.id === dataId"
         >
           <td *ngFor="let header of headers">
             {{ data[header.name] }}

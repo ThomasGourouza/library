@@ -9,8 +9,8 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './paginator.component.scss',
 })
 export class PaginatorComponent {
-  @Input() currentPage: number = 0;
-  @Input() totalPages: number = 0;
+  @Input() currentPage!: number;
+  @Input() totalPages: number = 1;
   @Output() changePage = new EventEmitter<any>();
 
   onChangePage(page: number): void {

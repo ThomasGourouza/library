@@ -17,9 +17,17 @@ export interface Header {
 export class TableComponent {
   @Input() data: any[] = [];
   @Input() headers: Header[] = [];
-  @Output() selectedRow = new EventEmitter<any>();
+  @Input() set dataId(value: string | null) {
+    this._dataId = value;
+  }
+  get dataId(): string | null {
+    return this._dataId;
+  }
+  private _dataId: string | null = null;
+  @Input() currentPage!: number;
+  @Output() selectedPage = new EventEmitter<number>();
+  @Output() selectedRow = new EventEmitter<string>();
 
-  currentPage = 1;
   itemsPerPage = 15;
 
   get paginatedData(): any[] {
@@ -33,11 +41,12 @@ export class TableComponent {
 
   onChangePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
+      // this.currentPage = page;
+      this.selectedPage.emit(page);
     }
   }
 
   onRowClick(row: any) {
-    this.selectedRow.emit(row);
+    this.selectedRow.emit(row.id);
   }
 }

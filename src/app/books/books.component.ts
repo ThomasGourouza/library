@@ -1,6 +1,7 @@
-import { Component } from '@angular/core';
-import { Router, RouterOutlet } from '@angular/router';
+import { Component, OnDestroy } from '@angular/core';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Header, TableComponent } from '../table/table.component';
+import { distinctUntilChanged, map, Subject, Subscription } from 'rxjs';
 
 interface Book {
   id: string;
@@ -18,14 +19,16 @@ interface Book {
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
 })
-export class BooksComponent {
+export class BooksComponent implements OnDestroy {
   books: Book[] = [];
   headers: Header[] = [];
-
+  bookId: string | null = null;
   currentPage = 1;
-  itemsPerPage = 15;
 
-  constructor(private router: Router) {
+  urlSubscription: Subscription | null = null;
+  queryParamsSubscription: Subscription | null = null;
+
+  constructor(private router: Router, private route: ActivatedRoute) {
     for (let i = 1; i <= 44; i++) {
       this.books.push({
         id: `Livre_${i}`,
@@ -43,25 +46,41 @@ export class BooksComponent {
       { name: 'genre', label: 'Genre' },
       { name: 'test', label: 'Test' },
     ];
+
+    this.urlSubscription = this.router.events.subscribe(() => {
+     const urlSegments = this.router.url.split('?')[0]?.split('/');
+     const newBookId = urlSegments.length === 3 ? urlSegments[2] : null;
+      if (newBookId !== this.bookId) {
+        this.bookId = newBookId;
+      }
+    });
+    this.queryParamsSubscription = this.route.queryParamMap.pipe(
+        map(p => +(p.get('page') ?? 1)),
+        distinctUntilChanged()
+      )
+      .subscribe(page => {
+        this.currentPage = page;
+      });
+    this.OnSelectedPage(this.currentPage);
   }
 
-  get paginatedBooks(): Book[] {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.books.slice(start, start + this.itemsPerPage);
+  ngOnDestroy(): void {
+    this.urlSubscription?.unsubscribe();
+    this.queryParamsSubscription?.unsubscribe();
   }
 
-  get totalPages(): number {
-    return Math.ceil(this.books.length / this.itemsPerPage);
+  OnSelectedRow(rowId: string): void {
+    this.router.navigate(['/books', rowId], { queryParamsHandling: 'preserve' });
   }
 
-  changePage(page: number) {
-    if (page >= 1 && page <= this.totalPages) {
-      this.currentPage = page;
-    }
-  }
-
-  OnSelectedRow(row: any): void {
-    console.log(row);
-    this.router.navigate(['/books', row.id]);
+  OnSelectedPage(page: number): void {
+    this.router.navigate(
+      [],
+      {
+        relativeTo: this.route,
+        queryParams: { page },
+        queryParamsHandling: 'merge',
+      }
+    );
   }
 }
