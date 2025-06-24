@@ -1,3 +1,7 @@
-<p>books works!</p>
+<app-table
+  [data]="books"
+  [headers]="headers"
+  (selectedRow)="OnSelectedRow($event)"
+></app-table>
 
 <router-outlet></router-outlet>
