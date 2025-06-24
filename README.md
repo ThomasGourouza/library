@@ -41,3 +41,19 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - page de detail (get)
 - formulaire de creation et d'edition (create, update)
 - formulaire de suppression (delete)
+
+Époque
+date simple
+Date de parution
+Titre
+Auteur
+% Europe
+% Russie
+Titre original
+Âge
+Nationalité
+Courant
+Genre
+Catégorie
+Description
+Wikipedia
