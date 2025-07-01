@@ -11,11 +11,14 @@ import {
   filter,
   map,
   Observable,
+  of,
+  shareReplay,
   startWith,
   tap,
 } from 'rxjs';
 import { FilterPipe } from '../pipes/filter.pipe';
 import { AsyncPipe } from '@angular/common';
+import { SortPipe } from '../pipes/sort.pipe';
 
 export interface Book {
   id: string | null;
@@ -26,10 +29,15 @@ export interface Book {
   test: string | null;
 }
 
+export interface SortParams {
+  sortColumn: string | null;
+  sortDirection: string | null;
+}
+
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [RouterOutlet, TableComponent, AsyncPipe, FilterPipe],
+  imports: [RouterOutlet, TableComponent, AsyncPipe, FilterPipe, SortPipe],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
 })
@@ -38,7 +46,12 @@ export class BooksComponent {
   headers: Header[] = [];
   bookId$: Observable<string | null>;
   searchParams$: Observable<Book>;
-  currentPage = 1;
+  sortParams$: Observable<SortParams>;
+  currentPage$: Observable<number> = of(1);
+
+  private readonly paramMap$ = this.route.queryParamMap.pipe(
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
 
   constructor(private router: Router, private route: ActivatedRoute) {
     for (let i = 1; i <= 44; i++) {
@@ -69,11 +82,13 @@ export class BooksComponent {
       distinctUntilChanged()
     );
 
-    this.searchParams$ = this.route.queryParamMap.pipe(
-      tap((p) => {
-        const page = p.get('page');
-        this.currentPage = page ? +page : 1;
-      }),
+    this.currentPage$ = this.paramMap$.pipe(
+      map((p) => +(p.get('page') ?? 1)),
+      tap((page) => this.OnSelectedPage(page)),
+      distinctUntilChanged()
+    );
+
+    this.searchParams$ = this.paramMap$.pipe(
       map((p) => ({
         id: p.get('id'),
         title: p.get('title'),
@@ -84,7 +99,53 @@ export class BooksComponent {
       })),
       distinctUntilChanged()
     );
-    this.OnSelectedPage(this.currentPage);
+
+    this.sortParams$ = this.paramMap$.pipe(
+      tap((p) => {
+        const isSortDirectionWrong = !['asc', 'desc'].includes(
+          p.get('sortDirection') || ''
+        );
+        const isSortDirectionCaseWrong = ['asc', 'desc'].includes(
+          p.get('sortDirection')?.toLocaleLowerCase() || ''
+        );
+        if (
+          p.has('sortColumn') &&
+          (!p.has('sortDirection') || isSortDirectionWrong)
+        ) {
+          const directionIfCaseWrong =
+            p.get('sortDirection')?.toLocaleLowerCase() === 'asc'
+              ? 'asc'
+              : 'desc';
+          const sortDirection = isSortDirectionCaseWrong
+            ? directionIfCaseWrong
+            : 'asc';
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { sortDirection },
+            queryParamsHandling: 'merge',
+          });
+        }
+        if (!p.has('sortColumn') && p.has('sortDirection')) {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { sortColumn: 'title' },
+            queryParamsHandling: 'merge',
+          });
+        }
+      }),
+      filter((p) => {
+        const isNone = !p.has('sortColumn') && !p.has('sortDirection');
+        const isBoth =
+          p.has('sortColumn') &&
+          ['asc', 'desc'].includes(p.get('sortDirection') || '');
+        return isNone || isBoth;
+      }),
+      map((p) => ({
+        sortColumn: p.get('sortColumn'),
+        sortDirection: p.get('sortDirection'),
+      })),
+      distinctUntilChanged()
+    );
   }
 
   OnSelectedRow(rowId: string): void {

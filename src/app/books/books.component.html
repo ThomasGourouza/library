@@ -1,8 +1,10 @@
 <app-table
-  [data]="books | filter : (searchParams$ | async)"
+  [data]="
+    books | filter : (searchParams$ | async) | sort : (sortParams$ | async)
+  "
   [headers]="headers"
   [dataId]="bookId$ | async"
-  [currentPage]="currentPage"
+  [currentPage]="(currentPage$ | async) || 1"
   (selectedRow)="OnSelectedRow($event)"
   (selectedPage)="OnSelectedPage($event)"
 ></app-table>
