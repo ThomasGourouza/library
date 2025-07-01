@@ -2,7 +2,7 @@
   [data]="books"
   [headers]="headers"
   [dataId]="bookId"
-  [currentPage]="currentPage"
+  [currentPage]="searchParams.page"
   (selectedRow)="OnSelectedRow($event)"
   (selectedPage)="OnSelectedPage($event)"
 ></app-table>

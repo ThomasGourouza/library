@@ -41,7 +41,6 @@ export class TableComponent {
 
   onChangePage(page: number) {
     if (page >= 1 && page <= this.totalPages) {
-      // this.currentPage = page;
       this.selectedPage.emit(page);
     }
   }

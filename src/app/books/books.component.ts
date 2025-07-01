@@ -1,15 +1,19 @@
 import { Component, OnDestroy } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { Header, TableComponent } from '../table/table.component';
-import { distinctUntilChanged, map, Subject, Subscription } from 'rxjs';
+import { distinctUntilChanged, map, Subject, Subscription, tap } from 'rxjs';
 
 interface Book {
-  id: string;
-  title: string;
-  author: string;
-  year: number;
-  genre: string;
-  test: string;
+  id: string | null;
+  title: string | null;
+  author: string | null;
+  year: number | null;
+  genre: string | null;
+  test: string | null;
+}
+
+interface SearchParams extends Book {
+  page: number;
 }
 
 @Component({
@@ -23,8 +27,15 @@ export class BooksComponent implements OnDestroy {
   books: Book[] = [];
   headers: Header[] = [];
   bookId: string | null = null;
-  currentPage = 1;
-
+  searchParams: SearchParams = {
+    id: null,
+    title: null,
+    author: null,
+    year: null,
+    genre: null,
+    test: null,
+    page: 1,
+  };
   urlSubscription: Subscription | null = null;
   queryParamsSubscription: Subscription | null = null;
 
@@ -48,20 +59,33 @@ export class BooksComponent implements OnDestroy {
     ];
 
     this.urlSubscription = this.router.events.subscribe(() => {
-     const urlSegments = this.router.url.split('?')[0]?.split('/');
-     const newBookId = urlSegments.length === 3 ? urlSegments[2] : null;
+      const urlSegments = this.router.url.split('?')[0]?.split('/');
+      const newBookId = urlSegments.length === 3 ? urlSegments[2] : null;
       if (newBookId !== this.bookId) {
         this.bookId = newBookId;
       }
     });
-    this.queryParamsSubscription = this.route.queryParamMap.pipe(
-        map(p => +(p.get('page') ?? 1)),
+    this.queryParamsSubscription = this.route.queryParamMap
+      .pipe(
+        map((p) => {
+          const year = p.get('year');
+          const page = p.get('page');
+          return {
+            id: p.get('id'),
+            title: p.get('title'),
+            author: p.get('author'),
+            year: year ? +year : null,
+            genre: p.get('genre'),
+            test: p.get('test'),
+            page: page ? +page : 1,
+          };
+        }),
         distinctUntilChanged()
       )
-      .subscribe(page => {
-        this.currentPage = page;
-      });
-    this.OnSelectedPage(this.currentPage);
+      .subscribe(
+        (searchParams: SearchParams) => (this.searchParams = searchParams)
+      );
+    this.OnSelectedPage(this.searchParams.page);
   }
 
   ngOnDestroy(): void {
@@ -70,17 +94,16 @@ export class BooksComponent implements OnDestroy {
   }
 
   OnSelectedRow(rowId: string): void {
-    this.router.navigate(['/books', rowId], { queryParamsHandling: 'preserve' });
+    this.router.navigate(['/books', rowId], {
+      queryParamsHandling: 'preserve',
+    });
   }
 
   OnSelectedPage(page: number): void {
-    this.router.navigate(
-      [],
-      {
-        relativeTo: this.route,
-        queryParams: { page },
-        queryParamsHandling: 'merge',
-      }
-    );
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page },
+      queryParamsHandling: 'merge',
+    });
   }
 }
