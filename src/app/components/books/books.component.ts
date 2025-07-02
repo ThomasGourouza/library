@@ -61,6 +61,8 @@ export class BooksComponent {
   );
 
   OnSelectedRow(rowId: string): void {
+    console.log(this.books);
+
     this.router.navigate(['/books', rowId], {
       queryParamsHandling: 'preserve',
     });
