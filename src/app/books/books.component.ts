@@ -1,36 +1,11 @@
 import { Component, inject } from '@angular/core';
-import {
-  ActivatedRoute,
-  NavigationEnd,
-  Router,
-  RouterOutlet,
-} from '@angular/router';
-import { Header, TableComponent } from '../table/table.component';
-import {
-  distinctUntilChanged,
-  filter,
-  map,
-  shareReplay,
-  startWith,
-  tap,
-} from 'rxjs';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import { TableComponent } from '../table/table.component';
+import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs';
 import { FilterPipe } from '../pipes/filter.pipe';
 import { AsyncPipe } from '@angular/common';
 import { SortPipe } from '../pipes/sort.pipe';
-
-export interface Book {
-  id: string | null;
-  title: string | null;
-  author: string | null;
-  year: string | null;
-  genre: string | null;
-  test: string | null;
-}
-
-export interface SortParams {
-  sortColumn: string | null;
-  sortDirection: string | null;
-}
+import { Book, BOOKS_HEADERS } from './constants';
 
 @Component({
   selector: 'app-books',
@@ -43,6 +18,7 @@ export class BooksComponent {
   router = inject(Router);
   route = inject(ActivatedRoute);
 
+  headers = BOOKS_HEADERS;
   books: Book[] = [];
   // Mock data
   constructor() {
@@ -58,21 +34,8 @@ export class BooksComponent {
     }
   }
 
-  headers: Header[] = [
-    { name: 'title', label: 'Titre' },
-    { name: 'author', label: 'Auteur' },
-    { name: 'year', label: 'Année' },
-    { name: 'genre', label: 'Genre' },
-    { name: 'test', label: 'Test' },
-  ];
-
-  bookId$ = this.router.events.pipe(
-    filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-    startWith({ urlAfterRedirects: this.router.url } as NavigationEnd),
-    map(({ urlAfterRedirects }) => {
-      const urlSegments = urlAfterRedirects.split('?')[0].split('/');
-      return urlSegments.length === 3 ? urlSegments[2] : null;
-    }),
+  bookId$ = this.route.firstChild?.paramMap.pipe(
+    map((p) => p.get('bookId')),
     distinctUntilChanged()
   );
 
@@ -87,15 +50,12 @@ export class BooksComponent {
   );
 
   searchParams$ = this.paramMap$.pipe(
-    map((p) => ({
-      id: p.get('id'),
-      title: p.get('title'),
-      author: p.get('author'),
-      year: p.get('year'),
-      genre: p.get('genre'),
-      test: p.get('test'),
-    })),
-    distinctUntilChanged()
+    map((p) =>
+      Object.fromEntries(BOOKS_HEADERS.map(({ name }) => [name, p.get(name)]))
+    ),
+    distinctUntilChanged((a, b) =>
+      BOOKS_HEADERS.every(({ name }) => a[name] === b[name])
+    )
   );
 
   sortParams$ = this.paramMap$.pipe(

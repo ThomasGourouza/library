@@ -1,29 +1,13 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, Params, Router } from '@angular/router';
-
-const ALLOWED_QUERY_PARAMS = [
-  'id',
-  'title',
-  'author',
-  'year',
-  'genre',
-  'test',
-  'sortColumn',
-  'sortDirection',
-  'page',
-] as const;
-
-const ALLOWED_SORT_COLUMNS = [
-  'id',
-  'title',
-  'author',
-  'year',
-  'genre',
-  'test',
-] as const;
-const ALLOWED_SORT_DIRECTIONS = ['asc', 'desc'] as const;
-const DEFAULT_SORT_COLUMN = 'title';
-const DEFAULT_SORT_DIRECTION = 'asc';
+import {
+  ALLOWED_BOOK_QUERY_PARAMS,
+  ALLOWED_SORT_DIRECTIONS,
+  BOOKS_HEADERS,
+  DEFAULT_BOOK_SORT_COLUMN,
+  DEFAULT_SORT_DIRECTION,
+  SortDirection,
+} from '@constants';
 
 export const queryParamGuard: CanActivateFn = (route, _state) => {
   const router = inject(Router);
@@ -31,7 +15,7 @@ export const queryParamGuard: CanActivateFn = (route, _state) => {
   const original = route.queryParams;
   const filtered: Params = {};
 
-  for (const key of ALLOWED_QUERY_PARAMS) {
+  for (const key of ALLOWED_BOOK_QUERY_PARAMS) {
     if (Object.prototype.hasOwnProperty.call(original, key)) {
       filtered[key] = original[key];
     }
@@ -42,23 +26,24 @@ export const queryParamGuard: CanActivateFn = (route, _state) => {
     original['sortDirection'] as string | undefined
   )?.toLowerCase();
 
-  const colValid = colRaw && ALLOWED_SORT_COLUMNS.includes(colRaw as any);
+  const colValid =
+    colRaw && BOOKS_HEADERS.map(({ name }) => name).includes(colRaw as any);
   const dirValid = dirRaw && ALLOWED_SORT_DIRECTIONS.includes(dirRaw as any);
 
   let sortColumn = colValid ? colRaw : undefined;
-  let sortDirection = dirValid ? (dirRaw as 'asc' | 'desc') : undefined;
+  let sortDirection = dirValid ? (dirRaw as SortDirection) : undefined;
 
   if (colRaw && dirRaw) {
-    if (!colValid) sortColumn = DEFAULT_SORT_COLUMN;
+    if (!colValid) sortColumn = DEFAULT_BOOK_SORT_COLUMN;
     if (!dirValid) sortDirection = DEFAULT_SORT_DIRECTION;
   }
 
   if (colRaw && !dirRaw) {
-    sortColumn = colValid ? colRaw : DEFAULT_SORT_COLUMN;
+    sortColumn = colValid ? colRaw : DEFAULT_BOOK_SORT_COLUMN;
     sortDirection = DEFAULT_SORT_DIRECTION;
   }
   if (!colRaw && dirRaw) {
-    sortColumn = DEFAULT_SORT_COLUMN;
+    sortColumn = DEFAULT_BOOK_SORT_COLUMN;
     sortDirection = dirValid ? (dirRaw as any) : DEFAULT_SORT_DIRECTION;
   }
 
@@ -68,7 +53,7 @@ export const queryParamGuard: CanActivateFn = (route, _state) => {
   const differentKeyCount =
     Object.keys(original).length !== Object.keys(filtered).length;
 
-  const differentValue = ALLOWED_QUERY_PARAMS.some(
+  const differentValue = ALLOWED_BOOK_QUERY_PARAMS.some(
     (k) => original[k] !== filtered[k]
   );
 

@@ -1,11 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaginatorComponent } from './paginator/paginator.component';
-
-export interface Header {
-  name: string;
-  label: string;
-}
+import { Header } from '@constants';
 
 @Component({
   selector: 'app-table',
