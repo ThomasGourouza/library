@@ -1,8 +1,8 @@
 // General
 export const ALLOWED_QUERY_PARAMS_COMMON = [
+  'page',
   'sortColumn',
   'sortDirection',
-  'page',
 ] as const;
 
 // Table
@@ -17,6 +17,7 @@ export interface SortParams {
 export type SortDirection = 'asc' | 'desc';
 export const ALLOWED_SORT_DIRECTIONS = ['asc', 'desc'] as const;
 export const DEFAULT_SORT_DIRECTION = 'asc' as const;
+export const ITEMS_PER_PAGE = 15;
 
 // Books
 export interface Book {

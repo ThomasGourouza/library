@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaginatorComponent } from './paginator/paginator.component';
-import { Header } from '@constants';
+import { Header, ITEMS_PER_PAGE } from '@constants';
 
 @Component({
   selector: 'app-table',
@@ -24,15 +24,13 @@ export class TableComponent {
   @Output() selectedPage = new EventEmitter<number>();
   @Output() selectedRow = new EventEmitter<string>();
 
-  itemsPerPage = 15;
-
   get paginatedData(): any[] {
-    const start = (this.currentPage - 1) * this.itemsPerPage;
-    return this.data.slice(start, start + this.itemsPerPage);
+    const start = (this.currentPage - 1) * ITEMS_PER_PAGE;
+    return this.data.slice(start, start + ITEMS_PER_PAGE);
   }
 
   get totalPages(): number {
-    return Math.ceil(this.data.length / this.itemsPerPage);
+    return Math.ceil(this.data.length / ITEMS_PER_PAGE);
   }
 
   onChangePage(page: number) {

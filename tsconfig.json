@@ -4,7 +4,7 @@
   "compilerOptions": {
     "baseUrl": "src",
     "paths": {
-      "@constants": ["app/books/constants.ts"]
+      "@constants": ["app/shared/constants.ts"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

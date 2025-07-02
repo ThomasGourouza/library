@@ -5,7 +5,8 @@ import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs';
 import { FilterPipe } from '../pipes/filter.pipe';
 import { AsyncPipe } from '@angular/common';
 import { SortPipe } from '../pipes/sort.pipe';
-import { Book, BOOKS_HEADERS } from './constants';
+import { Book, BOOKS_HEADERS } from '@constants';
+import { BOOKS } from './books-data';
 
 @Component({
   selector: 'app-books',
@@ -19,20 +20,7 @@ export class BooksComponent {
   route = inject(ActivatedRoute);
 
   headers = BOOKS_HEADERS;
-  books: Book[] = [];
-  // Mock data
-  constructor() {
-    for (let i = 1; i <= 44; i++) {
-      this.books.push({
-        id: `Livre_${i}`,
-        title: `Livre ${i}`,
-        author: `Auteur ${i}`,
-        year: `${2000 + (i % 20)}`,
-        genre: ['Roman', 'Essai', 'Policier', 'SF', 'Poésie'][i % 5],
-        test: 'test',
-      });
-    }
-  }
+  books: Book[] = BOOKS;
 
   bookId$ = this.route.firstChild?.paramMap.pipe(
     map((p) => p.get('bookId')),
