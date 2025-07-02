@@ -18,4 +18,10 @@ export const BOOKS = [
     year: '2007',
     genre: 'Essai',
   },
+  {
+    title: '1984',
+    author: 'Auteur 5',
+    year: '2007',
+    genre: 'Essai',
+  },
 ];
