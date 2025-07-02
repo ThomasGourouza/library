@@ -7,7 +7,7 @@ import {
   DEFAULT_BOOK_SORT_COLUMN,
   DEFAULT_SORT_DIRECTION,
   SortDirection,
-} from '@constants';
+} from '@shared/constants';
 
 export const booksGuard: CanActivateFn = (route, _state) => {
   const router = inject(Router);

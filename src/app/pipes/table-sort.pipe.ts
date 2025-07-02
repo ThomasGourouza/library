@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SortParams } from '@constants';
+import { SortParams } from '@shared/constants';
 
 @Pipe({
   name: 'sort',

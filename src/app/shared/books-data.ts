@@ -1,4 +1,4 @@
-import { Book } from '@constants';
+import { Book } from '@shared/constants';
 
 export const BOOKS: Book[] = [];
 

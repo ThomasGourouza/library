@@ -1,7 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaginatorComponent } from './paginator/paginator.component';
-import { Header, ITEMS_PER_PAGE } from '@constants';
+import { Header, ITEMS_PER_PAGE } from '@shared/constants';
 
 @Component({
   selector: 'app-table',

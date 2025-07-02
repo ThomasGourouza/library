@@ -5,8 +5,8 @@ import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs';
 import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';
 import { TableSortPipe } from '../../pipes/table-sort.pipe';
-import { Book, BOOKS_HEADERS } from '@constants';
-import { BOOKS } from '../../data/books-data';
+import { Book, BOOKS_HEADERS } from '@shared/constants';
+import { BOOKS } from '@shared/books-data';
 
 @Component({
   selector: 'app-books',
@@ -42,7 +42,7 @@ export class BooksComponent {
     tap((page) => this.OnSelectedPage(page)),
     distinctUntilChanged()
   );
-  // niveau plus haut ?
+
   searchParams$ = this.paramMap$.pipe(
     map((p) =>
       Object.fromEntries(BOOKS_HEADERS.map(({ name }) => [name, p.get(name)]))
@@ -51,7 +51,7 @@ export class BooksComponent {
       BOOKS_HEADERS.every(({ name }) => a[name] === b[name])
     )
   );
-  // niveau plus haut ?
+
   sortParams$ = this.paramMap$.pipe(
     map((p) => ({
       sortColumn: p.get('sortColumn'),
