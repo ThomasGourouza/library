@@ -5,7 +5,7 @@ import { SortParams } from '@constants';
   name: 'sort',
   standalone: true,
 })
-export class SortPipe implements PipeTransform {
+export class TableSortPipe implements PipeTransform {
   transform(value: any[], sortParams: SortParams | null): any[] {
     console.log(sortParams);
 

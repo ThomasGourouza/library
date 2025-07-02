@@ -1,13 +1,13 @@
 import { Routes } from '@angular/router';
-import { BookComponent } from './book/book.component';
-import { BooksComponent } from './books.component';
-import { queryParamGuard } from './query-param.guard';
+import { BookComponent } from '../components/books/book/book.component';
+import { BooksComponent } from '../components/books/books.component';
+import { booksGuard } from './guards/books.guard';
 
 export const routes: Routes = [
   {
     path: '',
     component: BooksComponent,
-    canActivate: [queryParamGuard],
+    canActivate: [booksGuard],
     runGuardsAndResolvers: 'always',
     children: [
       {

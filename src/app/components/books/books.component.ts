@@ -2,16 +2,22 @@ import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { TableComponent } from '../table/table.component';
 import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs';
-import { FilterPipe } from '../pipes/filter.pipe';
+import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';
-import { SortPipe } from '../pipes/sort.pipe';
+import { TableSortPipe } from '../../pipes/table-sort.pipe';
 import { Book, BOOKS_HEADERS } from '@constants';
-import { BOOKS } from './books-data';
+import { BOOKS } from '../../data/books-data';
 
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [RouterOutlet, TableComponent, AsyncPipe, FilterPipe, SortPipe],
+  imports: [
+    RouterOutlet,
+    TableComponent,
+    AsyncPipe,
+    TableFilterPipe,
+    TableSortPipe,
+  ],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
 })
@@ -36,7 +42,7 @@ export class BooksComponent {
     tap((page) => this.OnSelectedPage(page)),
     distinctUntilChanged()
   );
-
+  // niveau plus haut ?
   searchParams$ = this.paramMap$.pipe(
     map((p) =>
       Object.fromEntries(BOOKS_HEADERS.map(({ name }) => [name, p.get(name)]))
@@ -45,7 +51,7 @@ export class BooksComponent {
       BOOKS_HEADERS.every(({ name }) => a[name] === b[name])
     )
   );
-
+  // niveau plus haut ?
   sortParams$ = this.paramMap$.pipe(
     map((p) => ({
       sortColumn: p.get('sortColumn'),

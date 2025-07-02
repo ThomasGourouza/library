@@ -4,7 +4,7 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'filter',
   standalone: true,
 })
-export class FilterPipe implements PipeTransform {
+export class TableFilterPipe implements PipeTransform {
   transform(value: any[], searchParams: any): any[] {
     return value;
   }

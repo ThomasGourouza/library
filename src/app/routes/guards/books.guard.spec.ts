@@ -1,11 +1,10 @@
 import { TestBed } from '@angular/core/testing';
 import { CanActivateFn } from '@angular/router';
+import { booksGuard } from './books.guard';
 
-import { queryParamGuard } from './query-param.guard';
-
-describe('queryParamGuard', () => {
-  const executeGuard: CanActivateFn = (...guardParameters) => 
-      TestBed.runInInjectionContext(() => queryParamGuard(...guardParameters));
+describe('booksGuard', () => {
+  const executeGuard: CanActivateFn = (...guardParameters) =>
+    TestBed.runInInjectionContext(() => booksGuard(...guardParameters));
 
   beforeEach(() => {
     TestBed.configureTestingModule({});

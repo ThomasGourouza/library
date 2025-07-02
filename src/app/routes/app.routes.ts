@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { NotFoundComponent } from './not-found/not-found.component';
+import { NotFoundComponent } from '../components/not-found/not-found.component';
 
 export const routes: Routes = [
   {
@@ -9,12 +9,12 @@ export const routes: Routes = [
   },
   {
     path: 'books',
-    loadChildren: () => import('./books/books.routes').then((m) => m.routes),
+    loadChildren: () => import('./books.routes').then((m) => m.routes),
   },
   {
     path: 'authors',
     loadChildren: () =>
-      import('./authors/authors.routes').then((m) => m.routes),
+      import('../components/authors/authors.routes').then((m) => m.routes),
   },
   {
     path: '404-page-not-found',

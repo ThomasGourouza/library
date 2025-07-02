@@ -9,7 +9,7 @@ import {
   SortDirection,
 } from '@constants';
 
-export const queryParamGuard: CanActivateFn = (route, _state) => {
+export const booksGuard: CanActivateFn = (route, _state) => {
   const router = inject(Router);
 
   const original = route.queryParams;
