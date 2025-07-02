@@ -17,6 +17,11 @@ export class BookService {
 
   private makeId(title: string): string {
     return title
+      .replace(/ä/g, 'ae')
+      .replace(/ö/g, 'oe')
+      .replace(/ü/g, 'ue')
+      .replace(/ß/g, 'ss')
+      .replace(/œ/g, 'oe')
       .normalize('NFD') // sépare les accents
       .replace(/[\u0300-\u036f]/g, '') // supprime les accents
       .toLowerCase()

@@ -7,7 +7,7 @@ export const BOOKS = [
     genre: 'Poesie',
   },
   {
-    title: 'Titre 3',
+    title: 'Grüßen',
     author: 'Auteur 3',
     year: '2007',
     genre: 'Essai',
