@@ -6,7 +6,7 @@ import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';
 import { TableSortPipe } from '../../pipes/table-sort.pipe';
 import { Book, BOOKS_HEADERS } from '@shared/constants';
-import { BOOKS } from '@shared/books-data';
+import { BookService } from 'app/services/book.service';
 
 @Component({
   selector: 'app-books',
@@ -24,9 +24,10 @@ import { BOOKS } from '@shared/books-data';
 export class BooksComponent {
   router = inject(Router);
   route = inject(ActivatedRoute);
+  bookService = inject(BookService);
 
   headers = BOOKS_HEADERS;
-  books: Book[] = BOOKS;
+  books: Book[] = this.bookService.books;
 
   bookId$ = this.route.firstChild?.paramMap.pipe(
     map((p) => p.get('bookId')),

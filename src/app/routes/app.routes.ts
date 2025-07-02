@@ -17,8 +17,8 @@ export const routes: Routes = [
       import('../components/authors/authors.routes').then((m) => m.routes),
   },
   {
-    path: '404-page-not-found',
+    path: 'not-found',
     component: NotFoundComponent,
   },
-  { path: '**', redirectTo: '404-page-not-found', pathMatch: 'full' },
+  { path: '**', redirectTo: 'not-found', pathMatch: 'full' },
 ];
