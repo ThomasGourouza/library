@@ -20,21 +20,17 @@ export const DEFAULT_SORT_DIRECTION = 'asc' as const;
 export const ITEMS_PER_PAGE = 15;
 
 // Books
-export interface Book {
-  id: string | null;
-  title: string | null;
-  author: string | null;
-  year: string | null;
-  genre: string | null;
-  test: string | null;
-}
 export const BOOKS_HEADERS: Header[] = [
   { name: 'title', label: 'Titre' },
   { name: 'author', label: 'Auteur' },
   { name: 'year', label: 'Année' },
   { name: 'genre', label: 'Genre' },
-  { name: 'test', label: 'Test' },
 ] as const;
+type HeaderName = (typeof BOOKS_HEADERS)[number]['name'];
+
+export type Book = { id: string | undefined } & {
+  [K in HeaderName]: string | undefined;
+};
 export const ALLOWED_BOOK_QUERY_PARAMS = [
   ...BOOKS_HEADERS.map(({ name }) => name),
   ...ALLOWED_QUERY_PARAMS_COMMON,

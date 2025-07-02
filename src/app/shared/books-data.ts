@@ -1,14 +1,27 @@
-import { Book } from '@shared/constants';
+import { Book, BOOKS_HEADERS } from '@shared/constants';
 
-export const BOOKS: Book[] = [];
+const books = [
+  { id: '1', title: 'Titre', author: 'Auteur', year: '1996', genre: 'Roman' },
+  {
+    id: '2',
+    title: 'Titre 2',
+    author: 'Auteur 2',
+    year: '1856',
+    genre: 'Poesie',
+  },
+  {
+    id: '3',
+    title: 'Titre 3',
+    author: 'Auteur 3',
+    year: '2007',
+    genre: 'Essai',
+  },
+];
 
-for (let i = 1; i <= 44; i++) {
-  BOOKS.push({
-    id: `Livre_${i}`,
-    title: `Livre ${i}`,
-    author: `Auteur ${i}`,
-    year: `${2000 + (i % 20)}`,
-    genre: ['Roman', 'Essai', 'Policier', 'SF', 'Poésie'][i % 5],
-    test: 'test',
-  });
+export const BOOKS: Book[] = books.map(toBook);
+
+function toBook(book: any): Book {
+  return Object.fromEntries(
+    BOOKS_HEADERS.map(({ name }) => [name, book[name]])
+  ) as unknown as Book;
 }
