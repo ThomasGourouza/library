@@ -31,8 +31,12 @@ type HeaderName = (typeof BOOKS_HEADERS)[number]['name'];
 export type Book = { id: string | undefined } & {
   [K in HeaderName]: string | undefined;
 };
-export const ALLOWED_BOOK_QUERY_PARAMS = [
+export const ALLOWED_BOOK_FILTER_PARAMS = [
   ...BOOKS_HEADERS.map(({ name }) => name),
+  ...['year_min', 'year_max'],
+];
+export const ALLOWED_BOOK_QUERY_PARAMS = [
+  ...ALLOWED_BOOK_FILTER_PARAMS,
   ...ALLOWED_QUERY_PARAMS_COMMON,
 ];
 export const DEFAULT_BOOK_SORT_COLUMN = 'title' as const;

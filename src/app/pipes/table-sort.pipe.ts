@@ -1,11 +1,14 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { SortParams } from '@shared/constants';
+import { UtilsService } from 'app/services/utils.service';
 
 @Pipe({
   name: 'sort',
   standalone: true,
 })
 export class TableSortPipe implements PipeTransform {
+  utilsService = inject(UtilsService);
+
   transform(list: any[], sortParams: SortParams | null): any[] {
     if (!sortParams || !sortParams.sortColumn || !sortParams.sortDirection) {
       return list;
@@ -21,16 +24,15 @@ export class TableSortPipe implements PipeTransform {
       if (av == null) return 1 * dir;
       if (bv == null) return -1 * dir;
 
-      if (this.isNumericString(av) && this.isNumericString(bv)) {
+      if (
+        this.utilsService.isNumericString(av) &&
+        this.utilsService.isNumericString(bv)
+      ) {
         const diff = Number(av) - Number(bv);
         return diff === 0 ? 0 : diff > 0 ? dir : -dir;
       }
 
       return av.localeCompare(bv, undefined, { sensitivity: 'base' }) * dir;
     });
-  }
-
-  private isNumericString(s: string): boolean {
-    return /^\d+$/.test(s);
   }
 }

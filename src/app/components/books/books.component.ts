@@ -5,7 +5,11 @@ import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs';
 import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';
 import { TableSortPipe } from '../../pipes/table-sort.pipe';
-import { Book, BOOKS_HEADERS } from '@shared/constants';
+import {
+  ALLOWED_BOOK_FILTER_PARAMS,
+  Book,
+  BOOKS_HEADERS,
+} from '@shared/constants';
 import { BookService } from 'app/services/book.service';
 
 @Component({
@@ -46,10 +50,12 @@ export class BooksComponent {
 
   searchParams$ = this.paramMap$.pipe(
     map((p) =>
-      Object.fromEntries(BOOKS_HEADERS.map(({ name }) => [name, p.get(name)]))
+      Object.fromEntries(
+        ALLOWED_BOOK_FILTER_PARAMS.map((field) => [field, p.get(field)])
+      )
     ),
     distinctUntilChanged((a, b) =>
-      BOOKS_HEADERS.every(({ name }) => a[name] === b[name])
+      ALLOWED_BOOK_FILTER_PARAMS.every((field) => a[field] === b[field])
     )
   );
 
@@ -62,8 +68,6 @@ export class BooksComponent {
   );
 
   OnSelectedRow(rowId: string): void {
-    console.log(this.books);
-
     this.router.navigate(['/books', rowId], {
       queryParamsHandling: 'preserve',
     });

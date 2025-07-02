@@ -17,4 +17,8 @@ export class UtilsService {
       .replace(/['\s]+/g, '_') // espaces & apostrophes: _
       .replace(/[^a-z0-9_]/g, ''); // retire le reste
   }
+
+  isNumericString(s: string): boolean {
+    return /^\d+$/.test(s);
+  }
 }
