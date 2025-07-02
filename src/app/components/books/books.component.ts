@@ -6,7 +6,7 @@ import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';
 import { TableSortPipe } from '../../pipes/table-sort.pipe';
 import {
-  ALLOWED_BOOK_FILTER_PARAMS,
+  ALLOWED_BOOKS_FILTER_PARAMS,
   Book,
   BOOKS_HEADERS,
 } from '@shared/constants';
@@ -51,11 +51,11 @@ export class BooksComponent {
   searchParams$ = this.paramMap$.pipe(
     map((p) =>
       Object.fromEntries(
-        ALLOWED_BOOK_FILTER_PARAMS.map((field) => [field, p.get(field)])
+        ALLOWED_BOOKS_FILTER_PARAMS.map((field) => [field, p.get(field)])
       )
     ),
     distinctUntilChanged((a, b) =>
-      ALLOWED_BOOK_FILTER_PARAMS.every((field) => a[field] === b[field])
+      ALLOWED_BOOKS_FILTER_PARAMS.every((field) => a[field] === b[field])
     )
   );
 

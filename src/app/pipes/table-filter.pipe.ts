@@ -1,7 +1,7 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
+import { MIN, MAX } from '@shared/constants';
 import { UtilsService } from 'app/services/utils.service';
 
-const YEAR = 'year';
 @Pipe({
   name: 'filter',
   standalone: true,
@@ -16,11 +16,15 @@ export class TableFilterPipe implements PipeTransform {
     if (activeKeys.length === 0) return list;
     return list.filter((item) =>
       activeKeys.every((key) =>
-        [`${YEAR}_min`, `${YEAR}_max`].includes(key)
-          ? this.between(key, item[YEAR], searchParams[key])
+        key.includes(MIN) || key.includes(MAX)
+          ? this.between(key, item[this.toField(key)], searchParams[key])
           : this.like(item[key], searchParams[key])
       )
     );
+  }
+
+  private toField(keyMinMax: string): string {
+    return keyMinMax.replace(MIN, '').replace(MAX, '');
   }
 
   private like(text: string, filters: string): boolean {
@@ -31,16 +35,20 @@ export class TableFilterPipe implements PipeTransform {
       );
   }
 
-  private between(key: string, year: string, yearMinMax: string): boolean {
+  private between(
+    keyMinMax: string,
+    value: string,
+    valueMinMax: string
+  ): boolean {
     if (
-      !this.utilsService.isNumericString(year) ||
-      !this.utilsService.isNumericString(yearMinMax)
+      !this.utilsService.isNumericString(value) ||
+      !this.utilsService.isNumericString(valueMinMax)
     )
       return false;
-    if (`${YEAR}_min` === key) {
-      return +year >= +yearMinMax;
+    if (keyMinMax.includes(MIN)) {
+      return +value >= +valueMinMax;
     } else {
-      return +year <= +yearMinMax;
+      return +value <= +valueMinMax;
     }
   }
 
