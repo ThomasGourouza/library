@@ -59,7 +59,6 @@ export class BooksComponent {
 
   currentPage$ = this.paramMap$.pipe(
     map((p) => +(p.get('page') ?? 1)),
-    // tap((page) => this.onSelectedPage(page)),
     distinctUntilChanged()
   );
 
