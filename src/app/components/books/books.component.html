@@ -1,3 +1,4 @@
+@if(books$ | async; as books) {
 <app-table
   [data]="
     books | filter : (searchParams$ | async) | sort : (sortParams$ | async)
@@ -8,5 +9,5 @@
   (selectedRow)="OnSelectedRow($event)"
   (selectedPage)="OnSelectedPage($event)"
 ></app-table>
-
+}
 <router-outlet></router-outlet>

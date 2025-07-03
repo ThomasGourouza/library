@@ -1,7 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import { TableComponent } from '../table/table.component';
-import { distinctUntilChanged, map, shareReplay, tap } from 'rxjs';
+import { distinctUntilChanged, map, Observable, shareReplay, tap } from 'rxjs';
 import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';
 import { TableSortPipe } from '../../pipes/table-sort.pipe';
@@ -31,7 +31,7 @@ export class BooksComponent {
   bookService = inject(BookService);
 
   headers = BOOKS_HEADERS;
-  books: Book[] = this.bookService.books;
+  books$: Observable<Book[]> = this.bookService.books$;
 
   bookId$ = this.route.firstChild?.paramMap.pipe(
     map((p) => p.get('bookId')),

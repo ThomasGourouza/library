@@ -1,5 +1,5 @@
-import { inject } from '@angular/core';
 import { CanActivateFn, Params, Router } from '@angular/router';
+import { inject } from '@angular/core';
 import {
   ALLOWED_BOOK_QUERY_PARAMS,
   BOOKS_HEADERS,

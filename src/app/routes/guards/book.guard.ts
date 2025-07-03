@@ -1,8 +1,7 @@
-// book-exists.guard.ts  (stand-alone CanActivateFn)
-
 import { inject } from '@angular/core';
 import { CanActivateFn, Router } from '@angular/router';
 import { BookService } from 'app/services/book.service';
+import { map } from 'rxjs';
 
 export const bookGuard: CanActivateFn = (route, _state) => {
   const router = inject(Router);
@@ -10,12 +9,11 @@ export const bookGuard: CanActivateFn = (route, _state) => {
 
   const bookId = route.params['bookId'];
 
-  return bookService.books.some(({ id }) => id === bookId)
-    ? true
-    : router.createUrlTree(['/not-found']);
-
-  // return service.getAllBooks$().pipe(
-  //   map(books => books.some(({ id }) => id === bookId),
-  //   map(exists => exists ? true : router.createUrlTree(['/not-found']))
-  // );
+  return bookService.books$.pipe(
+    map((books) =>
+      books.some(({ id }) => id === bookId)
+        ? true
+        : router.createUrlTree(['/not-found'])
+    )
+  );
 };

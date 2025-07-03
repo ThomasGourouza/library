@@ -1,19 +1,21 @@
 import { inject, Injectable } from '@angular/core';
-import { BOOKS } from 'app/data/books-data';
-import { Book, BOOKS_HEADERS } from '@shared/constants';
+import { Book } from '@shared/constants';
 import { UtilsService } from './utils.service';
+import { HttpClient } from '@angular/common/http';
+import { catchError, map, Observable, of } from 'rxjs';
 
 @Injectable({
   providedIn: 'root',
 })
 export class BookService {
   utilsService = inject(UtilsService);
-  books: Book[] = BOOKS.map(this.toBook.bind(this));
+  http = inject(HttpClient);
+  private readonly url = 'assets/data/books.json';
 
-  private toBook(book: any): Book {
-    return Object.fromEntries([
-      ['id', this.utilsService.makeId(book['title'])],
-      ...BOOKS_HEADERS.map(({ name }) => [name, book[name]]),
-    ]) as unknown as Book;
+  get books$(): Observable<Book[]> {
+    return this.http.get<Book[]>(this.url).pipe(
+      map((books) => books ?? []),
+      catchError(() => of([] as Book[]))
+    );
   }
 }
