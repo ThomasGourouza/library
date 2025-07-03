@@ -34,7 +34,6 @@ export const BOOKS_HEADERS: Header[] = [
   { name: 'author', label: 'Auteur', hasMinMax: false },
   { name: 'year', label: 'Année', hasMinMax: true },
   { name: 'genre', label: 'Genre', hasMinMax: false },
-  { name: 'description', label: 'Description', hasMinMax: false },
 ] as const;
 
 type HeaderName = (typeof BOOKS_HEADERS)[number]['name'];

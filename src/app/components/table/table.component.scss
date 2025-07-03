@@ -3,6 +3,14 @@
   transition: background-color 0.2s;
 }
 
+.header {
+  --bs-table-bg: var(--table-header);
+}
+
 .table-row-clickable:hover {
   --bs-table-bg: var(--table-row-hover);
+}
+
+.selected {
+  --bs-table-bg: var(--table-row-selected);
 }

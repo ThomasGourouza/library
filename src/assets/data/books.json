@@ -2,15 +2,31 @@
   {
     "title": "Clean Code",
     "author": "Robert C. Martin",
-    "year": "1984",
-    "genre": "Roman",
-    "description": "er"
+    "year": "1000",
+    "genre": "Essai"
   },
   {
     "title": "The Pragmatic Programmer",
     "author": "Andrew Hunt",
-    "year": "1984",
-    "genre": "Roman",
-    "description": "er"
+    "year": "1500",
+    "genre": "Roman"
+  },
+  {
+    "title": "Design Patterns",
+    "author": "Erich Gamma",
+    "year": "1900",
+    "genre": "Roman"
+  },
+  {
+    "title": "Refactoring",
+    "author": "Martin Fowler",
+    "year": "2000",
+    "genre": "Manuel"
+  },
+  {
+    "title": "Code Review",
+    "author": "Martin Fowler",
+    "year": "2020",
+    "genre": "Philosophie"
   }
 ]

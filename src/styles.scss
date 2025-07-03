@@ -1,3 +1,12 @@
 :root {
-  --table-row-hover: #dde9ff;
+  --header-color: rgb(207, 226, 255);
+  --background-color: white;
+  --nav: var(--header-color);
+  --table-header: var(--header-color);
+  --table-row-hover: rgb(234, 255, 235);
+  --table-row-selected: rgb(198, 255, 199);
+}
+html,
+body {
+  background-color: var(--background-color);
 }
