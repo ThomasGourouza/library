@@ -5,44 +5,52 @@ export const ALLOWED_QUERY_PARAMS_COMMON = [
   'sortDirection',
 ] as const;
 
-export const MIN = '_min' as const;
-export const MAX = '_max' as const;
+export enum Between {
+  MIN = '_min',
+  MAX = '_max',
+}
 
 // Table
 export interface Header {
   name: string;
   label: string;
-  minMax: boolean;
+  hasMinMax: boolean;
 }
 export interface SortParams {
   sortColumn: string | null;
   sortDirection: string | null;
 }
-export type SortDirection = 'asc' | 'desc';
-export const ALLOWED_SORT_DIRECTIONS = ['asc', 'desc'] as const;
-export const DEFAULT_SORT_DIRECTION = 'asc' as const;
+
+export enum SortDirection {
+  ASC = 'asc',
+  DESC = 'desc',
+}
+export const DEFAULT_SORT_DIRECTION = SortDirection.ASC as const;
 export const ITEMS_PER_PAGE = 15;
 
 // Books
 export const BOOKS_HEADERS: Header[] = [
-  { name: 'title', label: 'Titre', minMax: false },
-  { name: 'author', label: 'Auteur', minMax: false },
-  { name: 'year', label: 'Année', minMax: true },
-  { name: 'genre', label: 'Genre', minMax: false },
+  { name: 'title', label: 'Titre', hasMinMax: false },
+  { name: 'author', label: 'Auteur', hasMinMax: false },
+  { name: 'year', label: 'Année', hasMinMax: true },
+  { name: 'genre', label: 'Genre', hasMinMax: false },
 ] as const;
-type HeaderName = (typeof BOOKS_HEADERS)[number]['name'];
 
+type HeaderName = (typeof BOOKS_HEADERS)[number]['name'];
 export type Book = { id: string | undefined } & {
   [K in HeaderName]: string | undefined;
 };
 
+export const DEFAULT_BOOK_SORT_COLUMN = 'title';
+
 export const ALLOWED_BOOKS_FILTER_PARAMS: string[] = BOOKS_HEADERS.flatMap(
-  ({ name, minMax }) =>
-    minMax ? [name, `${name}${MIN}`, `${name}${MAX}`] : [name]
+  ({ name, hasMinMax }) =>
+    hasMinMax
+      ? [name, `${name}${Between.MIN}`, `${name}${Between.MAX}`]
+      : [name]
 );
 
 export const ALLOWED_BOOK_QUERY_PARAMS = [
   ...ALLOWED_BOOKS_FILTER_PARAMS,
   ...ALLOWED_QUERY_PARAMS_COMMON,
 ];
-export const DEFAULT_BOOK_SORT_COLUMN = 'title' as const;

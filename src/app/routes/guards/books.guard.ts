@@ -2,7 +2,6 @@ import { inject } from '@angular/core';
 import { CanActivateFn, Params, Router } from '@angular/router';
 import {
   ALLOWED_BOOK_QUERY_PARAMS,
-  ALLOWED_SORT_DIRECTIONS,
   BOOKS_HEADERS,
   DEFAULT_BOOK_SORT_COLUMN,
   DEFAULT_SORT_DIRECTION,
@@ -28,7 +27,8 @@ export const booksGuard: CanActivateFn = (route, _state) => {
 
   const colValid =
     colRaw && BOOKS_HEADERS.map(({ name }) => name).includes(colRaw as any);
-  const dirValid = dirRaw && ALLOWED_SORT_DIRECTIONS.includes(dirRaw as any);
+  const dirValid =
+    dirRaw && Object.values(SortDirection).includes(dirRaw as any);
 
   let sortColumn = colValid ? colRaw : undefined;
   let sortDirection = dirValid ? (dirRaw as SortDirection) : undefined;

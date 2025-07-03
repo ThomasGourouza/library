@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { MIN, MAX } from '@shared/constants';
+import { Between } from '@shared/constants';
 import { UtilsService } from 'app/services/utils.service';
 
 @Pipe({
@@ -16,7 +16,7 @@ export class TableFilterPipe implements PipeTransform {
     if (activeKeys.length === 0) return list;
     return list.filter((item) =>
       activeKeys.every((key) =>
-        key.includes(MIN) || key.includes(MAX)
+        key.includes(Between.MIN) || key.includes(Between.MAX)
           ? this.between(key, item[this.toField(key)], searchParams[key])
           : this.like(item[key], searchParams[key])
       )
@@ -24,7 +24,7 @@ export class TableFilterPipe implements PipeTransform {
   }
 
   private toField(keyMinMax: string): string {
-    return keyMinMax.replace(MIN, '').replace(MAX, '');
+    return keyMinMax.replace(Between.MIN, '').replace(Between.MAX, '');
   }
 
   private like(text: string, filters: string): boolean {
@@ -45,7 +45,7 @@ export class TableFilterPipe implements PipeTransform {
       !this.utilsService.isNumericString(valueMinMax)
     )
       return false;
-    if (keyMinMax.includes(MIN)) {
+    if (keyMinMax.includes(Between.MIN)) {
       return +value >= +valueMinMax;
     } else {
       return +value <= +valueMinMax;
