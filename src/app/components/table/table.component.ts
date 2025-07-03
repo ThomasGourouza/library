@@ -3,7 +3,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { Header, ITEMS_PER_PAGE } from '@shared/constants';
 
-export type SelectedRow = { previousId: string | null; newId: string };
+export type SelectedRow = { previousId: string | undefined; newId: string };
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -14,13 +14,13 @@ export type SelectedRow = { previousId: string | null; newId: string };
 export class TableComponent {
   @Input() data: any[] = [];
   @Input() headers: Header[] = [];
-  @Input() set dataId(value: string | null) {
+  @Input() set dataId(value: string | undefined) {
     this._dataId = value;
   }
-  get dataId(): string | null {
+  get dataId(): string | undefined {
     return this._dataId;
   }
-  private _dataId: string | null = null;
+  private _dataId: string | undefined = undefined;
   @Input() currentPage!: number;
   @Output() selectedPage = new EventEmitter<number>();
   @Output() selectedRow = new EventEmitter<SelectedRow>();

@@ -1,7 +1,20 @@
 import { Component, inject } from '@angular/core';
-import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
+import {
+  ActivatedRoute,
+  NavigationEnd,
+  Router,
+  RouterOutlet,
+} from '@angular/router';
 import { SelectedRow, TableComponent } from '../table/table.component';
-import { distinctUntilChanged, map, Observable, shareReplay, tap } from 'rxjs';
+import {
+  distinctUntilChanged,
+  filter,
+  map,
+  Observable,
+  shareReplay,
+  startWith,
+  tap,
+} from 'rxjs';
 import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';
 import { TableSortPipe } from '../../pipes/table-sort.pipe';
@@ -33,8 +46,10 @@ export class BooksComponent {
   headers = BOOKS_HEADERS;
   books$: Observable<Book[]> = this.bookService.books$;
 
-  bookId$ = this.route.firstChild?.paramMap.pipe(
-    map((p) => p.get('bookId')),
+  bookId$ = this.router.events.pipe(
+    filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+    map(() => this.route.snapshot.firstChild?.params?.['bookId']),
+    startWith(this.route.snapshot.firstChild?.params?.['bookId']),
     distinctUntilChanged()
   );
 
