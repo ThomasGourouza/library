@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import { TableComponent } from '../table/table.component';
+import { SelectedRow, TableComponent } from '../table/table.component';
 import { distinctUntilChanged, map, Observable, shareReplay, tap } from 'rxjs';
 import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';
@@ -44,7 +44,7 @@ export class BooksComponent {
 
   currentPage$ = this.paramMap$.pipe(
     map((p) => +(p.get('page') ?? 1)),
-    tap((page) => this.OnSelectedPage(page)),
+    // tap((page) => this.onSelectedPage(page)),
     distinctUntilChanged()
   );
 
@@ -67,13 +67,17 @@ export class BooksComponent {
     distinctUntilChanged()
   );
 
-  OnSelectedRow(rowId: string): void {
-    this.router.navigate(['/books', rowId], {
+  onSelectedRow(selectedRow: SelectedRow): void {
+    const newBookId =
+      selectedRow.previousId !== selectedRow.newId ? selectedRow.newId : null;
+    const path = ['/books'];
+    if (newBookId !== null) path.push(newBookId);
+    this.router.navigate(path, {
       queryParamsHandling: 'preserve',
     });
   }
 
-  OnSelectedPage(page: number): void {
+  onSelectedPage(page: number): void {
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams: { page },

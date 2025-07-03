@@ -6,8 +6,8 @@
   [headers]="headers"
   [dataId]="bookId$ | async"
   [currentPage]="(currentPage$ | async) || 1"
-  (selectedRow)="OnSelectedRow($event)"
-  (selectedPage)="OnSelectedPage($event)"
+  (selectedRow)="onSelectedRow($event)"
+  (selectedPage)="onSelectedPage($event)"
 ></app-table>
 }
 <router-outlet></router-outlet>

@@ -1,5 +1,4 @@
 .table-row-clickable {
-  cursor: pointer;
   transition: background-color 0.2s;
 }
 
@@ -13,4 +12,8 @@
 
 .selected {
   --bs-table-bg: var(--table-row-selected);
+}
+
+tbody > tr {
+  cursor: pointer;
 }
