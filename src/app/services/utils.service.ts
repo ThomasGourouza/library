@@ -21,4 +21,8 @@ export class UtilsService {
   isNumericString(s: string): boolean {
     return /^\d+$/.test(s);
   }
+
+  withoutLastComma(value: string): string {
+    return value.endsWith(',') ? value.slice(0, -1) : value;
+  }
 }

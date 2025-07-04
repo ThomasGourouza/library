@@ -27,6 +27,7 @@ import { ActivatedRoute, Params, Router } from '@angular/router';
 import { TableFilterPipe } from 'app/pipes/table-filter.pipe';
 import { TableSortPipe } from 'app/pipes/table-sort.pipe';
 import { PaginatePipe } from 'app/pipes/paginate.pipe';
+import { UtilsService } from 'app/services/utils.service';
 
 export type SelectedRow = { previousId: string | undefined; newId: string };
 @Component({
@@ -44,6 +45,7 @@ export type SelectedRow = { previousId: string | undefined; newId: string };
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
+  private utilsService = inject(UtilsService);
   private fb = inject(NonNullableFormBuilder);
   private readonly injector = inject(Injector);
   private router = inject(Router);
@@ -84,7 +86,9 @@ export class TableComponent {
         const queryParams: Params = Object.fromEntries(
           Object.entries(this.formValues()).map(([key, value]) => [
             key,
-            value && value !== '' ? this.withoutLastComma(value) : undefined,
+            value && value !== ''
+              ? this.utilsService.withoutLastComma(value)
+              : undefined,
           ])
         );
         this.router.navigate([], {
@@ -106,10 +110,6 @@ export class TableComponent {
     runInInjectionContext(this.injector, () => {
       this.formValues = toSignal(this.form.valueChanges);
     });
-  }
-
-  private withoutLastComma(value: string): string {
-    return value.endsWith(',') ? value.slice(0, -1) : value;
   }
 
   resetForm(): void {
