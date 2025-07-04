@@ -36,10 +36,10 @@ export const BOOKS_HEADERS: Header[] = [
   { name: 'genre', label: 'Genre', hasMinMax: false },
 ] as const;
 
-type HeaderName = (typeof BOOKS_HEADERS)[number]['name'];
+type BookHeaderName = (typeof BOOKS_HEADERS)[number]['name'];
 
 export type Book = { id: string | undefined } & {
-  [K in HeaderName]: string | undefined;
+  [K in BookHeaderName]: string | undefined;
 };
 
 export const DEFAULT_BOOK_SORT_COLUMN = 'title';

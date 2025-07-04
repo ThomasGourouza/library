@@ -13,7 +13,6 @@ import {
   Observable,
   shareReplay,
   startWith,
-  tap,
 } from 'rxjs';
 import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';

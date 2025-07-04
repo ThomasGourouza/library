@@ -1,24 +1,37 @@
 <div class="container mt-5">
   <div class="rounded overflow-hidden border">
-    <table class="table table-bordered table-striped mb-0">
-      <thead class="header">
-        <tr>
-          <th *ngFor="let header of headers">{{ header.label }}</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          *ngFor="let data of paginatedData"
-          (click)="onRowClick(data)"
-          [class.table-row-clickable]="data.id !== dataId"
-          [class.selected]="data.id === dataId"
-        >
-          <td *ngFor="let header of headers">
-            {{ data[header.name] }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
+    <form [formGroup]="form">
+      <table class="table table-bordered table-striped mb-0">
+        <thead class="header">
+          <tr>
+            <th *ngFor="let header of headers">{{ header.label }}</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td *ngFor="let header of headers">
+              <input
+                type="text"
+                class="form-control"
+                [formControlName]="header.name"
+                placeholder="search..."
+              />
+            </td>
+          </tr>
+          <tr
+            *ngFor="let data of paginatedData"
+            (click)="onRowClick(data)"
+            [class.content]="true"
+            [class.table-row-clickable]="data.id !== dataId"
+            [class.selected]="data.id === dataId"
+          >
+            <td *ngFor="let header of headers">
+              {{ data[header.name] }}
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </form>
   </div>
 
   <app-paginator
@@ -26,14 +39,4 @@
     [totalPages]="totalPages"
     (changePage)="onChangePage($event)"
   ></app-paginator>
-
-  <!-- <app-search
-    [searchParams]="searchParams$ | async"
-    (search)="OnSearch($event)"
-  ></app-search>
-
-  <app-sort
-    [sortParams]="sortParams$ | async"
-    (sort)="OnSort($event)"
-  ></app-sort> -->
 </div>
