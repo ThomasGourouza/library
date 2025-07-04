@@ -14,9 +14,7 @@ import {
   shareReplay,
   startWith,
 } from 'rxjs';
-import { TableFilterPipe } from '../../pipes/table-filter.pipe';
 import { AsyncPipe } from '@angular/common';
-import { TableSortPipe } from '../../pipes/table-sort.pipe';
 import {
   ALLOWED_BOOKS_FILTER_PARAMS,
   Book,
@@ -27,20 +25,14 @@ import { BookService } from 'app/services/book.service';
 @Component({
   selector: 'app-books',
   standalone: true,
-  imports: [
-    RouterOutlet,
-    TableComponent,
-    AsyncPipe,
-    TableFilterPipe,
-    TableSortPipe,
-  ],
+  imports: [RouterOutlet, TableComponent, AsyncPipe],
   templateUrl: './books.component.html',
   styleUrl: './books.component.scss',
 })
 export class BooksComponent {
-  router = inject(Router);
-  route = inject(ActivatedRoute);
-  bookService = inject(BookService);
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+  private bookService = inject(BookService);
 
   headers = BOOKS_HEADERS;
   books$: Observable<Book[]> = this.bookService.books$;

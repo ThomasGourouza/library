@@ -1,3 +1,5 @@
+<button class="btn btn-primary" (click)="resetForm()">Reset</button>
+
 <div class="container mt-5">
   <div class="rounded overflow-hidden border">
     <form [formGroup]="form">
@@ -19,14 +21,19 @@
             </td>
           </tr>
           <tr
-            *ngFor="let data of paginatedData"
-            (click)="onRowClick(data)"
+            *ngFor="
+              let row of data
+                | filter : filterParams
+                | sort : sortParams
+                | paginate : currentPage : itemsPerPage
+            "
+            (click)="onRowClick(row)"
             [class.content]="true"
-            [class.table-row-clickable]="data.id !== dataId"
-            [class.selected]="data.id === dataId"
+            [class.table-row-clickable]="row.id !== rowId"
+            [class.selected]="row.id === rowId"
           >
             <td *ngFor="let header of headers">
-              {{ data[header.name] }}
+              {{ row[header.name] }}
             </td>
           </tr>
         </tbody>
@@ -36,7 +43,8 @@
 
   <app-paginator
     [currentPage]="currentPage"
-    [totalPages]="totalPages"
+    [dataLength]="(data | filter : filterParams).length"
+    [itemsPerPage]="itemsPerPage"
     (changePage)="onChangePage($event)"
   ></app-paginator>
 </div>

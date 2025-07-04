@@ -1,10 +1,10 @@
 @if(books$ | async; as books) {
 <app-table
-  [data]="
-    books | filter : (searchParams$ | async) | sort : (sortParams$ | async)
-  "
+  [data]="books"
   [headers]="headers"
-  [dataId]="bookId$ | async"
+  [filterParams]="searchParams$ | async"
+  [sortParams]="sortParams$ | async"
+  [rowId]="bookId$ | async"
   [currentPage]="(currentPage$ | async) || 1"
   (selectedRow)="onSelectedRow($event)"
   (selectedPage)="onSelectedPage($event)"

@@ -26,7 +26,7 @@ export enum SortDirection {
   DESC = 'desc',
 }
 export const DEFAULT_SORT_DIRECTION = SortDirection.ASC as const;
-export const ITEMS_PER_PAGE = 15;
+export const ITEMS_PER_PAGE_DEFAULT = 15;
 
 // Books
 export const BOOKS_HEADERS: Header[] = [
