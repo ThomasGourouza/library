@@ -50,12 +50,7 @@ export class TableComponent {
   private _headers: Header[] = [];
   @Input() set headers(value: Header[]) {
     this._headers = value;
-    this.form = this.fb.group(
-      Object.fromEntries(value.map(({ name }) => [name, ['']]))
-    );
-    runInInjectionContext(this.injector, () => {
-      this.formValues = toSignal(this.form.valueChanges);
-    });
+    this.buildForm(value);
   }
   get headers(): Header[] {
     return this._headers;
@@ -66,7 +61,7 @@ export class TableComponent {
   @Output() selectedRow = new EventEmitter<SelectedRow>();
 
   form!: FormGroup;
-  formValues!: Signal<Record<string, any>>;
+  formValues!: Signal<Record<string, string>>;
 
   itemsPerPage: number = ITEMS_PER_PAGE_DEFAULT;
 
@@ -85,6 +80,16 @@ export class TableComponent {
           queryParamsHandling: 'merge',
         });
       }
+    });
+  }
+
+  private buildForm(headers: Header[]): void {
+    const controls = Object.fromEntries(
+      headers.map(({ name }) => [name, [this.filterParams?.[name] ?? '']])
+    );
+    this.form = this.fb.group(controls);
+    runInInjectionContext(this.injector, () => {
+      this.formValues = toSignal(this.form.valueChanges);
     });
   }
 
