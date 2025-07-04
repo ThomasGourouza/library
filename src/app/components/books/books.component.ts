@@ -15,11 +15,7 @@ import {
   startWith,
 } from 'rxjs';
 import { AsyncPipe } from '@angular/common';
-import {
-  ALLOWED_BOOKS_FILTER_PARAMS,
-  Book,
-  BOOKS_HEADERS,
-} from '@shared/constants';
+import { ALLOWED_FILTER_PARAMS, Book, BOOKS_HEADERS } from '@shared/constants';
 import { BookService } from 'app/services/book.service';
 
 @Component({
@@ -56,11 +52,16 @@ export class BooksComponent {
   searchParams$ = this.paramMap$.pipe(
     map((p) =>
       Object.fromEntries(
-        ALLOWED_BOOKS_FILTER_PARAMS.map((field) => [field, p.get(field)])
+        ALLOWED_FILTER_PARAMS(BOOKS_HEADERS).map((field) => [
+          field,
+          p.get(field),
+        ])
       )
     ),
     distinctUntilChanged((a, b) =>
-      ALLOWED_BOOKS_FILTER_PARAMS.every((field) => a[field] === b[field])
+      ALLOWED_FILTER_PARAMS(BOOKS_HEADERS).every(
+        (field) => a[field] === b[field]
+      )
     )
   );
 

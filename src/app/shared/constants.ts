@@ -10,6 +10,14 @@ export enum Between {
   MAX = '_max',
 }
 
+export function ALLOWED_FILTER_PARAMS(list: Header[]) {
+  return list.flatMap(({ name, hasMinMax }) =>
+    hasMinMax
+      ? [name, `${name}${Between.MIN}`, `${name}${Between.MAX}`]
+      : [name]
+  );
+}
+
 // Table
 export interface Header {
   name: string;
@@ -44,14 +52,7 @@ export type Book = { id: string | undefined } & {
 
 export const DEFAULT_BOOK_SORT_COLUMN = 'title';
 
-export const ALLOWED_BOOKS_FILTER_PARAMS: string[] = BOOKS_HEADERS.flatMap(
-  ({ name, hasMinMax }) =>
-    hasMinMax
-      ? [name, `${name}${Between.MIN}`, `${name}${Between.MAX}`]
-      : [name]
-);
-
 export const ALLOWED_BOOK_QUERY_PARAMS = [
-  ...ALLOWED_BOOKS_FILTER_PARAMS,
+  ...ALLOWED_FILTER_PARAMS(BOOKS_HEADERS),
   ...ALLOWED_QUERY_PARAMS_COMMON,
 ];

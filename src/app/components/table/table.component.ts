@@ -12,7 +12,12 @@ import {
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PaginatorComponent } from './paginator/paginator.component';
-import { Header, ITEMS_PER_PAGE_DEFAULT, SortParams } from '@shared/constants';
+import {
+  ALLOWED_FILTER_PARAMS,
+  Header,
+  ITEMS_PER_PAGE_DEFAULT,
+  SortParams,
+} from '@shared/constants';
 import {
   FormGroup,
   NonNullableFormBuilder,
@@ -45,8 +50,21 @@ export class TableComponent {
   private route = inject(ActivatedRoute);
 
   @Input() data: any[] = [];
-  @Input() filterParams: Params | null = null;
   @Input() sortParams: SortParams | null = null;
+  @Input() rowId: string | undefined;
+  @Input() currentPage!: number;
+  @Output() selectedPage = new EventEmitter<number>();
+  @Output() selectedRow = new EventEmitter<SelectedRow>();
+
+  private _filterParams: Params | null = null;
+  @Input() set filterParams(value: Params | null) {
+    this._filterParams = value;
+    this.form?.patchValue(value ?? {}, { emitEvent: false });
+  }
+  get filterParams(): Params | null {
+    return this._filterParams;
+  }
+
   private _headers: Header[] = [];
   @Input() set headers(value: Header[]) {
     this._headers = value;
@@ -55,14 +73,9 @@ export class TableComponent {
   get headers(): Header[] {
     return this._headers;
   }
-  @Input() rowId: string | undefined;
-  @Input() currentPage!: number;
-  @Output() selectedPage = new EventEmitter<number>();
-  @Output() selectedRow = new EventEmitter<SelectedRow>();
 
   form!: FormGroup;
   formValues!: Signal<Record<string, string>>;
-
   itemsPerPage: number = ITEMS_PER_PAGE_DEFAULT;
 
   constructor() {
@@ -71,7 +84,7 @@ export class TableComponent {
         const queryParams: Params = Object.fromEntries(
           Object.entries(this.formValues()).map(([key, value]) => [
             key,
-            value !== '' ? this.withoutLastComma(value) : undefined,
+            value && value !== '' ? this.withoutLastComma(value) : undefined,
           ])
         );
         this.router.navigate([], {
@@ -85,7 +98,9 @@ export class TableComponent {
 
   private buildForm(headers: Header[]): void {
     const controls = Object.fromEntries(
-      headers.map(({ name }) => [name, [this.filterParams?.[name] ?? '']])
+      ALLOWED_FILTER_PARAMS(headers).map((filterParam) => {
+        return [filterParam, ['']];
+      })
     );
     this.form = this.fb.group(controls);
     runInInjectionContext(this.injector, () => {
