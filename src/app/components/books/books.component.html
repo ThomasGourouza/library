@@ -2,11 +2,6 @@
 <app-table
   [data]="books"
   [headers]="headers"
-  [filterParams]="searchParams$ | async"
-  [sortParams]="sortParams$ | async"
-  [rowId]="bookId$ | async"
-  [currentPage]="(currentPage$ | async)!"
-  [pageLimit]="(pageLimit$ | async)!"
   (selectedRow)="onSelectedRow($event)"
 ></app-table>
 }

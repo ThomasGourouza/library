@@ -57,3 +57,19 @@ Genre
 Catégorie
 Description
 Wikipedia
+
+---
+
+search between
+sort field
+show/hide columns
+change columns order
+
+- page limit -> select ?
+- move logic from books to table
+
+- table settings: local storage
+- variable string -> constants
+
+- share replay 1
+- toSignal instead of observable and async

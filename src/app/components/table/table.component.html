@@ -23,14 +23,14 @@
           <tr
             *ngFor="
               let row of data
-                | filter : filterParams
-                | sort : sortParams
-                | paginate : currentPage : pageLimit
+                | filter : filterParams()
+                | sort : (sortParams$ | async)
+                | paginate : (currentPage$ | async)! : (pageLimit$ | async)!
             "
-            (click)="onRowClick(row)"
+            (click)="onRowClick(rowId(), row.id)"
             [class.content]="true"
-            [class.table-row-clickable]="row.id !== rowId"
-            [class.selected]="row.id === rowId"
+            [class.table-row-clickable]="row.id !== rowId()"
+            [class.selected]="row.id === rowId()"
           >
             <td *ngFor="let header of headers">
               {{ row[header.name] }}
@@ -42,8 +42,8 @@
   </div>
 
   <app-paginator
-    [currentPage]="currentPage"
-    [dataLength]="(data | filter : filterParams).length"
-    [pageLimit]="pageLimit"
+    [currentPage]="(currentPage$ | async)!"
+    [dataLength]="(data | filter : filterParams()).length"
+    [pageLimit]="(pageLimit$ | async)!"
   ></app-paginator>
 </div>

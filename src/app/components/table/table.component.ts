@@ -1,4 +1,4 @@
-import { CommonModule } from '@angular/common';
+import { AsyncPipe, CommonModule } from '@angular/common';
 import {
   Component,
   effect,
@@ -14,21 +14,29 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { PaginatorComponent } from './paginator/paginator.component';
 import {
   ALLOWED_FILTER_PARAMS_KEYS,
+  BOOKS_HEADERS,
   Header,
-  SortParams,
 } from '@shared/constants';
 import {
   FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ActivatedRoute, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
 import { TableFilterPipe } from 'app/pipes/table-filter.pipe';
 import { TableSortPipe } from 'app/pipes/table-sort.pipe';
 import { PaginatePipe } from 'app/pipes/paginate.pipe';
 import { UtilsService } from 'app/services/utils.service';
+import {
+  map,
+  distinctUntilChanged,
+  shareReplay,
+  tap,
+  filter,
+  startWith,
+  Observable,
+} from 'rxjs';
 
-export type SelectedRow = { previousId: string | undefined; newId: string };
 @Component({
   selector: 'app-table',
   standalone: true,
@@ -39,6 +47,7 @@ export type SelectedRow = { previousId: string | undefined; newId: string };
     TableFilterPipe,
     TableSortPipe,
     PaginatePipe,
+    AsyncPipe,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -51,22 +60,6 @@ export class TableComponent {
   private route = inject(ActivatedRoute);
 
   @Input() data: any[] = [];
-  @Input() sortParams: SortParams | null = null;
-  @Input() rowId: string | undefined;
-  @Input() currentPage!: number;
-  @Input() pageLimit!: number;
-  @Output() selectedRow = new EventEmitter<SelectedRow>();
-
-  private _filterParams: Params | null = null;
-  @Input() set filterParams(value: Params | null) {
-    this._filterParams = value;
-    this.filterForm?.patchValue(value ?? {}, { emitEvent: false });
-  }
-  get filterParams(): Params | null {
-    return this._filterParams;
-  }
-
-  private _headers: Header[] = [];
   @Input() set headers(value: Header[]) {
     this._headers = value;
     this.buildForm(value);
@@ -74,6 +67,33 @@ export class TableComponent {
   get headers(): Header[] {
     return this._headers;
   }
+  private _headers: Header[] = [];
+  @Output() selectedRow = new EventEmitter<string | undefined>();
+
+  rowId!: Signal<any>;
+  filterParams!: Signal<any>;
+
+  private readonly paramMap$ = this.route.queryParamMap.pipe(
+    shareReplay({ bufferSize: 1, refCount: true })
+  );
+
+  currentPage$ = this.paramMap$.pipe(
+    map((p) => +p.get('page')!),
+    distinctUntilChanged()
+  );
+
+  pageLimit$ = this.paramMap$.pipe(
+    map((p) => +p.get('page_limit')!),
+    distinctUntilChanged()
+  );
+
+  sortParams$ = this.paramMap$.pipe(
+    map((p) => ({
+      sortColumn: p.get('sortColumn'),
+      sortDirection: p.get('sortDirection'),
+    })),
+    distinctUntilChanged()
+  );
 
   filterForm!: FormGroup;
   filterFormValues!: Signal<Record<string, string>>;
@@ -105,8 +125,37 @@ export class TableComponent {
       })
     );
     this.filterForm = this.fb.group(controls);
+
     runInInjectionContext(this.injector, () => {
       this.filterFormValues = toSignal(this.filterForm.valueChanges);
+      this.rowId = toSignal(
+        this.router.events.pipe(
+          filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+          map(() => this.route.snapshot.firstChild?.params?.['bookId']),
+          startWith(this.route.snapshot.firstChild?.params?.['bookId']),
+          distinctUntilChanged()
+        )
+      );
+      this.filterParams = toSignal(
+        this.paramMap$.pipe(
+          map((p) =>
+            Object.fromEntries(
+              ALLOWED_FILTER_PARAMS_KEYS(BOOKS_HEADERS).map((field) => [
+                field,
+                p.get(field),
+              ])
+            )
+          ),
+          distinctUntilChanged((a, b) =>
+            ALLOWED_FILTER_PARAMS_KEYS(BOOKS_HEADERS).every(
+              (field) => a[field] === b[field]
+            )
+          ),
+          tap((params) =>
+            this.filterForm?.patchValue(params ?? {}, { emitEvent: false })
+          )
+        )
+      );
     });
   }
 
@@ -114,7 +163,7 @@ export class TableComponent {
     this.filterForm.reset();
   }
 
-  onRowClick(row: any) {
-    this.selectedRow.emit({ previousId: this.rowId, newId: row.id });
+  onRowClick(previousId: string | undefined, newId: string): void {
+    this.selectedRow.emit(newId !== previousId ? newId : undefined);
   }
 }
