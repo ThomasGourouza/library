@@ -99,4 +99,12 @@ export class BooksComponent {
       queryParamsHandling: 'merge',
     });
   }
+
+  onSelectedPageLimit(page_limit: number): void {
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page_limit },
+      queryParamsHandling: 'merge',
+    });
+  }
 }

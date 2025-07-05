@@ -25,4 +25,10 @@ export class UtilsService {
   withoutLastComma(value: string): string {
     return value.endsWith(',') ? value.slice(0, -1) : value;
   }
+
+  toCorrectNumber(value: string): number | undefined {
+    if (!this.isNumericString(value)) return undefined;
+    if (+value < 1) return undefined;
+    return +value;
+  }
 }

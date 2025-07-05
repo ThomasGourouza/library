@@ -56,6 +56,7 @@ export class TableComponent {
   @Input() currentPage!: number;
   @Input() pageLimit!: number;
   @Output() selectedPage = new EventEmitter<number>();
+  @Output() selectedPageLimit = new EventEmitter<number>();
   @Output() selectedRow = new EventEmitter<SelectedRow>();
 
   private _filterParams: Params | null = null;
@@ -117,6 +118,10 @@ export class TableComponent {
 
   onChangePage(page: number) {
     this.selectedPage.emit(page);
+  }
+
+  onChangePageLimit(pageLimit: number) {
+    this.selectedPageLimit.emit(pageLimit);
   }
 
   onRowClick(row: any) {

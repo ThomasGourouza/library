@@ -46,5 +46,6 @@
     [dataLength]="(data | filter : filterParams).length"
     [pageLimit]="pageLimit"
     (changePage)="onChangePage($event)"
+    (changePageLimit)="onChangePageLimit($event)"
   ></app-paginator>
 </div>

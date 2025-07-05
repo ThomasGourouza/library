@@ -22,5 +22,21 @@
       </button>
     </li>
   </ul>
-  <p>Showing {{ resultsOnPage }} results of {{ dataLength }}.</p>
+
+  <div class="box">
+    <p>Showing {{ resultsOnPage }} results of {{ dataLength }}.</p>
+  </div>
+  <div class="box">
+    <select class="form-select" (change)="onChangePageLimit($event.target)">
+      <option
+        *ngFor="let item of [].constructor(20); let i = index"
+        [selected]="i + 1 === pageLimit"
+      >
+        {{ i + 1 }}
+      </option>
+    </select>
+  </div>
+  <div class="box">
+    <p>results on page.</p>
+  </div>
 </nav>

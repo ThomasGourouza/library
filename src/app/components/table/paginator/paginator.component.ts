@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-paginator',
@@ -9,13 +10,26 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
   styleUrl: './paginator.component.scss',
 })
 export class PaginatorComponent {
+  private router = inject(Router);
+  private route = inject(ActivatedRoute);
+
   @Input() currentPage!: number;
   @Input() dataLength!: number;
   @Input() pageLimit!: number;
   @Output() changePage = new EventEmitter<any>();
+  @Output() changePageLimit = new EventEmitter<any>();
 
   get totalPages(): number {
-    return Math.ceil(this.dataLength / this.pageLimit);
+    const totalPages =
+      this.dataLength > 0 ? Math.ceil(this.dataLength / this.pageLimit) : 1;
+    if (this.currentPage > totalPages) {
+      this.router.navigate([], {
+        relativeTo: this.route,
+        queryParams: { page: totalPages },
+        queryParamsHandling: 'merge',
+      });
+    }
+    return totalPages;
   }
 
   get resultsOnPage(): number {
@@ -31,5 +45,14 @@ export class PaginatorComponent {
     if (page >= 1 && page <= this.totalPages) {
       this.changePage.emit(page);
     }
+  }
+
+  onChangePageLimit(target: EventTarget | null): void {
+    const page_limit = Number((target as HTMLSelectElement)?.value);
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page_limit },
+      queryParamsHandling: 'merge',
+    });
   }
 }
