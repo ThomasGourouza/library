@@ -8,8 +8,6 @@
   [currentPage]="(currentPage$ | async)!"
   [pageLimit]="(pageLimit$ | async)!"
   (selectedRow)="onSelectedRow($event)"
-  (selectedPage)="onSelectedPage($event)"
-  (selectedPageLimit)="onSelectedPageLimit($event)"
 ></app-table>
 }
 <router-outlet></router-outlet>

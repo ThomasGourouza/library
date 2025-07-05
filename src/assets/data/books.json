@@ -28,5 +28,35 @@
     "author": "Martin Fowler",
     "year": "2020",
     "genre": "Philosophie"
+  },
+  {
+    "title": "Refactoring 2",
+    "author": "Martin Fowler",
+    "year": "2000",
+    "genre": "Manuel"
+  },
+  {
+    "title": "Code Review 2",
+    "author": "Martin Fowler",
+    "year": "2020",
+    "genre": "Philosophie"
+  },
+  {
+    "title": "Clean Code 2",
+    "author": "Robert C. Martin",
+    "year": "1000",
+    "genre": "Essai"
+  },
+  {
+    "title": "The Pragmatic Programmer 2",
+    "author": "Andrew Hunt",
+    "year": "1500",
+    "genre": "Roman"
+  },
+  {
+    "title": "Design Patterns 2",
+    "author": "Erich Gamma",
+    "year": "1900",
+    "genre": "Roman"
   }
 ]

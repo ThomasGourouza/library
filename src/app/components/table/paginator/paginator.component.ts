@@ -34,8 +34,6 @@ export class PaginatorComponent {
 
   @Input() currentPage!: number;
   @Input() dataLength!: number;
-  @Output() changePage = new EventEmitter<any>();
-  @Output() changePageLimit = new EventEmitter<any>();
 
   private _pageLimit!: number;
   @Input() set pageLimit(pageLimit: number) {
@@ -99,8 +97,10 @@ export class PaginatorComponent {
   }
 
   onChangePage(page: number): void {
-    if (page >= 1 && page <= this.totalPages) {
-      this.changePage.emit(page);
-    }
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams: { page },
+      queryParamsHandling: 'merge',
+    });
   }
 }
