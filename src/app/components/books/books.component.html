@@ -5,7 +5,8 @@
   [filterParams]="searchParams$ | async"
   [sortParams]="sortParams$ | async"
   [rowId]="bookId$ | async"
-  [currentPage]="(currentPage$ | async) || 1"
+  [currentPage]="(currentPage$ | async)!"
+  [pageLimit]="(pageLimit$ | async)!"
   (selectedRow)="onSelectedRow($event)"
   (selectedPage)="onSelectedPage($event)"
 ></app-table>

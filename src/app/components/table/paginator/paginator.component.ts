@@ -11,19 +11,19 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 export class PaginatorComponent {
   @Input() currentPage!: number;
   @Input() dataLength!: number;
-  @Input() itemsPerPage!: number;
+  @Input() pageLimit!: number;
   @Output() changePage = new EventEmitter<any>();
 
   get totalPages(): number {
-    return Math.ceil(this.dataLength / this.itemsPerPage);
+    return Math.ceil(this.dataLength / this.pageLimit);
   }
 
   get resultsOnPage(): number {
     if (this.currentPage < 1 || this.currentPage > this.totalPages) return 0;
     const resultsOnLastPage =
-      this.dataLength - (this.totalPages - 1) * this.itemsPerPage;
+      this.dataLength - (this.totalPages - 1) * this.pageLimit;
     return this.currentPage < this.totalPages
-      ? this.itemsPerPage
+      ? this.pageLimit
       : resultsOnLastPage;
   }
 

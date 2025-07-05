@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { AuthorsComponent } from './authors.component';
-import { AuthorComponent } from './author/author.component';
+import { AuthorsComponent } from 'app/components/authors/authors.component';
+import { AuthorComponent } from 'app/components/authors/author/author.component';
 
 export const routes: Routes = [
   {

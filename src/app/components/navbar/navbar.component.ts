@@ -1,5 +1,6 @@
 import { Component } from '@angular/core';
-import { RouterModule } from '@angular/router';
+import { Params, RouterModule } from '@angular/router';
+import { DEFAULT_QUERY_PARAMS } from '@shared/constants';
 
 @Component({
   selector: 'app-navbar',
@@ -8,4 +9,6 @@ import { RouterModule } from '@angular/router';
   templateUrl: './navbar.component.html',
   styleUrl: './navbar.component.scss',
 })
-export class NavbarComponent {}
+export class NavbarComponent {
+  defaultQueryParams = DEFAULT_QUERY_PARAMS;
+}

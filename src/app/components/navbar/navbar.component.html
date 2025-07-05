@@ -1,6 +1,6 @@
 <nav class="navbar navbar-expand-lg fixed-top">
   <div class="container-fluid">
-    <a class="navbar-brand" routerLink="/" [queryParams]="{ page: 1 }">
+    <a class="navbar-brand" routerLink="/" [queryParams]="defaultQueryParams">
       <img src="bookshelf.png" height="30px" />
       Library
     </a>
@@ -21,7 +21,7 @@
           <a
             class="nav-link"
             routerLink="/books"
-            [queryParams]="{ page: 1 }"
+            [queryParams]="defaultQueryParams"
             routerLinkActive="active"
             >Books</a
           >
@@ -30,7 +30,7 @@
           <a
             class="nav-link"
             routerLink="/authors"
-            [queryParams]="{ page: 1 }"
+            [queryParams]="defaultQueryParams"
             routerLinkActive="active"
             >Authors</a
           >

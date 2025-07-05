@@ -13,9 +13,8 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PaginatorComponent } from './paginator/paginator.component';
 import {
-  ALLOWED_FILTER_PARAMS,
+  ALLOWED_FILTER_PARAMS_KEYS,
   Header,
-  ITEMS_PER_PAGE_DEFAULT,
   SortParams,
 } from '@shared/constants';
 import {
@@ -55,6 +54,7 @@ export class TableComponent {
   @Input() sortParams: SortParams | null = null;
   @Input() rowId: string | undefined;
   @Input() currentPage!: number;
+  @Input() pageLimit!: number;
   @Output() selectedPage = new EventEmitter<number>();
   @Output() selectedRow = new EventEmitter<SelectedRow>();
 
@@ -78,7 +78,6 @@ export class TableComponent {
 
   form!: FormGroup;
   formValues!: Signal<Record<string, string>>;
-  itemsPerPage: number = ITEMS_PER_PAGE_DEFAULT;
 
   constructor() {
     effect(() => {
@@ -102,7 +101,7 @@ export class TableComponent {
 
   private buildForm(headers: Header[]): void {
     const controls = Object.fromEntries(
-      ALLOWED_FILTER_PARAMS(headers).map((filterParam) => {
+      ALLOWED_FILTER_PARAMS_KEYS(headers).map((filterParam) => {
         return [filterParam, ['']];
       })
     );

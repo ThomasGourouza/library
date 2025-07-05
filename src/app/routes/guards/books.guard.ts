@@ -1,7 +1,7 @@
 import { CanActivateFn, Params, Router } from '@angular/router';
 import { inject } from '@angular/core';
 import {
-  ALLOWED_BOOK_QUERY_PARAMS,
+  ALLOWED_BOOK_QUERY_PARAMS_KEYS,
   BOOKS_HEADERS,
   DEFAULT_BOOK_SORT_COLUMN,
   DEFAULT_SORT_DIRECTION,
@@ -14,7 +14,7 @@ export const booksGuard: CanActivateFn = (route, _state) => {
   const original = route.queryParams;
   const filtered: Params = {};
 
-  for (const key of ALLOWED_BOOK_QUERY_PARAMS) {
+  for (const key of ALLOWED_BOOK_QUERY_PARAMS_KEYS) {
     if (Object.prototype.hasOwnProperty.call(original, key)) {
       filtered[key] = original[key];
     }
@@ -53,7 +53,7 @@ export const booksGuard: CanActivateFn = (route, _state) => {
   const differentKeyCount =
     Object.keys(original).length !== Object.keys(filtered).length;
 
-  const differentValue = ALLOWED_BOOK_QUERY_PARAMS.some(
+  const differentValue = ALLOWED_BOOK_QUERY_PARAMS_KEYS.some(
     (k) => original[k] !== filtered[k]
   );
 
