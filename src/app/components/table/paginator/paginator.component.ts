@@ -1,23 +1,80 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import {
+  Component,
+  effect,
+  EventEmitter,
+  inject,
+  Input,
+  Output,
+} from '@angular/core';
+import { toSignal } from '@angular/core/rxjs-interop';
+import {
+  FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import {
+  MIN_PAGE_LIMIT,
+  MAX_PAGE_LIMIT,
+  DEFAULT_PAGE_LIMIT,
+} from '@shared/constants';
 
 @Component({
   selector: 'app-paginator',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, ReactiveFormsModule],
   templateUrl: './paginator.component.html',
   styleUrl: './paginator.component.scss',
 })
 export class PaginatorComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
+  private fb = inject(NonNullableFormBuilder);
 
   @Input() currentPage!: number;
   @Input() dataLength!: number;
-  @Input() pageLimit!: number;
   @Output() changePage = new EventEmitter<any>();
   @Output() changePageLimit = new EventEmitter<any>();
+
+  private _pageLimit!: number;
+  @Input() set pageLimit(pageLimit: number) {
+    this._pageLimit = pageLimit;
+    this.pageLimitForm?.patchValue(pageLimit ? { pageLimit } : {}, {
+      emitEvent: false,
+    });
+  }
+  get pageLimit(): number {
+    return this._pageLimit;
+  }
+
+  pageLimitForm: FormGroup = this.fb.group({ pageLimit: undefined });
+  pageLimitFormValues = toSignal(this.pageLimitForm.valueChanges);
+
+  minPageLimit = MIN_PAGE_LIMIT;
+  maxPageLimit = MAX_PAGE_LIMIT;
+
+  constructor() {
+    effect(() => {
+      if (this.pageLimitFormValues()) {
+        const page_limit = this.pageLimitFormValues()['pageLimit'];
+        const clamped = Math.min(
+          Math.max(page_limit, this.minPageLimit),
+          this.maxPageLimit
+        );
+        // TODO: remove "if" block if use select instead of input
+        if (page_limit !== clamped) {
+          this.pageLimitForm?.patchValue({ pageLimit: clamped });
+        } else {
+          this.router.navigate([], {
+            relativeTo: this.route,
+            queryParams: { page_limit },
+            queryParamsHandling: 'merge',
+          });
+        }
+      }
+    });
+  }
 
   get totalPages(): number {
     const totalPages =
@@ -45,14 +102,5 @@ export class PaginatorComponent {
     if (page >= 1 && page <= this.totalPages) {
       this.changePage.emit(page);
     }
-  }
-
-  onChangePageLimit(target: EventTarget | null): void {
-    const page_limit = Number((target as HTMLSelectElement)?.value);
-    this.router.navigate([], {
-      relativeTo: this.route,
-      queryParams: { page_limit },
-      queryParamsHandling: 'merge',
-    });
   }
 }

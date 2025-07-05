@@ -13,6 +13,8 @@ export enum Between {
 
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_PAGE_LIMIT = 15;
+export const MIN_PAGE_LIMIT = 5;
+export const MAX_PAGE_LIMIT = 50;
 export const DEFAULT_QUERY_PARAMS = {
   page: DEFAULT_PAGE,
   page_limit: DEFAULT_PAGE_LIMIT,

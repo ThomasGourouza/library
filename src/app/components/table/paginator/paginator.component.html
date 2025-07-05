@@ -27,16 +27,17 @@
     <p>Showing {{ resultsOnPage }} results of {{ dataLength }}.</p>
   </div>
   <div class="box">
-    <select class="form-select" (change)="onChangePageLimit($event.target)">
-      <option
-        *ngFor="let item of [].constructor(20); let i = index"
-        [selected]="i + 1 === pageLimit"
-      >
-        {{ i + 1 }}
-      </option>
-    </select>
+    <form [formGroup]="pageLimitForm">
+      <input
+        type="number"
+        [min]="minPageLimit"
+        [max]="maxPageLimit"
+        class="form-control"
+        formControlName="pageLimit"
+      />
+    </form>
   </div>
   <div class="box">
-    <p>results on page.</p>
+    <p>lines per page. (min: {{ minPageLimit }}, max {{ maxPageLimit }})</p>
   </div>
 </nav>

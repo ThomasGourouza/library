@@ -44,9 +44,9 @@ export type SelectedRow = { previousId: string | undefined; newId: string };
   styleUrl: './table.component.scss',
 })
 export class TableComponent {
+  private readonly injector = inject(Injector);
   private utilsService = inject(UtilsService);
   private fb = inject(NonNullableFormBuilder);
-  private readonly injector = inject(Injector);
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
@@ -62,7 +62,7 @@ export class TableComponent {
   private _filterParams: Params | null = null;
   @Input() set filterParams(value: Params | null) {
     this._filterParams = value;
-    this.form?.patchValue(value ?? {}, { emitEvent: false });
+    this.filterForm?.patchValue(value ?? {}, { emitEvent: false });
   }
   get filterParams(): Params | null {
     return this._filterParams;
@@ -77,14 +77,14 @@ export class TableComponent {
     return this._headers;
   }
 
-  form!: FormGroup;
-  formValues!: Signal<Record<string, string>>;
+  filterForm!: FormGroup;
+  filterFormValues!: Signal<Record<string, string>>;
 
   constructor() {
     effect(() => {
-      if (this.formValues()) {
+      if (this.filterFormValues()) {
         const queryParams: Params = Object.fromEntries(
-          Object.entries(this.formValues()).map(([key, value]) => [
+          Object.entries(this.filterFormValues()).map(([key, value]) => [
             key,
             value && value !== ''
               ? this.utilsService.withoutLastComma(value)
@@ -102,18 +102,18 @@ export class TableComponent {
 
   private buildForm(headers: Header[]): void {
     const controls = Object.fromEntries(
-      ALLOWED_FILTER_PARAMS_KEYS(headers).map((filterParam) => {
-        return [filterParam, ['']];
+      ALLOWED_FILTER_PARAMS_KEYS(headers).map((filterParamKey) => {
+        return [filterParamKey, ['']];
       })
     );
-    this.form = this.fb.group(controls);
+    this.filterForm = this.fb.group(controls);
     runInInjectionContext(this.injector, () => {
-      this.formValues = toSignal(this.form.valueChanges);
+      this.filterFormValues = toSignal(this.filterForm.valueChanges);
     });
   }
 
   resetForm(): void {
-    this.form.reset();
+    this.filterForm.reset();
   }
 
   onChangePage(page: number) {
