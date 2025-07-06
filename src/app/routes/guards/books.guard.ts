@@ -26,9 +26,9 @@ export const booksGuard: CanActivateFn = (route, _state) => {
   )?.toLowerCase();
 
   const colValid =
-    colRaw && BOOKS_HEADERS.map(({ name }) => name).includes(colRaw as any);
+    colRaw && BOOKS_HEADERS.map(({ name }) => name).includes(colRaw);
   const dirValid =
-    dirRaw && Object.values(SortDirection).includes(dirRaw as any);
+    dirRaw && Object.values(SortDirection).map(toString).includes(dirRaw);
 
   let sortColumn = colValid ? colRaw : undefined;
   let sortDirection = dirValid ? (dirRaw as SortDirection) : undefined;
@@ -44,7 +44,9 @@ export const booksGuard: CanActivateFn = (route, _state) => {
   }
   if (!colRaw && dirRaw) {
     sortColumn = DEFAULT_BOOK_SORT_COLUMN;
-    sortDirection = dirValid ? (dirRaw as any) : DEFAULT_SORT_DIRECTION;
+    sortDirection = dirValid
+      ? (dirRaw as SortDirection)
+      : DEFAULT_SORT_DIRECTION;
   }
 
   if (sortColumn) filtered['sortColumn'] = sortColumn;

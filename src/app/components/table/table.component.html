@@ -27,10 +27,10 @@
                 | sort : sortParams()
                 | paginate : currentPage()! : pageLimit()!
             "
-            (click)="onRowClick(rowId(), row.id)"
+            (click)="onRowClick(rowId(), row[id])"
             [class.content]="true"
-            [class.table-row-clickable]="row.id !== rowId()"
-            [class.selected]="row.id === rowId()"
+            [class.table-row-clickable]="row[id] !== rowId()"
+            [class.selected]="row[id] === rowId()"
           >
             <td *ngFor="let header of headers">
               {{ row[header.name] }}

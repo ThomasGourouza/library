@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { AuthorsComponent } from 'app/components/authors/authors.component';
 import { AuthorComponent } from 'app/components/authors/author/author.component';
+import { ROW_ID } from '@shared/constants';
 
 export const routes: Routes = [
   {
@@ -8,7 +9,7 @@ export const routes: Routes = [
     component: AuthorsComponent,
     children: [
       {
-        path: ':id',
+        path: `:${ROW_ID}`,
         component: AuthorComponent,
       },
     ],

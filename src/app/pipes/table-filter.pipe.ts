@@ -1,4 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
+import { Params } from '@angular/router';
 import { Between } from '@shared/constants';
 import { UtilsService } from 'app/services/utils.service';
 
@@ -9,7 +10,10 @@ import { UtilsService } from 'app/services/utils.service';
 export class TableFilterPipe implements PipeTransform {
   utilsService = inject(UtilsService);
 
-  transform(list: any[], searchParams: any): any[] {
+  transform(
+    list: Record<string, string>[],
+    searchParams: Params
+  ): Record<string, string>[] {
     const activeKeys = Object.keys(searchParams).filter(
       (k) => searchParams[k] != null
     );

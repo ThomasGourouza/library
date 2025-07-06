@@ -57,9 +57,9 @@ export const BOOKS_HEADERS: Header[] = [
 
 type BookHeaderName = (typeof BOOKS_HEADERS)[number]['name'];
 
-export type Book = { id: string | undefined } & {
-  [K in BookHeaderName]: string | undefined;
-};
+// export type Book = { [ROW_ID]: string | undefined } & {
+//   [K in BookHeaderName]: string | undefined;
+// };
 
 export const DEFAULT_BOOK_SORT_COLUMN = 'title';
 

@@ -55,9 +55,9 @@ export class TableComponent {
   private _headers: Header[] = [];
   filterForm!: FormGroup;
   filterFormValues!: Signal<Record<string, string>>;
-  filterParams!: Signal<any>;
+  filterParams!: Signal<Params>;
 
-  @Input() data: any[] = [];
+  @Input() data: Record<string, string>[] = [];
   @Input() set headers(value: Header[]) {
     this._headers = value;
     this.filterForm = this.fb.group(
@@ -111,6 +111,8 @@ export class TableComponent {
     ),
   }));
 
+  id = ROW_ID;
+
   constructor() {
     effect(() => {
       if (this.filterFormValues()) {
@@ -143,6 +145,6 @@ export class TableComponent {
   }
 
   private get urlRowId(): string {
-    return this.route.snapshot.firstChild?.params?.[ROW_ID];
+    return this.route.snapshot.firstChild?.params?.[this.id];
   }
 }

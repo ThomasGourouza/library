@@ -1,5 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import { Book } from '@shared/constants';
+import { ROW_ID } from '@shared/constants';
 import { UtilsService } from './utils.service';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, shareReplay } from 'rxjs';
@@ -12,20 +12,22 @@ export class BookService {
   http = inject(HttpClient);
   private readonly url = 'assets/data/books.json';
 
-  get books$(): Observable<Book[]> {
-    return this.http.get<Book[]>(this.url).pipe(
+  get books$(): Observable<Record<string, string>[]> {
+    return this.http.get<Record<string, string>[]>(this.url).pipe(
       map(this.withTitleAndId.bind(this)),
-      catchError(() => of([] as Book[])),
+      catchError(() => of([] as Record<string, string>[])),
       shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
-  private withTitleAndId(books: Book[]): Book[] {
+  private withTitleAndId(
+    books: Record<string, string>[]
+  ): Record<string, string>[] {
     return books
       .filter(({ title }) => !!title)
       .map((book) => ({
         ...book,
-        id: this.utilsService.makeId(book['title']!),
+        [ROW_ID]: this.utilsService.makeId(book['title']!),
       }));
   }
 }
