@@ -1,15 +1,17 @@
 // General
-export const ALLOWED_QUERY_PARAMS_COMMON_KEYS = [
-  'page',
-  'page_limit',
-  'sortColumn',
-  'sortDirection',
-] as const;
+export enum AllowedQueryParamsCommon {
+  PAGE = 'page',
+  PAGE_LIMIT = 'page_limit',
+  SORT_COLUMN = 'sortColumn',
+  SORT_DIRECTION = 'sortDirection',
+}
 
 export enum Between {
   MIN = '_min',
   MAX = '_max',
 }
+
+export const ROW_ID = 'id' as const;
 
 export const DEFAULT_PAGE = 1;
 export const DEFAULT_PAGE_LIMIT = 15;
@@ -20,7 +22,7 @@ export const DEFAULT_QUERY_PARAMS = {
   page_limit: DEFAULT_PAGE_LIMIT,
 } as const;
 
-export function ALLOWED_FILTER_PARAMS_KEYS(list: Header[]) {
+export function toAllowedFilterParamsKeys(list: Header[]) {
   return list.flatMap(({ name, hasMinMax }) =>
     hasMinMax
       ? [name, `${name}${Between.MIN}`, `${name}${Between.MAX}`]
@@ -62,6 +64,6 @@ export type Book = { id: string | undefined } & {
 export const DEFAULT_BOOK_SORT_COLUMN = 'title';
 
 export const ALLOWED_BOOK_QUERY_PARAMS_KEYS = [
-  ...ALLOWED_FILTER_PARAMS_KEYS(BOOKS_HEADERS),
-  ...ALLOWED_QUERY_PARAMS_COMMON_KEYS,
+  ...toAllowedFilterParamsKeys(BOOKS_HEADERS),
+  ...Object.values(AllowedQueryParamsCommon),
 ];

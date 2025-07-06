@@ -73,3 +73,4 @@ change columns order
 
 - share replay 1
 - toSignal instead of observable and async
+- table: a la place de header -> nom du tableau pour charger les donnees

@@ -1,8 +1,7 @@
-@if(books$ | async; as books) {
 <app-table
-  [data]="books"
+  [data]="books() ?? []"
   [headers]="headers"
   (selectedRow)="onSelectedRow($event)"
 ></app-table>
-}
+
 <router-outlet></router-outlet>

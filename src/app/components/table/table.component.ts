@@ -1,6 +1,7 @@
-import { AsyncPipe, CommonModule } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   Component,
+  computed,
   effect,
   EventEmitter,
   inject,
@@ -13,9 +14,10 @@ import {
 import { toSignal } from '@angular/core/rxjs-interop';
 import { PaginatorComponent } from './paginator/paginator.component';
 import {
-  ALLOWED_FILTER_PARAMS_KEYS,
-  BOOKS_HEADERS,
+  toAllowedFilterParamsKeys,
   Header,
+  AllowedQueryParamsCommon,
+  ROW_ID,
 } from '@shared/constants';
 import {
   FormGroup,
@@ -27,15 +29,7 @@ import { TableFilterPipe } from 'app/pipes/table-filter.pipe';
 import { TableSortPipe } from 'app/pipes/table-sort.pipe';
 import { PaginatePipe } from 'app/pipes/paginate.pipe';
 import { UtilsService } from 'app/services/utils.service';
-import {
-  map,
-  distinctUntilChanged,
-  shareReplay,
-  tap,
-  filter,
-  startWith,
-  Observable,
-} from 'rxjs';
+import { map, distinctUntilChanged, filter, startWith } from 'rxjs';
 
 @Component({
   selector: 'app-table',
@@ -47,7 +41,6 @@ import {
     TableFilterPipe,
     TableSortPipe,
     PaginatePipe,
-    AsyncPipe,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -59,44 +52,64 @@ export class TableComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
 
+  private _headers: Header[] = [];
+  filterForm!: FormGroup;
+  filterFormValues!: Signal<Record<string, string>>;
+  filterParams!: Signal<any>;
+
   @Input() data: any[] = [];
   @Input() set headers(value: Header[]) {
     this._headers = value;
-    this.buildForm(value);
+    this.filterForm = this.fb.group(
+      Object.fromEntries(
+        toAllowedFilterParamsKeys(value).map((filterParamKey) => {
+          return [filterParamKey, ['']];
+        })
+      )
+    );
+
+    runInInjectionContext(this.injector, () => {
+      this.filterFormValues = toSignal(this.filterForm.valueChanges);
+      this.filterParams = computed(() =>
+        Object.fromEntries(
+          toAllowedFilterParamsKeys(value).map((field) => [
+            field,
+            this.paramMap()!.get(field),
+          ])
+        )
+      );
+    });
   }
   get headers(): Header[] {
     return this._headers;
   }
-  private _headers: Header[] = [];
   @Output() selectedRow = new EventEmitter<string | undefined>();
 
-  rowId!: Signal<any>;
-  filterParams!: Signal<any>;
-
-  private readonly paramMap$ = this.route.queryParamMap.pipe(
-    shareReplay({ bufferSize: 1, refCount: true })
+  rowId = toSignal(
+    this.router.events.pipe(
+      filter((e): e is NavigationEnd => e instanceof NavigationEnd),
+      map(() => this.urlRowId),
+      startWith(this.urlRowId),
+      distinctUntilChanged()
+    )
   );
 
-  currentPage$ = this.paramMap$.pipe(
-    map((p) => +p.get('page')!),
-    distinctUntilChanged()
+  private paramMap = toSignal(this.route.queryParamMap);
+
+  currentPage = computed(
+    () => +this.paramMap()!.get(AllowedQueryParamsCommon.PAGE)!
   );
 
-  pageLimit$ = this.paramMap$.pipe(
-    map((p) => +p.get('page_limit')!),
-    distinctUntilChanged()
+  pageLimit = computed(
+    () => +this.paramMap()!.get(AllowedQueryParamsCommon.PAGE_LIMIT)!
   );
 
-  sortParams$ = this.paramMap$.pipe(
-    map((p) => ({
-      sortColumn: p.get('sortColumn'),
-      sortDirection: p.get('sortDirection'),
-    })),
-    distinctUntilChanged()
-  );
-
-  filterForm!: FormGroup;
-  filterFormValues!: Signal<Record<string, string>>;
+  sortParams = computed(() => ({
+    sortColumn: this.paramMap()!.get(AllowedQueryParamsCommon.SORT_COLUMN),
+    sortDirection: this.paramMap()!.get(
+      AllowedQueryParamsCommon.SORT_DIRECTION
+    ),
+  }));
 
   constructor() {
     effect(() => {
@@ -116,46 +129,8 @@ export class TableComponent {
         });
       }
     });
-  }
-
-  private buildForm(headers: Header[]): void {
-    const controls = Object.fromEntries(
-      ALLOWED_FILTER_PARAMS_KEYS(headers).map((filterParamKey) => {
-        return [filterParamKey, ['']];
-      })
-    );
-    this.filterForm = this.fb.group(controls);
-
-    runInInjectionContext(this.injector, () => {
-      this.filterFormValues = toSignal(this.filterForm.valueChanges);
-      this.rowId = toSignal(
-        this.router.events.pipe(
-          filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-          map(() => this.route.snapshot.firstChild?.params?.['bookId']),
-          startWith(this.route.snapshot.firstChild?.params?.['bookId']),
-          distinctUntilChanged()
-        )
-      );
-      this.filterParams = toSignal(
-        this.paramMap$.pipe(
-          map((p) =>
-            Object.fromEntries(
-              ALLOWED_FILTER_PARAMS_KEYS(BOOKS_HEADERS).map((field) => [
-                field,
-                p.get(field),
-              ])
-            )
-          ),
-          distinctUntilChanged((a, b) =>
-            ALLOWED_FILTER_PARAMS_KEYS(BOOKS_HEADERS).every(
-              (field) => a[field] === b[field]
-            )
-          ),
-          tap((params) =>
-            this.filterForm?.patchValue(params ?? {}, { emitEvent: false })
-          )
-        )
-      );
+    effect(() => {
+      this.filterForm?.patchValue(this.filterParams(), { emitEvent: false });
     });
   }
 
@@ -165,5 +140,9 @@ export class TableComponent {
 
   onRowClick(previousId: string | undefined, newId: string): void {
     this.selectedRow.emit(newId !== previousId ? newId : undefined);
+  }
+
+  private get urlRowId(): string {
+    return this.route.snapshot.firstChild?.params?.[ROW_ID];
   }
 }

@@ -12,7 +12,7 @@ export const routes: Routes = [
     runGuardsAndResolvers: 'always',
     children: [
       {
-        path: ':bookId',
+        path: ':id',
         component: BookComponent,
         canActivate: [bookGuard],
       },

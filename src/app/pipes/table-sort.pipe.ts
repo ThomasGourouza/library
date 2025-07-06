@@ -9,7 +9,7 @@ import { UtilsService } from 'app/services/utils.service';
 export class TableSortPipe implements PipeTransform {
   utilsService = inject(UtilsService);
 
-  transform(list: any[], sortParams: SortParams | null): any[] {
+  transform(list: any[], sortParams: SortParams | undefined): any[] {
     if (!sortParams || !sortParams.sortColumn || !sortParams.sortDirection) {
       return list;
     }

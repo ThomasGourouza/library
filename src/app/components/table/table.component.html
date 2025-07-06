@@ -24,8 +24,8 @@
             *ngFor="
               let row of data
                 | filter : filterParams()
-                | sort : (sortParams$ | async)
-                | paginate : (currentPage$ | async)! : (pageLimit$ | async)!
+                | sort : sortParams()
+                | paginate : currentPage()! : pageLimit()!
             "
             (click)="onRowClick(rowId(), row.id)"
             [class.content]="true"
@@ -42,8 +42,8 @@
   </div>
 
   <app-paginator
-    [currentPage]="(currentPage$ | async)!"
+    [currentPage]="currentPage()!"
     [dataLength]="(data | filter : filterParams()).length"
-    [pageLimit]="(pageLimit$ | async)!"
+    [pageLimit]="pageLimit()!"
   ></app-paginator>
 </div>

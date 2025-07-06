@@ -8,7 +8,7 @@ export const routes: Routes = [
     component: AuthorsComponent,
     children: [
       {
-        path: ':authorId',
+        path: ':id',
         component: AuthorComponent,
       },
     ],

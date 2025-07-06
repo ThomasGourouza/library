@@ -16,7 +16,7 @@ export class BookService {
     return this.http.get<Book[]>(this.url).pipe(
       map(this.withTitleAndId.bind(this)),
       catchError(() => of([] as Book[])),
-      shareReplay(1)
+      shareReplay({ bufferSize: 1, refCount: true })
     );
   }
 
