@@ -1,12 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  effect,
-  EventEmitter,
-  inject,
-  Input,
-  Output,
-} from '@angular/core';
+import { Component, effect, inject, input, Input } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormGroup,
@@ -14,11 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import {
-  MIN_PAGE_LIMIT,
-  MAX_PAGE_LIMIT,
-  DEFAULT_PAGE_LIMIT,
-} from '@shared/constants';
+import { MIN_PAGE_LIMIT, MAX_PAGE_LIMIT } from '@shared/constants';
 
 @Component({
   selector: 'app-paginator',
@@ -34,17 +23,7 @@ export class PaginatorComponent {
 
   @Input() currentPage!: number;
   @Input() dataLength!: number;
-
-  private _pageLimit!: number;
-  @Input() set pageLimit(pageLimit: number) {
-    this._pageLimit = pageLimit;
-    this.pageLimitForm?.patchValue(pageLimit ? { pageLimit } : {}, {
-      emitEvent: false,
-    });
-  }
-  get pageLimit(): number {
-    return this._pageLimit;
-  }
+  readonly pageLimit = input<number>();
 
   pageLimitForm: FormGroup = this.fb.group({ pageLimit: undefined });
   pageLimitFormValues = toSignal(this.pageLimitForm.valueChanges);
@@ -53,6 +32,12 @@ export class PaginatorComponent {
   maxPageLimit = MAX_PAGE_LIMIT;
 
   constructor() {
+    effect(() => {
+      const pageLimit = this.pageLimit();
+      this.pageLimitForm.patchValue(pageLimit ? { pageLimit } : {}, {
+        emitEvent: false,
+      });
+    });
     effect(() => {
       if (this.pageLimitFormValues()) {
         const page_limit = this.pageLimitFormValues()['pageLimit'];
@@ -76,7 +61,7 @@ export class PaginatorComponent {
 
   get totalPages(): number {
     const totalPages =
-      this.dataLength > 0 ? Math.ceil(this.dataLength / this.pageLimit) : 1;
+      this.dataLength > 0 ? Math.ceil(this.dataLength / this.pageLimit()!) : 1;
     if (this.currentPage > totalPages) {
       this.router.navigate([], {
         relativeTo: this.route,
@@ -90,9 +75,9 @@ export class PaginatorComponent {
   get resultsOnPage(): number {
     if (this.currentPage < 1 || this.currentPage > this.totalPages) return 0;
     const resultsOnLastPage =
-      this.dataLength - (this.totalPages - 1) * this.pageLimit;
+      this.dataLength - (this.totalPages - 1) * this.pageLimit()!;
     return this.currentPage < this.totalPages
-      ? this.pageLimit
+      ? this.pageLimit()!
       : resultsOnLastPage;
   }
 
