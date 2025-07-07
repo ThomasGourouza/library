@@ -10,18 +10,18 @@ import {
 export const booksGuard: CanActivateFn = (route, _state) => {
   const router = inject(Router);
 
-  const original = route.queryParams;
+  const queryParams = route.queryParams;
   const filtered: Params = {};
 
   for (const key of ALLOWED_BOOK_QUERY_PARAMS_KEYS) {
-    if (Object.prototype.hasOwnProperty.call(original, key)) {
-      filtered[key] = original[key];
+    if (Object.prototype.hasOwnProperty.call(queryParams, key)) {
+      filtered[key] = queryParams[key];
     }
   }
 
-  const colRaw = original['sortColumn'] as string | undefined;
+  const colRaw = queryParams['sortColumn'] as string | undefined;
   const dirRaw = (
-    original['sortDirection'] as string | undefined
+    queryParams['sortDirection'] as string | undefined
   )?.toLowerCase();
 
   const colValid =
@@ -52,10 +52,10 @@ export const booksGuard: CanActivateFn = (route, _state) => {
   if (sortDirection) filtered['sortDirection'] = sortDirection;
 
   const differentKeyCount =
-    Object.keys(original).length !== Object.keys(filtered).length;
+    Object.keys(queryParams).length !== Object.keys(filtered).length;
 
   const differentValue = ALLOWED_BOOK_QUERY_PARAMS_KEYS.some(
-    (k) => original[k] !== filtered[k]
+    (k) => queryParams[k] !== filtered[k]
   );
 
   if (!differentKeyCount && !differentValue) {

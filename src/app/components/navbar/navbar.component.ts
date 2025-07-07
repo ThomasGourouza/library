@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Params, RouterModule } from '@angular/router';
+import { RouterModule } from '@angular/router';
 import { DEFAULT_QUERY_PARAMS } from '@shared/constants';
 
 @Component({
