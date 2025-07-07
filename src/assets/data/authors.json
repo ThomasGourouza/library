@@ -1,0 +1,38 @@
+[
+  {
+    "lastName": "Hugo",
+    "firstName": "Victor",
+    "birth": "1786",
+    "country": "France"
+  },
+  {
+    "lastName": "Dostoevsky",
+    "firstName": "Fyodor",
+    "birth": "1821",
+    "country": "Russia"
+  },
+  {
+    "lastName": "Orwell",
+    "firstName": "George",
+    "birth": "1903",
+    "country": "United Kingdom"
+  },
+  {
+    "lastName": "Austen",
+    "firstName": "Jane",
+    "birth": "1775",
+    "country": "United Kingdom"
+  },
+  {
+    "lastName": "Kafka",
+    "firstName": "Franz",
+    "birth": "1883",
+    "country": "Czech Republic"
+  },
+  {
+    "lastName": "",
+    "firstName": "Test",
+    "birth": "1883",
+    "country": "Czech Republic"
+  }
+]

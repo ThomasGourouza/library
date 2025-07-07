@@ -29,6 +29,13 @@ export function toAllowedFilterParamsKeys(list: Header[]) {
   );
 }
 
+export function toAllowedQueryParamsKeys(list: Header[]) {
+  return [
+    ...toAllowedFilterParamsKeys(list),
+    ...Object.values(AllowedQueryParamsCommon),
+  ];
+}
+
 export interface Header {
   name: string;
   label: string;

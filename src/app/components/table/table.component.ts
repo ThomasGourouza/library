@@ -59,9 +59,10 @@ export class TableComponent {
   @Input() data: TableItem[] = [];
   @Input() set headers(value: Header[]) {
     this._headers = value;
+    const allowedFilterParamsKeys = toAllowedFilterParamsKeys(value);
     this.filterForm = this.fb.group(
       Object.fromEntries(
-        toAllowedFilterParamsKeys(value).map((filterParamKey) => {
+        allowedFilterParamsKeys.map((filterParamKey) => {
           return [filterParamKey, ['']];
         })
       )
@@ -71,7 +72,7 @@ export class TableComponent {
       this.filterFormValues = toSignal(this.filterForm.valueChanges);
       this.filterParams = computed(() =>
         Object.fromEntries(
-          toAllowedFilterParamsKeys(value).map((field) => [
+          allowedFilterParamsKeys.map((field) => [
             field,
             this.paramMap()!.get(field) ?? undefined,
           ])

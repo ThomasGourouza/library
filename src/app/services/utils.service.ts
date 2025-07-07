@@ -4,6 +4,9 @@ import {
   MAX_PAGE_LIMIT,
   DEFAULT_PAGE_LIMIT,
   DEFAULT_PAGE,
+  TableItem,
+  Header,
+  ROW_ID,
 } from '@shared/constants';
 
 @Injectable({
@@ -55,5 +58,24 @@ export class UtilsService {
       return DEFAULT_PAGE_LIMIT;
     const n = +pageLimit;
     return Math.min(Math.max(n, MIN_PAGE_LIMIT), MAX_PAGE_LIMIT);
+  }
+
+  withTitleAndId(
+    items: TableItem[],
+    headers: Header[],
+    mandatoryColumn: string
+  ): TableItem[] {
+    return items.flatMap((item) =>
+      !item[mandatoryColumn]
+        ? []
+        : [
+            {
+              ...Object.fromEntries(
+                headers.map(({ name }) => [name, item[name]])
+              ),
+              [ROW_ID]: this.makeId(item[mandatoryColumn]!),
+            },
+          ]
+    );
   }
 }

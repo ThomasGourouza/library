@@ -14,6 +14,6 @@ import { toSignal } from '@angular/core/rxjs-interop';
 export class BooksComponent {
   private bookService = inject(BookService);
 
-  headers = BOOKS_HEADERS;
+  booksHeaders = BOOKS_HEADERS;
   books = toSignal(this.bookService.books$);
 }
