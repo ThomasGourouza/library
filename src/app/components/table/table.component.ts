@@ -17,6 +17,7 @@ import {
   AllowedQueryParamsCommon,
   ROW_ID,
   TableItem,
+  Between,
 } from '@shared/constants';
 import {
   FormGroup,
@@ -111,6 +112,8 @@ export class TableComponent {
   }));
 
   id = ROW_ID;
+  min = Between.MIN;
+  max = Between.MAX;
 
   constructor() {
     effect(() => {
@@ -120,7 +123,7 @@ export class TableComponent {
             Object.entries(this.filterFormValues()).map(([key, value]) => [
               key,
               value && value !== ''
-                ? this.utilsService.withoutLastComma(value)
+                ? this.utilsService.withoutLastComma(value.toString())
                 : undefined,
             ])
           );

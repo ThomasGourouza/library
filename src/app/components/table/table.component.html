@@ -12,12 +12,28 @@
         <tbody>
           <tr>
             <td *ngFor="let header of headers">
-              <input
-                type="text"
-                class="form-control"
-                [formControlName]="header.name"
-                placeholder="search..."
-              />
+              <div class="d-flex justify-content-between">
+                <input
+                  [type]="header.hasMinMax ? 'number' : 'text'"
+                  class="form-control"
+                  [formControlName]="header.name"
+                  placeholder="search..."
+                />
+                @if (header.hasMinMax) {
+                <input
+                  type="number"
+                  class="form-control"
+                  [formControlName]="header.name + min"
+                  placeholder="min"
+                />
+                <input
+                  type="number"
+                  class="form-control"
+                  [formControlName]="header.name + max"
+                  placeholder="max"
+                />
+                }
+              </div>
             </td>
           </tr>
           <tr

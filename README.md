@@ -66,3 +66,4 @@ sort field
 - table settings: local storage
   show/hide columns
   change columns order
+  page_limit: url + localStorage
