@@ -62,6 +62,7 @@ Wikipedia
 
 search between
 sort field
+genre: dropdown
 
 - table settings: local storage
   show/hide columns

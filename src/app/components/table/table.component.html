@@ -3,7 +3,10 @@
 <div class="container mt-5">
   <div class="rounded overflow-hidden border">
     <form [formGroup]="filterForm">
-      <table class="table table-bordered table-striped mb-0">
+      <table
+        class="table table-bordered table-striped mb-0"
+        style="table-layout: fixed"
+      >
         <thead class="header">
           <tr>
             <th *ngFor="let header of headers">{{ header.label }}</th>
@@ -11,29 +14,27 @@
         </thead>
         <tbody>
           <tr>
-            <td *ngFor="let header of headers">
-              <div class="d-flex justify-content-between">
-                <input
-                  [type]="header.hasMinMax ? 'number' : 'text'"
-                  class="form-control"
-                  [formControlName]="header.name"
-                  placeholder="search..."
-                />
-                @if (header.hasMinMax) {
-                <input
-                  type="number"
-                  class="form-control"
-                  [formControlName]="header.name + min"
-                  placeholder="min"
-                />
-                <input
-                  type="number"
-                  class="form-control"
-                  [formControlName]="header.name + max"
-                  placeholder="max"
-                />
-                }
-              </div>
+            <td *ngFor="let header of headers" [class.flex]="header.hasMinMax">
+              <input
+                [type]="header.hasMinMax ? 'number' : 'text'"
+                class="form-control"
+                [formControlName]="header.name"
+                placeholder="search..."
+              />
+              @if (header.hasMinMax) {
+              <input
+                type="number"
+                class="form-control"
+                [formControlName]="header.name + min"
+                placeholder="min"
+              />
+              <input
+                type="number"
+                class="form-control"
+                [formControlName]="header.name + max"
+                placeholder="max"
+              />
+              }
             </td>
           </tr>
           <tr
