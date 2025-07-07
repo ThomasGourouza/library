@@ -17,10 +17,13 @@ export const BOOKS_HEADERS: Header[] = [
 ] as const;
 
 type BookHeaderName = (typeof BOOKS_HEADERS)[number]['name'];
+
 export type Book = { [ROW_ID]: string } & {
   [K in BookHeaderName]: string | undefined;
 };
-export const DEFAULT_BOOK_SORT_COLUMN = 'title';
+
+export const BOOK_MANDATORY_COLUMN = 'title';
+
 export const ALLOWED_BOOK_QUERY_PARAMS_KEYS = [
   ...toAllowedFilterParamsKeys(BOOKS_HEADERS),
   ...Object.values(AllowedQueryParamsCommon),
@@ -43,16 +46,17 @@ export class BookService {
   }
 
   private withTitleAndId(books: Book[]): Book[] {
-    return books.flatMap((book) => {
-      if (!book['title']) return [];
-      return [
-        {
-          ...Object.fromEntries(
-            BOOKS_HEADERS.map(({ name }) => [name, book[name]])
-          ),
-          [ROW_ID]: this.utilsService.makeId(book['title']!),
-        },
-      ];
-    });
+    return books.flatMap((book) =>
+      !book[BOOK_MANDATORY_COLUMN]
+        ? []
+        : [
+            {
+              ...Object.fromEntries(
+                BOOKS_HEADERS.map(({ name }) => [name, book[name]])
+              ),
+              [ROW_ID]: this.utilsService.makeId(book[BOOK_MANDATORY_COLUMN]!),
+            },
+          ]
+    );
   }
 }

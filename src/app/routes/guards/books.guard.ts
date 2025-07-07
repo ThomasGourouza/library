@@ -4,7 +4,7 @@ import { DEFAULT_SORT_DIRECTION, SortDirection } from '@shared/constants';
 import {
   ALLOWED_BOOK_QUERY_PARAMS_KEYS,
   BOOKS_HEADERS,
-  DEFAULT_BOOK_SORT_COLUMN,
+  BOOK_MANDATORY_COLUMN,
 } from 'app/services/book.service';
 
 export const booksGuard: CanActivateFn = (route, _state) => {
@@ -33,16 +33,16 @@ export const booksGuard: CanActivateFn = (route, _state) => {
   let sortDirection = dirValid ? (dirRaw as SortDirection) : undefined;
 
   if (colRaw && dirRaw) {
-    if (!colValid) sortColumn = DEFAULT_BOOK_SORT_COLUMN;
+    if (!colValid) sortColumn = BOOK_MANDATORY_COLUMN;
     if (!dirValid) sortDirection = DEFAULT_SORT_DIRECTION;
   }
 
   if (colRaw && !dirRaw) {
-    sortColumn = colValid ? colRaw : DEFAULT_BOOK_SORT_COLUMN;
+    sortColumn = colValid ? colRaw : BOOK_MANDATORY_COLUMN;
     sortDirection = DEFAULT_SORT_DIRECTION;
   }
   if (!colRaw && dirRaw) {
-    sortColumn = DEFAULT_BOOK_SORT_COLUMN;
+    sortColumn = BOOK_MANDATORY_COLUMN;
     sortDirection = dirValid
       ? (dirRaw as SortDirection)
       : DEFAULT_SORT_DIRECTION;
