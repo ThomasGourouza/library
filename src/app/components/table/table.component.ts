@@ -3,11 +3,9 @@ import {
   Component,
   computed,
   effect,
-  EventEmitter,
   inject,
   Injector,
   Input,
-  Output,
   runInInjectionContext,
   Signal,
 } from '@angular/core';
@@ -84,7 +82,6 @@ export class TableComponent {
   get headers(): Header[] {
     return this._headers;
   }
-  @Output() selectedRow = new EventEmitter<string | undefined>();
 
   rowId = toSignal(
     this.router.events.pipe(
@@ -143,7 +140,16 @@ export class TableComponent {
   }
 
   onRowClick(previousId: string | undefined, newId: string): void {
-    this.selectedRow.emit(newId !== previousId ? newId : undefined);
+    const root = this.router.parseUrl(this.router.url).root.children['primary']
+      ?.segments[0]?.path;
+    if (!root) return;
+    const path = [`/${root}`];
+    const newBookId = newId !== previousId ? newId : undefined;
+    if (!!newBookId) path.push(newBookId);
+
+    this.router.navigate(path, {
+      queryParamsHandling: 'preserve',
+    });
   }
 
   private get urlRowId(): string {
