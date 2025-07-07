@@ -18,13 +18,14 @@ import {
   Header,
   AllowedQueryParamsCommon,
   ROW_ID,
+  TableItem,
 } from '@shared/constants';
 import {
   FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { ActivatedRoute, NavigationEnd, Params, Router } from '@angular/router';
+import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import { TableFilterPipe } from 'app/pipes/table-filter.pipe';
 import { TableSortPipe } from 'app/pipes/table-sort.pipe';
 import { PaginatePipe } from 'app/pipes/paginate.pipe';
@@ -54,10 +55,10 @@ export class TableComponent {
 
   private _headers: Header[] = [];
   filterForm!: FormGroup;
-  filterFormValues!: Signal<Record<string, string>>;
-  filterParams!: Signal<Params>;
+  filterFormValues!: Signal<{ [k: string]: string | undefined }>;
+  filterParams!: Signal<{ [k: string]: string | undefined }>;
 
-  @Input() data: Record<string, string>[] = [];
+  @Input() data: TableItem[] = [];
   @Input() set headers(value: Header[]) {
     this._headers = value;
     this.filterForm = this.fb.group(
@@ -74,7 +75,7 @@ export class TableComponent {
         Object.fromEntries(
           toAllowedFilterParamsKeys(value).map((field) => [
             field,
-            this.paramMap()!.get(field),
+            this.paramMap()!.get(field) ?? undefined,
           ])
         )
       );
@@ -116,14 +117,15 @@ export class TableComponent {
   constructor() {
     effect(() => {
       if (this.filterFormValues()) {
-        const queryParams: Params = Object.fromEntries(
-          Object.entries(this.filterFormValues()).map(([key, value]) => [
-            key,
-            value && value !== ''
-              ? this.utilsService.withoutLastComma(value)
-              : undefined,
-          ])
-        );
+        const queryParams: { [k: string]: string | undefined } =
+          Object.fromEntries(
+            Object.entries(this.filterFormValues()).map(([key, value]) => [
+              key,
+              value && value !== ''
+                ? this.utilsService.withoutLastComma(value)
+                : undefined,
+            ])
+          );
         this.router.navigate([], {
           relativeTo: this.route,
           queryParams,

@@ -1,6 +1,6 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
 import { Params } from '@angular/router';
-import { Between } from '@shared/constants';
+import { Between, TableItem } from '@shared/constants';
 import { UtilsService } from 'app/services/utils.service';
 
 @Pipe({
@@ -10,10 +10,7 @@ import { UtilsService } from 'app/services/utils.service';
 export class TableFilterPipe implements PipeTransform {
   utilsService = inject(UtilsService);
 
-  transform(
-    list: Record<string, string>[],
-    searchParams: Params
-  ): Record<string, string>[] {
+  transform(list: TableItem[], searchParams: Params): TableItem[] {
     const activeKeys = Object.keys(searchParams).filter(
       (k) => searchParams[k] != null
     );
@@ -31,7 +28,7 @@ export class TableFilterPipe implements PipeTransform {
     return keyMinMax.replace(Between.MIN, '').replace(Between.MAX, '');
   }
 
-  private like(text: string, filters: string): boolean {
+  private like(text: string | undefined, filters: string): boolean {
     return filters
       .split(',')
       .some((filter) =>
@@ -41,10 +38,11 @@ export class TableFilterPipe implements PipeTransform {
 
   private between(
     keyMinMax: string,
-    value: string,
+    value: string | undefined,
     valueMinMax: string
   ): boolean {
     if (
+      !value ||
       !this.utilsService.isNumericString(value) ||
       !this.utilsService.isNumericString(valueMinMax)
     )
@@ -56,7 +54,8 @@ export class TableFilterPipe implements PipeTransform {
     }
   }
 
-  private toSimpleText(text: string): string {
+  private toSimpleText(text: string | undefined): string {
+    if (!text) return '';
     return text
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')

@@ -1,8 +1,7 @@
 import { Component, inject } from '@angular/core';
 import { Router, RouterOutlet } from '@angular/router';
 import { TableComponent } from '../table/table.component';
-import { BOOKS_HEADERS } from '@shared/constants';
-import { BookService } from 'app/services/book.service';
+import { BOOKS_HEADERS, BookService } from 'app/services/book.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 
 @Component({

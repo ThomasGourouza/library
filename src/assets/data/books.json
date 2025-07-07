@@ -2,14 +2,14 @@
   {
     "title": "Clean Code",
     "author": "Robert C. Martin",
-    "year": "1000",
-    "genre": "Essai"
+    "year": "1000"
   },
   {
     "title": "The Pragmatic Programmer",
     "author": "Andrew Hunt",
     "year": "1500",
-    "genre": "Roman"
+    "genre": "Roman",
+    "test": "test"
   },
   {
     "title": "Design Patterns",

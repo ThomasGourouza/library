@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { SortParams } from '@shared/constants';
+import { SortParams, TableItem } from '@shared/constants';
 import { UtilsService } from 'app/services/utils.service';
 
 @Pipe({
@@ -10,9 +10,9 @@ export class TableSortPipe implements PipeTransform {
   utilsService = inject(UtilsService);
 
   transform(
-    list: Record<string, string>[],
+    list: TableItem[],
     sortParams: SortParams | undefined
-  ): Record<string, string>[] {
+  ): TableItem[] {
     if (!sortParams || !sortParams.sortColumn || !sortParams.sortDirection) {
       return list;
     }

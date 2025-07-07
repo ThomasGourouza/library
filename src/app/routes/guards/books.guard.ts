@@ -1,12 +1,11 @@
 import { CanActivateFn, Params, Router } from '@angular/router';
 import { inject } from '@angular/core';
+import { DEFAULT_SORT_DIRECTION, SortDirection } from '@shared/constants';
 import {
   ALLOWED_BOOK_QUERY_PARAMS_KEYS,
   BOOKS_HEADERS,
   DEFAULT_BOOK_SORT_COLUMN,
-  DEFAULT_SORT_DIRECTION,
-  SortDirection,
-} from '@shared/constants';
+} from 'app/services/book.service';
 
 export const booksGuard: CanActivateFn = (route, _state) => {
   const router = inject(Router);

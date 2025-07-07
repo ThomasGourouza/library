@@ -1,4 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { TableItem } from '@shared/constants';
 
 @Pipe({
   name: 'paginate',
@@ -6,10 +7,10 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class PaginatePipe implements PipeTransform {
   transform(
-    list: Record<string, string>[],
+    list: TableItem[],
     currentPage: number,
     pageLimit: number
-  ): Record<string, string>[] {
+  ): TableItem[] {
     const start = (currentPage - 1) * pageLimit;
     return list.slice(start, start + pageLimit);
   }
