@@ -12,7 +12,7 @@
             <th *ngFor="let header of headers">
               <div class="flex">
                 <div></div>
-                <div>{{ header.label }}</div>
+                <div class="header-label">{{ header.label }}</div>
                 <div
                   class="sort-icon"
                   (click)="onSort(header.name, header.sortDirection)"
