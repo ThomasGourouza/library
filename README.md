@@ -60,7 +60,6 @@ Wikipedia
 
 ---
 
-wrong url -> remove
 reset button, number of results, lines per page
 genre: dropdown
 

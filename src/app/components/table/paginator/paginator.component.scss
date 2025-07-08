@@ -1,14 +1,28 @@
-nav {
-  margin-top: 20px;
-}
 select,
 input {
   width: 70px;
 }
 
-.box {
-  display: inline-block;
-  &:not(first-child) {
-    padding-left: 10px;
+.item-per-page {
+  text-align: right;
+  .box {
+    display: inline-block;
+    &:not(first-child) {
+      padding-left: 10px;
+    }
   }
+}
+
+.flex {
+  margin-top: var(--paginator-margin-top);
+  display: flex;
+  justify-content: space-between;
+}
+
+.flex > * {
+  flex: 1;
+}
+
+select {
+  width: 80px;
 }

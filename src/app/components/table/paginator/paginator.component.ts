@@ -7,7 +7,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { MIN_PAGE_LIMIT, MAX_PAGE_LIMIT } from '@shared/constants';
+import { PAGE_LIMITS } from '@shared/constants';
 
 @Component({
   selector: 'app-paginator',
@@ -28,8 +28,7 @@ export class PaginatorComponent {
   pageLimitForm: FormGroup = this.fb.group({ pageLimit: undefined });
   pageLimitFormValues = toSignal(this.pageLimitForm.valueChanges);
 
-  minPageLimit = MIN_PAGE_LIMIT;
-  maxPageLimit = MAX_PAGE_LIMIT;
+  pageLimits = PAGE_LIMITS;
 
   constructor() {
     effect(() => {
@@ -41,20 +40,11 @@ export class PaginatorComponent {
     effect(() => {
       if (this.pageLimitFormValues()) {
         const page_limit = this.pageLimitFormValues()['pageLimit'];
-        const clamped = Math.min(
-          Math.max(page_limit, this.minPageLimit),
-          this.maxPageLimit
-        );
-        // TODO: remove "if" block if use select instead of input
-        if (page_limit !== clamped) {
-          this.pageLimitForm?.patchValue({ pageLimit: clamped });
-        } else {
-          this.router.navigate([], {
-            relativeTo: this.route,
-            queryParams: { page_limit },
-            queryParamsHandling: 'merge',
-          });
-        }
+        this.router.navigate([], {
+          relativeTo: this.route,
+          queryParams: { page_limit },
+          queryParamsHandling: 'merge',
+        });
       }
     });
   }

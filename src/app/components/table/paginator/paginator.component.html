@@ -1,43 +1,46 @@
-<nav>
-  <ul class="pagination justify-content-center">
-    <li class="page-item" [class.disabled]="currentPage === 1">
-      <button class="page-link" (click)="onChangePage(currentPage - 1)">
-        Précédent
-      </button>
-    </li>
-
-    <li
-      class="page-item"
-      *ngFor="let page of [].constructor(totalPages); let i = index"
-      [class.active]="currentPage === i + 1"
-    >
-      <button class="page-link" (click)="onChangePage(i + 1)">
-        {{ i + 1 }}
-      </button>
-    </li>
-
-    <li class="page-item" [class.disabled]="currentPage === totalPages">
-      <button class="page-link" (click)="onChangePage(currentPage + 1)">
-        Suivant
-      </button>
-    </li>
-  </ul>
-
-  <div class="box">
+<div class="flex">
+  <div>
     <p>Showing {{ resultsOnPage }} results of {{ dataLength }}.</p>
   </div>
-  <div class="box">
-    <form [formGroup]="pageLimitForm">
-      <input
-        type="number"
-        [min]="minPageLimit"
-        [max]="maxPageLimit"
-        class="form-control"
-        formControlName="pageLimit"
-      />
-    </form>
+
+  <nav>
+    <ul class="pagination justify-content-center">
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="onChangePage(currentPage - 1)">
+          Précédent
+        </button>
+      </li>
+
+      <li
+        class="page-item"
+        *ngFor="let page of [].constructor(totalPages); let i = index"
+        [class.active]="currentPage === i + 1"
+      >
+        <button class="page-link" (click)="onChangePage(i + 1)">
+          {{ i + 1 }}
+        </button>
+      </li>
+
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="onChangePage(currentPage + 1)">
+          Suivant
+        </button>
+      </li>
+    </ul>
+  </nav>
+
+  <div class="item-per-page">
+    <div class="box">
+      <form [formGroup]="pageLimitForm">
+        <select class="form-select" formControlName="pageLimit">
+          <option *ngFor="let p of pageLimits" [value]="p">
+            {{ p }}
+          </option>
+        </select>
+      </form>
+    </div>
+    <div class="box">
+      <p>lines per page.</p>
+    </div>
   </div>
-  <div class="box">
-    <p>lines per page. (min: {{ minPageLimit }}, max {{ maxPageLimit }})</p>
-  </div>
-</nav>
+</div>

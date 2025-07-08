@@ -13,9 +13,8 @@ export enum Between {
 export const ROW_ID = 'id' as const;
 
 export const DEFAULT_PAGE = 1;
-export const DEFAULT_PAGE_LIMIT = 15;
-export const MIN_PAGE_LIMIT = 5;
-export const MAX_PAGE_LIMIT = 50;
+export const PAGE_LIMITS = [5, 10, 15, 20, 30, 50, 100];
+export const DEFAULT_PAGE_LIMIT = PAGE_LIMITS[2];
 export const DEFAULT_QUERY_PARAMS = {
   page: DEFAULT_PAGE,
   page_limit: DEFAULT_PAGE_LIMIT,

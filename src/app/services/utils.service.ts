@@ -1,12 +1,11 @@
 import { Injectable } from '@angular/core';
 import {
-  MIN_PAGE_LIMIT,
-  MAX_PAGE_LIMIT,
   DEFAULT_PAGE_LIMIT,
   DEFAULT_PAGE,
   TableItem,
   Header,
   ROW_ID,
+  PAGE_LIMITS,
 } from '@shared/constants';
 
 @Injectable({
@@ -41,10 +40,7 @@ export class UtilsService {
 
   isCorrectPageLimit(value: string | undefined): boolean {
     return (
-      !!value &&
-      this.isNumericString(value) &&
-      +value >= MIN_PAGE_LIMIT &&
-      +value <= MAX_PAGE_LIMIT
+      !!value && this.isNumericString(value) && PAGE_LIMITS.includes(+value)
     );
   }
 
@@ -54,10 +50,13 @@ export class UtilsService {
   }
 
   toCorrectPageLimit(pageLimit: string | undefined): number {
-    if (!pageLimit || !this.isNumericString(pageLimit))
+    if (
+      !pageLimit ||
+      !this.isNumericString(pageLimit) ||
+      !PAGE_LIMITS.includes(+pageLimit)
+    )
       return DEFAULT_PAGE_LIMIT;
-    const n = +pageLimit;
-    return Math.min(Math.max(n, MIN_PAGE_LIMIT), MAX_PAGE_LIMIT);
+    return +pageLimit;
   }
 
   withTitleAndId(
