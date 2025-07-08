@@ -62,6 +62,8 @@ Wikipedia
 
 genre: dropdown
 
+table naviguate through rows with arrows up and down
+
 - table settings: local storage
   show/hide columns
   change columns order

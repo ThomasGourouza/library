@@ -32,6 +32,7 @@ import { PaginatePipe } from 'app/pipes/paginate.pipe';
 import { UtilsService } from 'app/services/utils.service';
 import { map, distinctUntilChanged, filter, startWith } from 'rxjs';
 import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
+import { TableSettingsComponent } from './table-settings/table-settings.component';
 
 @Component({
   selector: 'app-table',
@@ -44,6 +45,7 @@ import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
     TableSortPipe,
     PaginatePipe,
     IconSrcPipe,
+    TableSettingsComponent,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
