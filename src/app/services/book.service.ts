@@ -1,14 +1,43 @@
 import { inject, Injectable } from '@angular/core';
-import { Header, ROW_ID, toAllowedQueryParamsKeys } from '@shared/constants';
+import {
+  Header,
+  ROW_ID,
+  SortDirection,
+  toAllowedQueryParamsKeys,
+} from '@shared/constants';
 import { UtilsService } from './utils.service';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, shareReplay } from 'rxjs';
 
 export const BOOKS_HEADERS: Header[] = [
-  { name: 'title', label: 'Titre', hasMinMax: false },
-  { name: 'author', label: 'Auteur', hasMinMax: false },
-  { name: 'year', label: 'Année', hasMinMax: true },
-  { name: 'genre', label: 'Genre', hasMinMax: false },
+  {
+    name: 'title',
+    label: 'Titre',
+    hasMinMax: false,
+    isVisible: true,
+    sortDirection: null,
+  },
+  {
+    name: 'author',
+    label: 'Auteur',
+    hasMinMax: false,
+    isVisible: true,
+    sortDirection: null,
+  },
+  {
+    name: 'year',
+    label: 'Année',
+    hasMinMax: true,
+    isVisible: true,
+    sortDirection: null,
+  },
+  {
+    name: 'genre',
+    label: 'Genre',
+    hasMinMax: false,
+    isVisible: true,
+    sortDirection: null,
+  },
 ] as const;
 
 export const BOOK_MANDATORY_COLUMN = 'title';

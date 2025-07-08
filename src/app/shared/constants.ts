@@ -1,8 +1,8 @@
 export enum AllowedQueryParamsCommon {
   PAGE = 'page',
   PAGE_LIMIT = 'page_limit',
-  SORT_COLUMN = 'sortColumn',
-  SORT_DIRECTION = 'sortDirection',
+  SORT_COLUMN = 'sort_column',
+  SORT_DIRECTION = 'sort_direction',
 }
 
 export enum Between {
@@ -40,16 +40,18 @@ export interface Header {
   name: string;
   label: string;
   hasMinMax: boolean;
-}
-
-export interface SortParams {
-  sortColumn: string | null;
-  sortDirection: string | null;
+  isVisible: boolean;
+  sortDirection: SortDirection | null;
 }
 
 export enum SortDirection {
   ASC = 'asc',
   DESC = 'desc',
+}
+
+export interface SortParams {
+  [AllowedQueryParamsCommon.SORT_COLUMN]: string | null;
+  [AllowedQueryParamsCommon.SORT_DIRECTION]: SortDirection | null;
 }
 
 export const DEFAULT_SORT_DIRECTION = SortDirection.ASC as const;

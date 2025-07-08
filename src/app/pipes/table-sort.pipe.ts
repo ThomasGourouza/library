@@ -1,5 +1,9 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { SortParams, TableItem } from '@shared/constants';
+import {
+  AllowedQueryParamsCommon,
+  SortParams,
+  TableItem,
+} from '@shared/constants';
 import { UtilsService } from 'app/services/utils.service';
 
 @Pipe({
@@ -9,19 +13,21 @@ import { UtilsService } from 'app/services/utils.service';
 export class TableSortPipe implements PipeTransform {
   utilsService = inject(UtilsService);
 
-  transform(
-    list: TableItem[],
-    sortParams: SortParams | undefined
-  ): TableItem[] {
-    if (!sortParams || !sortParams.sortColumn || !sortParams.sortDirection) {
+  transform(list: TableItem[], sortParams: SortParams): TableItem[] {
+    if (
+      !sortParams ||
+      !sortParams[AllowedQueryParamsCommon.SORT_COLUMN] ||
+      !sortParams[AllowedQueryParamsCommon.SORT_DIRECTION]
+    ) {
       return list;
     }
-    const sortColumn = sortParams.sortColumn;
-    const dir = sortParams.sortDirection === 'asc' ? 1 : -1;
+    const sortColumnValue = sortParams[AllowedQueryParamsCommon.SORT_COLUMN];
+    const dir =
+      sortParams[AllowedQueryParamsCommon.SORT_DIRECTION] === 'asc' ? 1 : -1;
 
     return [...list].sort((a, b) => {
-      const av = a[sortColumn];
-      const bv = b[sortColumn];
+      const av = a[sortColumnValue];
+      const bv = b[sortColumnValue];
 
       if (av == null && bv == null) return 0;
       if (av == null) return 1 * dir;

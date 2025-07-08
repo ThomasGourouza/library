@@ -20,4 +20,13 @@
 
 .flex {
   display: flex;
+  justify-content: space-between;
+}
+
+.sort-icon {
+  cursor: pointer;
+}
+
+.sort-icon:hover {
+  color: rgb(0, 0, 255);
 }

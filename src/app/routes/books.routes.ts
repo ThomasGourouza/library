@@ -9,7 +9,7 @@ export const routes: Routes = [
   {
     path: '',
     component: BooksComponent,
-    canActivate: [booksGuard],
+    // canActivate: [booksGuard],
     runGuardsAndResolvers: 'always',
     children: [
       {

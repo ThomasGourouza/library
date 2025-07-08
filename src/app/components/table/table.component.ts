@@ -18,6 +18,7 @@ import {
   ROW_ID,
   TableItem,
   Between,
+  SortDirection,
 } from '@shared/constants';
 import {
   FormGroup,
@@ -59,7 +60,7 @@ export class TableComponent {
 
   @Input() data: TableItem[] = [];
   @Input() set headers(value: Header[]) {
-    this._headers = value;
+    this._headers = value.filter(({ isVisible }) => isVisible);
     const allowedFilterParamsKeys = toAllowedFilterParamsKeys(value);
     this.filterForm = this.fb.group(
       Object.fromEntries(
@@ -105,10 +106,12 @@ export class TableComponent {
   );
 
   sortParams = computed(() => ({
-    sortColumn: this.paramMap()!.get(AllowedQueryParamsCommon.SORT_COLUMN),
-    sortDirection: this.paramMap()!.get(
-      AllowedQueryParamsCommon.SORT_DIRECTION
+    [AllowedQueryParamsCommon.SORT_COLUMN]: this.paramMap()!.get(
+      AllowedQueryParamsCommon.SORT_COLUMN
     ),
+    [AllowedQueryParamsCommon.SORT_DIRECTION]: this.paramMap()!.get(
+      AllowedQueryParamsCommon.SORT_DIRECTION
+    ) as SortDirection | null,
   }));
 
   id = ROW_ID;
@@ -137,6 +140,17 @@ export class TableComponent {
     effect(() => {
       this.filterForm?.patchValue(this.filterParams(), { emitEvent: false });
     });
+    effect(() => {
+      const sortColumnValue =
+        this.sortParams()[AllowedQueryParamsCommon.SORT_COLUMN];
+      const sortDirectionValue = this.sortParams()[
+        AllowedQueryParamsCommon.SORT_DIRECTION
+      ] as SortDirection;
+      this.headers.forEach((header) => {
+        header.sortDirection =
+          header.name === sortColumnValue ? sortDirectionValue : null;
+      });
+    });
   }
 
   resetForm(): void {
@@ -153,6 +167,32 @@ export class TableComponent {
 
     this.router.navigate(path, {
       queryParamsHandling: 'preserve',
+    });
+  }
+
+  onSort(name: string, sortDirection: SortDirection | null): void {
+    // asc -> desc -> null
+    let newDirection;
+    switch (sortDirection) {
+      case SortDirection.ASC:
+        newDirection = SortDirection.DESC;
+        break;
+      case SortDirection.DESC:
+        newDirection = null;
+        break;
+      default:
+        newDirection = SortDirection.ASC;
+        break;
+    }
+    const queryParams = {
+      [AllowedQueryParamsCommon.SORT_COLUMN]: !!newDirection ? name : null,
+      [AllowedQueryParamsCommon.SORT_DIRECTION]: newDirection,
+    };
+
+    this.router.navigate([], {
+      relativeTo: this.route,
+      queryParams,
+      queryParamsHandling: 'merge',
     });
   }
 

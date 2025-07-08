@@ -1,6 +1,10 @@
 import { CanActivateFn, Params, Router } from '@angular/router';
 import { inject } from '@angular/core';
-import { DEFAULT_SORT_DIRECTION, SortDirection } from '@shared/constants';
+import {
+  DEFAULT_SORT_DIRECTION,
+  AllowedQueryParamsCommon,
+  SortDirection,
+} from '@shared/constants';
 import {
   ALLOWED_BOOK_QUERY_PARAMS_KEYS,
   BOOKS_HEADERS,
@@ -19,9 +23,11 @@ export const booksGuard: CanActivateFn = (route, _state) => {
     }
   }
 
-  const colRaw = queryParams['sortColumn'] as string | undefined;
+  const colRaw = queryParams[AllowedQueryParamsCommon.SORT_COLUMN] as
+    | string
+    | null;
   const dirRaw = (
-    queryParams['sortDirection'] as string | undefined
+    queryParams[AllowedQueryParamsCommon.SORT_DIRECTION] as string | null
   )?.toLowerCase();
 
   const colValid =
@@ -29,27 +35,29 @@ export const booksGuard: CanActivateFn = (route, _state) => {
   const dirValid =
     dirRaw && Object.values(SortDirection).map(toString).includes(dirRaw);
 
-  let sortColumn = colValid ? colRaw : undefined;
-  let sortDirection = dirValid ? (dirRaw as SortDirection) : undefined;
+  let sortColumnValue = colValid ? colRaw : null;
+  let sortDirectionValue = dirValid ? (dirRaw as SortDirection) : null;
 
   if (colRaw && dirRaw) {
-    if (!colValid) sortColumn = BOOK_MANDATORY_COLUMN;
-    if (!dirValid) sortDirection = DEFAULT_SORT_DIRECTION;
+    if (!colValid) sortColumnValue = BOOK_MANDATORY_COLUMN;
+    if (!dirValid) sortDirectionValue = DEFAULT_SORT_DIRECTION;
   }
 
   if (colRaw && !dirRaw) {
-    sortColumn = colValid ? colRaw : BOOK_MANDATORY_COLUMN;
-    sortDirection = DEFAULT_SORT_DIRECTION;
+    sortColumnValue = colValid ? colRaw : BOOK_MANDATORY_COLUMN;
+    sortDirectionValue = DEFAULT_SORT_DIRECTION;
   }
   if (!colRaw && dirRaw) {
-    sortColumn = BOOK_MANDATORY_COLUMN;
-    sortDirection = dirValid
+    sortColumnValue = BOOK_MANDATORY_COLUMN;
+    sortDirectionValue = dirValid
       ? (dirRaw as SortDirection)
       : DEFAULT_SORT_DIRECTION;
   }
 
-  if (sortColumn) filtered['sortColumn'] = sortColumn;
-  if (sortDirection) filtered['sortDirection'] = sortDirection;
+  if (sortColumnValue)
+    filtered[AllowedQueryParamsCommon.SORT_COLUMN] = sortColumnValue;
+  if (sortDirectionValue)
+    filtered[AllowedQueryParamsCommon.SORT_DIRECTION] = sortDirectionValue;
 
   const differentKeyCount =
     Object.keys(queryParams).length !== Object.keys(filtered).length;

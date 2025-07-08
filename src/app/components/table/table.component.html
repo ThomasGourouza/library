@@ -9,32 +9,45 @@
       >
         <thead class="header">
           <tr>
-            <th *ngFor="let header of headers">{{ header.label }}</th>
+            <th *ngFor="let header of headers">
+              <div class="flex">
+                <div></div>
+                <div>{{ header.label }}</div>
+                <div
+                  class="sort-icon"
+                  (click)="onSort(header.name, header.sortDirection)"
+                >
+                  {{ header.sortDirection ?? "none" }}
+                </div>
+              </div>
+            </th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <td *ngFor="let header of headers" [class.flex]="header.hasMinMax">
-              <input
-                [type]="header.hasMinMax ? 'number' : 'text'"
-                class="form-control"
-                [formControlName]="header.name"
-                placeholder="search..."
-              />
-              @if (header.hasMinMax) {
-              <input
-                type="number"
-                class="form-control"
-                [formControlName]="header.name + min"
-                placeholder="min"
-              />
-              <input
-                type="number"
-                class="form-control"
-                [formControlName]="header.name + max"
-                placeholder="max"
-              />
-              }
+            <td *ngFor="let header of headers">
+              <div class="flex">
+                <input
+                  [type]="header.hasMinMax ? 'number' : 'text'"
+                  class="form-control"
+                  [formControlName]="header.name"
+                  placeholder="search..."
+                />
+                @if (header.hasMinMax) {
+                <input
+                  type="number"
+                  class="form-control"
+                  [formControlName]="header.name + min"
+                  placeholder="min"
+                />
+                <input
+                  type="number"
+                  class="form-control"
+                  [formControlName]="header.name + max"
+                  placeholder="max"
+                />
+                }
+              </div>
             </td>
           </tr>
           <tr

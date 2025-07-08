@@ -60,7 +60,6 @@ Wikipedia
 
 ---
 
-search between
 sort field
 genre: dropdown
 

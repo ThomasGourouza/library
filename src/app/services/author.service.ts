@@ -5,10 +5,34 @@ import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, shareReplay } from 'rxjs';
 
 export const AUTHORS_HEADERS: Header[] = [
-  { name: 'lastName', label: 'Last name', hasMinMax: false },
-  { name: 'firstName', label: 'First name', hasMinMax: false },
-  { name: 'birth', label: 'Birth', hasMinMax: true },
-  { name: 'country', label: 'Country', hasMinMax: false },
+  {
+    name: 'lastName',
+    label: 'Last name',
+    hasMinMax: false,
+    isVisible: true,
+    sortDirection: null,
+  },
+  {
+    name: 'firstName',
+    label: 'First name',
+    hasMinMax: false,
+    isVisible: true,
+    sortDirection: null,
+  },
+  {
+    name: 'birth',
+    label: 'Birth',
+    hasMinMax: true,
+    isVisible: true,
+    sortDirection: null,
+  },
+  {
+    name: 'country',
+    label: 'Country',
+    hasMinMax: false,
+    isVisible: true,
+    sortDirection: null,
+  },
 ] as const;
 
 export const AUTHOR_MANDATORY_COLUMN = 'lastName';
