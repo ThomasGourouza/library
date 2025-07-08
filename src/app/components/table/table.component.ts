@@ -188,12 +188,22 @@ export class TableComponent {
       [AllowedQueryParamsCommon.SORT_COLUMN]: !!newDirection ? name : null,
       [AllowedQueryParamsCommon.SORT_DIRECTION]: newDirection,
     };
-
     this.router.navigate([], {
       relativeTo: this.route,
       queryParams,
       queryParamsHandling: 'merge',
     });
+  }
+
+  getIconSrc(sortDirection: SortDirection | null): string {
+    switch (sortDirection) {
+      case SortDirection.ASC:
+        return 'assets/icons/arrow-up.svg';
+      case SortDirection.DESC:
+        return 'assets/icons/arrow-down.svg';
+      default:
+        return 'assets/icons/arrow-down-up.svg';
+    }
   }
 
   private get urlRowId(): string {
