@@ -60,7 +60,6 @@ Wikipedia
 
 ---
 
-reset button, number of results, lines per page
 genre: dropdown
 
 - table settings: local storage
