@@ -36,7 +36,13 @@
   }
 }
 
-.reset-filter {
+.settings {
   text-align: right;
   margin-bottom: var(--reset-filter-padding);
+  div {
+    display: inline-block;
+    &:last-child {
+      padding-left: 10px;
+    }
+  }
 }
