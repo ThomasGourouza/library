@@ -35,3 +35,8 @@
     height: var(--sort-icon-size);
   }
 }
+
+.reset-filter {
+  text-align: right;
+  margin-bottom: var(--reset-filter-padding);
+}
