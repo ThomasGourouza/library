@@ -8,7 +8,6 @@ import {
 import {
   ALLOWED_BOOK_QUERY_PARAMS_KEYS,
   BOOKS_HEADERS,
-  BOOK_MANDATORY_COLUMN,
 } from 'app/services/book.service';
 
 export const booksGuard: CanActivateFn = (route, _state) => {
@@ -23,47 +22,37 @@ export const booksGuard: CanActivateFn = (route, _state) => {
     }
   }
 
-  const colRaw = queryParams[AllowedQueryParamsCommon.SORT_COLUMN] as
-    | string
-    | null;
-  const dirRaw = (
-    queryParams[AllowedQueryParamsCommon.SORT_DIRECTION] as string | null
-  )?.toLowerCase();
+  const sortColumnValueFromUrl =
+    queryParams[AllowedQueryParamsCommon.SORT_COLUMN];
+  const sortDirectionValueFromUrl = queryParams[
+    AllowedQueryParamsCommon.SORT_DIRECTION
+  ]?.toLowerCase() as SortDirection;
 
-  const colValid =
-    colRaw && BOOKS_HEADERS.map(({ name }) => name).includes(colRaw);
-  const dirValid =
-    dirRaw && Object.values(SortDirection).map(toString).includes(dirRaw);
+  const isSortColumnValid =
+    sortColumnValueFromUrl &&
+    BOOKS_HEADERS.map(({ name }) => name).includes(sortColumnValueFromUrl);
+  const isSortDirectionValid =
+    sortDirectionValueFromUrl &&
+    Object.values(SortDirection).includes(sortDirectionValueFromUrl);
 
-  let sortColumnValue = colValid ? colRaw : null;
-  let sortDirectionValue = dirValid ? (dirRaw as SortDirection) : null;
+  filtered[AllowedQueryParamsCommon.SORT_COLUMN] = isSortColumnValid
+    ? sortColumnValueFromUrl
+    : null;
+  filtered[AllowedQueryParamsCommon.SORT_DIRECTION] = isSortColumnValid
+    ? isSortDirectionValid
+      ? sortDirectionValueFromUrl
+      : DEFAULT_SORT_DIRECTION
+    : null;
 
-  if (colRaw && dirRaw) {
-    if (!colValid) sortColumnValue = BOOK_MANDATORY_COLUMN;
-    if (!dirValid) sortDirectionValue = DEFAULT_SORT_DIRECTION;
-  }
-
-  if (colRaw && !dirRaw) {
-    sortColumnValue = colValid ? colRaw : BOOK_MANDATORY_COLUMN;
-    sortDirectionValue = DEFAULT_SORT_DIRECTION;
-  }
-  if (!colRaw && dirRaw) {
-    sortColumnValue = BOOK_MANDATORY_COLUMN;
-    sortDirectionValue = dirValid
-      ? (dirRaw as SortDirection)
-      : DEFAULT_SORT_DIRECTION;
-  }
-
-  if (sortColumnValue)
-    filtered[AllowedQueryParamsCommon.SORT_COLUMN] = sortColumnValue;
-  if (sortDirectionValue)
-    filtered[AllowedQueryParamsCommon.SORT_DIRECTION] = sortDirectionValue;
+  const newQueryParams = Object.fromEntries(
+    Object.entries(filtered).filter(([, value]) => value !== null)
+  );
 
   const differentKeyCount =
-    Object.keys(queryParams).length !== Object.keys(filtered).length;
+    Object.keys(queryParams).length !== Object.keys(newQueryParams).length;
 
   const differentValue = ALLOWED_BOOK_QUERY_PARAMS_KEYS.some(
-    (k) => queryParams[k] !== filtered[k]
+    (k) => queryParams[k] !== newQueryParams[k]
   );
 
   if (!differentKeyCount && !differentValue) {
@@ -71,7 +60,7 @@ export const booksGuard: CanActivateFn = (route, _state) => {
   }
 
   return router.createUrlTree([], {
-    queryParams: filtered,
+    queryParams: newQueryParams,
     queryParamsHandling: '',
     preserveFragment: true,
   });
