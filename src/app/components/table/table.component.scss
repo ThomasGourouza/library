@@ -28,10 +28,10 @@
 }
 
 .sort-icon {
-  cursor: pointer;
   padding-right: var(--sort-icon-padding);
-}
-
-.sort-icon:hover {
-  color: rgb(0, 0, 255);
+  img {
+    cursor: pointer;
+    width: var(--sort-icon-size);
+    height: var(--sort-icon-size);
+  }
 }

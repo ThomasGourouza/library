@@ -13,15 +13,11 @@
               <div class="flex">
                 <div></div>
                 <div class="header-label">{{ header.label }}</div>
-                <div
-                  class="sort-icon"
-                  (click)="onSort(header.name, header.sortDirection)"
-                >
+                <div class="sort-icon">
                   <img
                     ngOptimizedImage
-                    [src]="getIconSrc(header.sortDirection)"
-                    width="24"
-                    height="24"
+                    [src]="header.sortDirection | iconSrc"
+                    (click)="onSort(header.name, header.sortDirection)"
                   />
                 </div>
               </div>

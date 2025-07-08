@@ -31,6 +31,7 @@ import { TableSortPipe } from 'app/pipes/table-sort.pipe';
 import { PaginatePipe } from 'app/pipes/paginate.pipe';
 import { UtilsService } from 'app/services/utils.service';
 import { map, distinctUntilChanged, filter, startWith } from 'rxjs';
+import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
 
 @Component({
   selector: 'app-table',
@@ -42,6 +43,7 @@ import { map, distinctUntilChanged, filter, startWith } from 'rxjs';
     TableFilterPipe,
     TableSortPipe,
     PaginatePipe,
+    IconSrcPipe,
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.scss',
@@ -193,17 +195,6 @@ export class TableComponent {
       queryParams,
       queryParamsHandling: 'merge',
     });
-  }
-
-  getIconSrc(sortDirection: SortDirection | null): string {
-    switch (sortDirection) {
-      case SortDirection.ASC:
-        return 'assets/icons/arrow-up.svg';
-      case SortDirection.DESC:
-        return 'assets/icons/arrow-down.svg';
-      default:
-        return 'assets/icons/arrow-down-up.svg';
-    }
   }
 
   private get urlRowId(): string {
