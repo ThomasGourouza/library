@@ -11,6 +11,7 @@ export const AUTHORS_HEADERS: Header[] = [
     hasMinMax: false,
     isVisible: true,
     sortDirection: null,
+    rank: 1,
   },
   {
     name: 'firstName',
@@ -18,6 +19,7 @@ export const AUTHORS_HEADERS: Header[] = [
     hasMinMax: false,
     isVisible: true,
     sortDirection: null,
+    rank: 2,
   },
   {
     name: 'birth',
@@ -25,6 +27,7 @@ export const AUTHORS_HEADERS: Header[] = [
     hasMinMax: true,
     isVisible: true,
     sortDirection: null,
+    rank: 3,
   },
   {
     name: 'country',
@@ -32,6 +35,7 @@ export const AUTHORS_HEADERS: Header[] = [
     hasMinMax: false,
     isVisible: true,
     sortDirection: null,
+    rank: 4,
   },
 ] as const;
 

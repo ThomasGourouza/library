@@ -41,6 +41,7 @@ export interface Header {
   hasMinMax: boolean;
   isVisible: boolean;
   sortDirection: SortDirection | null;
+  rank: number;
 }
 
 export enum SortDirection {

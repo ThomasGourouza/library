@@ -34,6 +34,7 @@ import { map, distinctUntilChanged, filter, startWith } from 'rxjs';
 import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
 import { TableSettingsComponent } from './table-settings/table-settings.component';
 import { TableColumnVisiblePipe } from 'app/pipes/table-column-visible.pipe';
+import { OrderPipe } from 'app/pipes/order.pipe';
 
 @Component({
   selector: 'app-table',
@@ -47,6 +48,7 @@ import { TableColumnVisiblePipe } from 'app/pipes/table-column-visible.pipe';
     PaginatePipe,
     IconSrcPipe,
     TableColumnVisiblePipe,
+    OrderPipe,
     TableSettingsComponent,
   ],
   templateUrl: './table.component.html',

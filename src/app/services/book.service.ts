@@ -1,10 +1,5 @@
 import { inject, Injectable } from '@angular/core';
-import {
-  Header,
-  ROW_ID,
-  SortDirection,
-  toAllowedQueryParamsKeys,
-} from '@shared/constants';
+import { Header, ROW_ID, toAllowedQueryParamsKeys } from '@shared/constants';
 import { UtilsService } from './utils.service';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, shareReplay } from 'rxjs';
@@ -16,6 +11,7 @@ export const BOOKS_HEADERS: Header[] = [
     hasMinMax: false,
     isVisible: true,
     sortDirection: null,
+    rank: 1,
   },
   {
     name: 'author',
@@ -23,6 +19,7 @@ export const BOOKS_HEADERS: Header[] = [
     hasMinMax: false,
     isVisible: true,
     sortDirection: null,
+    rank: 2,
   },
   {
     name: 'year',
@@ -30,6 +27,7 @@ export const BOOKS_HEADERS: Header[] = [
     hasMinMax: true,
     isVisible: true,
     sortDirection: null,
+    rank: 4,
   },
   {
     name: 'genre',
@@ -37,6 +35,7 @@ export const BOOKS_HEADERS: Header[] = [
     hasMinMax: false,
     isVisible: true,
     sortDirection: null,
+    rank: 3,
   },
 ] as const;
 

@@ -24,7 +24,7 @@
       >
         <thead class="header">
           <tr>
-            <th *ngFor="let header of headers | visible">
+            <th *ngFor="let header of headers | visible | order">
               <div class="flex">
                 <div></div>
                 <div class="header-label">{{ header.label }}</div>
@@ -41,7 +41,7 @@
         </thead>
         <tbody>
           <tr>
-            <td *ngFor="let header of headers | visible">
+            <td *ngFor="let header of headers | visible | order">
               <div class="flex">
                 <input
                   [type]="header.hasMinMax ? 'number' : 'text'"
@@ -78,7 +78,7 @@
             [class.table-row-clickable]="row[id] !== rowId()"
             [class.selected]="row[id] === rowId()"
           >
-            <td *ngFor="let header of headers | visible">
+            <td *ngFor="let header of headers | visible | order">
               {{ row[header.name] }}
             </td>
           </tr>
