@@ -33,6 +33,7 @@ import { UtilsService } from 'app/services/utils.service';
 import { map, distinctUntilChanged, filter, startWith } from 'rxjs';
 import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
 import { TableSettingsComponent } from './table-settings/table-settings.component';
+import { TableColumnVisiblePipe } from 'app/pipes/table-column-visible.pipe';
 
 @Component({
   selector: 'app-table',
@@ -45,6 +46,7 @@ import { TableSettingsComponent } from './table-settings/table-settings.componen
     TableSortPipe,
     PaginatePipe,
     IconSrcPipe,
+    TableColumnVisiblePipe,
     TableSettingsComponent,
   ],
   templateUrl: './table.component.html',
@@ -64,7 +66,7 @@ export class TableComponent {
 
   @Input() data: TableItem[] = [];
   @Input() set headers(value: Header[]) {
-    this._headers = value.filter(({ isVisible }) => isVisible);
+    this._headers = value;
     const allowedFilterParamsKeys = toAllowedFilterParamsKeys(value);
     this.filterForm = this.fb.group(
       Object.fromEntries(
@@ -197,6 +199,10 @@ export class TableComponent {
       queryParams,
       queryParamsHandling: 'merge',
     });
+  }
+
+  onNewHeaders(headers: Header[]): void {
+    console.log(headers);
   }
 
   private get urlRowId(): string {
