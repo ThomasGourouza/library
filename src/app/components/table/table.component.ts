@@ -202,7 +202,7 @@ export class TableComponent {
   }
 
   onNewHeaders(headers: Header[]): void {
-    console.log(headers);
+    this._headers = headers;
   }
 
   private get urlRowId(): string {

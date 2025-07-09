@@ -16,22 +16,36 @@
           aria-label="Fermer"
         ></button>
       </div>
+      <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
+        <div class="modal-body">
+          <label class="form-label">Visible columns</label>
 
-      <div class="modal-body">...</div>
+          <div class="form-check form-switch" *ngFor="let header of headers">
+            <input
+              class="form-check-input"
+              type="checkbox"
+              id="sw1"
+              [formControlName]="header.name"
+            />
+            <label class="form-check-label" [for]="header.name">
+              {{ header.label }}
+            </label>
+          </div>
+        </div>
 
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
-          Cancel
-        </button>
-        <button
-          type="button"
-          class="btn btn-primary"
-          data-bs-dismiss="modal"
-          (click)="onSubmit()"
-        >
-          Apply
-        </button>
-      </div>
+        <div class="modal-footer">
+          <button
+            type="button"
+            class="btn btn-secondary"
+            data-bs-dismiss="modal"
+          >
+            Cancel
+          </button>
+          <button type="submit" class="btn btn-primary" data-bs-dismiss="modal">
+            Apply
+          </button>
+        </div>
+      </form>
     </div>
   </div>
 </div>

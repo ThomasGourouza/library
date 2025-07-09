@@ -17,12 +17,30 @@ import { Header } from '@shared/constants';
 export class TableSettingsComponent {
   private fb = inject(NonNullableFormBuilder);
 
-  @Input() headers: Header[] = [];
-  @Output() newHeaders = new EventEmitter<Header[]>();
+  settingsForm!: FormGroup;
 
-  onSubmit(): void {
-    this.newHeaders.emit(this.headers);
+  @Output() newHeaders = new EventEmitter<Header[]>();
+  @Input() set headers(value: Header[]) {
+    this._headers = value;
+    this.settingsForm = this.fb.group(
+      Object.fromEntries(
+        value.map(({ name, isVisible }) => {
+          return [name, [isVisible]];
+        })
+      )
+    );
+  }
+  private _headers: Header[] = [];
+  get headers(): Header[] {
+    return this._headers;
   }
 
-  settingsForm!: FormGroup;
+  onSubmit(): void {
+    this.newHeaders.emit(
+      this.headers.map((header) => ({
+        ...header,
+        isVisible: this.settingsForm.get(header.name)?.value ?? false,
+      }))
+    );
+  }
 }

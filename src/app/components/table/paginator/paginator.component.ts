@@ -25,7 +25,7 @@ export class PaginatorComponent {
   @Input() dataLength!: number;
   readonly pageLimit = input<number>();
 
-  pageLimitForm: FormGroup = this.fb.group({ pageLimit: undefined });
+  pageLimitForm: FormGroup = this.fb.group({ pageLimit: [undefined] });
   pageLimitFormValues = toSignal(this.pageLimitForm.valueChanges);
 
   pageLimits = PAGE_LIMITS;
