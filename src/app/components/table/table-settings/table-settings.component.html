@@ -18,21 +18,103 @@
       </div>
       <form [formGroup]="settingsForm" (ngSubmit)="onSubmit()">
         <div class="modal-body">
-          <label class="form-label">Visible columns</label>
+          <!-- <div class="setting-column">
+            <label class="form-label">Visible columns</label>
+            <div
+              class="form-check form-switch check-box-option"
+              *ngFor="let header of headers"
+            >
+              <input
+                class="form-check-input big-check"
+                type="checkbox"
+                [id]="header.name"
+                [formControlName]="header.name"
+              />
+              <label class="form-check-label" [for]="header.name">
+                {{ header.label }}
+              </label>
+            </div>
+            <button
+              type="button"
+              class="btn btn-primary all-visible"
+              (click)="setAllColumnsVisible()"
+            >
+              All Visible
+            </button>
+          </div> -->
 
-          <div class="form-check form-switch" *ngFor="let header of headers">
-            <input
-              class="form-check-input"
-              type="checkbox"
-              id="sw1"
-              [formControlName]="header.name"
-            />
-            <label class="form-check-label" [for]="header.name">
-              {{ header.label }}
-            </label>
+          <div class="container my-4">
+            <div class="row g-0 fw-semibold text-white bg-primary">
+              <div
+                class="col-4 p-2 border-end d-flex justify-content-center align-items-center"
+              >
+                Column
+              </div>
+              <div
+                class="col-4 p-2 border-end d-flex justify-content-center align-items-center"
+              >
+                Order
+              </div>
+              <div
+                class="col-4 p-2 d-flex justify-content-center align-items-center"
+              >
+                Visible
+              </div>
+            </div>
+
+            <div
+              *ngFor="let header of headers; let i = index"
+              class="row g-0 border-start border-end border-bottom data-row"
+            >
+              <div
+                class="col-4 p-2 border-end d-flex justify-content-center align-items-center"
+              >
+                {{ header.label }}
+              </div>
+              <div
+                class="col-4 p-2 border-end d-flex justify-content-center align-items-center"
+              >
+                @switch (i + 1) { @case (1) {
+                <img
+                  ngOptimizedImage
+                  src="assets/icons/arrow-down.svg"
+                  (click)="onDown(header.name, i + 1)"
+                />
+                } @case (headers.length) {
+                <img
+                  ngOptimizedImage
+                  src="assets/icons/arrow-up.svg"
+                  (click)="onUp(header.name, i + 1)"
+                />
+                } @default {
+                <div class="two-options">
+                  <img
+                    ngOptimizedImage
+                    src="assets/icons/arrow-down.svg"
+                    (click)="onDown(header.name, i + 1)"
+                  />
+                  <img
+                    ngOptimizedImage
+                    src="assets/icons/arrow-up.svg"
+                    (click)="onUp(header.name, i + 1)"
+                  />
+                </div>
+                } }
+              </div>
+              <div
+                class="col-4 p-2 d-flex justify-content-center align-items-center"
+              >
+                <div class="form-check form-switch check-box-option">
+                  <input
+                    class="form-check-input big-check"
+                    type="checkbox"
+                    [formControlName]="header.name"
+                  />
+                </div>
+              </div>
+            </div>
           </div>
         </div>
-
         <div class="modal-footer">
           <button
             type="button"

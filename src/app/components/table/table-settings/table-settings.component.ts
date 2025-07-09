@@ -23,16 +23,33 @@ export class TableSettingsComponent {
   @Input() set headers(value: Header[]) {
     this._headers = value;
     this.settingsForm = this.fb.group(
-      Object.fromEntries(
-        value.map(({ name, isVisible }) => {
+      Object.fromEntries([
+        ...value.map(({ name, isVisible }) => {
           return [name, [isVisible]];
-        })
-      )
+        }),
+        ...value.map(({ name, isVisible }) => {
+          return [`${name}Order`, [1]];
+        }),
+      ])
     );
   }
   private _headers: Header[] = [];
   get headers(): Header[] {
     return this._headers;
+  }
+
+  // setAllColumnsVisible() {
+  //   this.headers.forEach(({ name }) => {
+  //     this.settingsForm.get(name)?.setValue(true);
+  //   });
+  // }
+
+  onDown(headerName: string, order: number): void {
+    console.log(`Moving down: ${headerName} from order ${order}`);
+  }
+
+  onUp(headerName: string, order: number): void {
+    console.log(`Moving up: ${headerName} from order ${order}`);
   }
 
   onSubmit(): void {
