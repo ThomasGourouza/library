@@ -57,7 +57,6 @@ export class TableSettingsComponent {
   }
 
   onSubmit(): void {
-    // TODO
     this.newHeaders.emit(
       this.headers.map((header) => ({
         ...header,

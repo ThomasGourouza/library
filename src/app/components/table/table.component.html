@@ -26,14 +26,31 @@
           <tr>
             <th *ngFor="let header of headers | visible | order">
               <div class="flex">
-                <div></div>
-                <div class="header-label">{{ header.label }}</div>
-                <div class="sort-icon">
+                <div class="order-icon">
+                  @if (header.rank !== 1) {
+                  <img
+                    ngOptimizedImage
+                    src="assets/icons/arrow-left.svg"
+                    (click)="onLeft(header.name)"
+                  />
+                  }
+                </div>
+                <div class="header-label">
+                  {{ header.label }}
                   <img
                     ngOptimizedImage
                     [src]="header.sortDirection | iconSrc"
                     (click)="onSort(header.name, header.sortDirection)"
                   />
+                </div>
+                <div class="order-icon">
+                  @if (header.rank !== headers.length) {
+                  <img
+                    ngOptimizedImage
+                    src="assets/icons/arrow-right.svg"
+                    (click)="onRight(header.name)"
+                  />
+                  }
                 </div>
               </div>
             </th>

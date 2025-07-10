@@ -56,10 +56,10 @@ import { OrderPipe } from 'app/pipes/order.pipe';
 })
 export class TableComponent {
   private readonly injector = inject(Injector);
-  private utilsService = inject(UtilsService);
-  private fb = inject(NonNullableFormBuilder);
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
+  private readonly utilsService = inject(UtilsService);
+  private readonly fb = inject(NonNullableFormBuilder);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   private _headers: Header[] = [];
   filterForm!: FormGroup;
@@ -201,6 +201,32 @@ export class TableComponent {
       queryParams,
       queryParamsHandling: 'merge',
     });
+  }
+
+  onLeft(headerName: string): void {
+    this.moveColumn(headerName, -1);
+  }
+
+  onRight(headerName: string): void {
+    this.moveColumn(headerName, 1);
+  }
+
+  private moveColumn(headerName: string, direction: -1 | 1): void {
+    const orderedHeaders = [...this._headers];
+
+    const currentColumn = orderedHeaders.find(
+      ({ name }) => name === headerName
+    )!;
+    const targetColumn = orderedHeaders.find(
+      ({ rank }) => rank === currentColumn.rank + direction
+    )!;
+
+    [currentColumn.rank, targetColumn.rank] = [
+      targetColumn.rank,
+      currentColumn.rank,
+    ];
+
+    this._headers = orderedHeaders;
   }
 
   onNewHeaders(headers: Header[]): void {

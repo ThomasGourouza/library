@@ -23,16 +23,23 @@
   justify-content: space-between;
 }
 
-.header-label {
-  padding-left: var(--sort-icon-padding);
+img {
+  cursor: pointer;
+  width: var(--icon-size);
+  height: var(--icon-size);
 }
 
-.sort-icon {
-  padding-right: var(--sort-icon-padding);
+.header-label {
+  padding-left: var(--icon-padding);
+  img {
+    margin-left: 5px;
+  }
+}
+
+.order-icon {
+  padding: 0 var(--icon-padding);
   img {
     cursor: pointer;
-    width: var(--sort-icon-size);
-    height: var(--sort-icon-size);
   }
 }
 

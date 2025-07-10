@@ -27,7 +27,7 @@ export const BOOKS_HEADERS: Header[] = [
     hasMinMax: true,
     isVisible: true,
     sortDirection: null,
-    rank: 4,
+    rank: 3,
   },
   {
     name: 'genre',
@@ -35,7 +35,7 @@ export const BOOKS_HEADERS: Header[] = [
     hasMinMax: false,
     isVisible: true,
     sortDirection: null,
-    rank: 3,
+    rank: 4,
   },
 ] as const;
 
