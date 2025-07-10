@@ -27,8 +27,8 @@ export class TableSettingsComponent {
         ...value.map(({ name, isVisible }) => {
           return [name, [isVisible]];
         }),
-        ...value.map(({ name, isVisible }) => {
-          return [`${name}Order`, [1]];
+        ...value.map(({ name, rank }) => {
+          return [`${name}Rank`, [rank]];
         }),
       ])
     );
@@ -38,21 +38,26 @@ export class TableSettingsComponent {
     return this._headers;
   }
 
-  // setAllColumnsVisible() {
-  //   this.headers.forEach(({ name }) => {
-  //     this.settingsForm.get(name)?.setValue(true);
-  //   });
-  // }
-
-  onDown(headerName: string, order: number): void {
-    console.log(`Moving down: ${headerName} from order ${order}`);
+  onDown(currentOrder: number): void {
+    this.headers.forEach(({ name, rank }) => {
+      if (currentOrder === rank)
+        this.settingsForm.get(`${name}Rank`)?.setValue(currentOrder + 1);
+      if (currentOrder + 1 === rank)
+        this.settingsForm.get(`${name}Rank`)?.setValue(currentOrder);
+    });
   }
 
-  onUp(headerName: string, order: number): void {
-    console.log(`Moving up: ${headerName} from order ${order}`);
+  onUp(currentOrder: number): void {
+    this.headers.forEach(({ name, rank }) => {
+      if (currentOrder === rank)
+        this.settingsForm.get(`${name}Rank`)?.setValue(currentOrder - 1);
+      if (currentOrder - 1 === rank)
+        this.settingsForm.get(`${name}Rank`)?.setValue(currentOrder);
+    });
   }
 
   onSubmit(): void {
+    // TODO
     this.newHeaders.emit(
       this.headers.map((header) => ({
         ...header,
