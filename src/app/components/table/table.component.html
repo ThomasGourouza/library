@@ -82,12 +82,30 @@
                   [formControlName]="header.name + min"
                   placeholder="min"
                 />
+                <div class="d-flex align-items-center minus-check">
+                  <img
+                    ngOptimizedImage
+                    src="assets/icons/dash-circle.svg"
+                    onmouseover="this.src='assets/icons/dash-circle-fill.svg'"
+                    onmouseout="this.src='assets/icons/dash-circle.svg'"
+                    (click)="onReset(header.name + min)"
+                  />
+                </div>
                 <input
                   type="number"
                   class="form-control"
                   [formControlName]="header.name + max"
                   placeholder="max"
                 />
+                <div class="d-flex align-items-center minus-check">
+                  <img
+                    ngOptimizedImage
+                    src="assets/icons/dash-circle.svg"
+                    onmouseover="this.src='assets/icons/dash-circle-fill.svg'"
+                    onmouseout="this.src='assets/icons/dash-circle.svg'"
+                    (click)="onReset(header.name + max)"
+                  />
+                </div>
                 } @if (header.hasSelect) {
                 <select
                   class="form-select"
