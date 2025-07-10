@@ -1,16 +1,19 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { inject, Pipe, PipeTransform } from '@angular/core';
 import { TableItem } from '@shared/constants';
+import { UtilsService } from 'app/services/utils.service';
 
 @Pipe({
   name: 'unique',
   standalone: true,
 })
 export class UniquePipe implements PipeTransform {
+  private readonly utilsService = inject(UtilsService);
+
   transform(list: TableItem[], headerName: string): string[] {
     if (!Array.isArray(list)) return [];
-    const values = list
-      .map((item) => item?.[headerName])
-      .filter((value): value is string => !!value && typeof value === 'string');
+    const values = this.utilsService.cleanList(
+      list.map((item) => item?.[headerName])
+    );
 
     return [...new Set(values)].sort((a, b) => a.localeCompare(b));
   }

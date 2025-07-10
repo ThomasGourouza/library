@@ -66,6 +66,15 @@
                   [formControlName]="header.name"
                   placeholder="search..."
                 />
+                <div class="d-flex align-items-center minus-check">
+                  <img
+                    ngOptimizedImage
+                    src="assets/icons/dash-circle.svg"
+                    onmouseover="this.src='assets/icons/dash-circle-fill.svg'"
+                    onmouseout="this.src='assets/icons/dash-circle.svg'"
+                    (click)="onReset(header.name)"
+                  />
+                </div>
                 @if (header.type === 'number') {
                 <input
                   type="number"
@@ -95,10 +104,12 @@
                     {{ entry }}
                   </option>
                 </select>
-                <div class="d-flex align-items-center add-check">
+                <div class="d-flex align-items-center plus-check">
+                  <img ngOptimizedImage [src]="header.isSelectAdd | plusSrc" />
                   <img
                     ngOptimizedImage
-                    [src]="header.isSelectAdd | plusSrc"
+                    src="assets/icons/plus-circle-fill.svg"
+                    class="plus-check-hover"
                     (click)="header.isSelectAdd = !header.isSelectAdd"
                   />
                 </div>

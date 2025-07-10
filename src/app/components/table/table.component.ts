@@ -217,9 +217,18 @@ export class TableComponent {
 
   onSelectChange(event: Event, headerName: string, isSelectAdd: boolean): void {
     const value = (event.target as HTMLSelectElement).value;
-    const formValue = this.filterForm.get(headerName)!.value;
-    const valueAdd = [...new Set(`${formValue},${value}`.split(','))].join(',');
-    this.filterForm.get(headerName)!.setValue(isSelectAdd ? valueAdd : value);
+    const formValue = this.filterForm.get(headerName)!.value ?? '';
+
+    const valueAddList = this.utilsService.cleanList([
+      ...new Set(`${formValue},${value}`.split(',')),
+    ]);
+    const newValue = isSelectAdd ? valueAddList.join(',') : value;
+
+    this.filterForm.get(headerName)!.setValue(newValue);
+  }
+
+  onReset(headerName: string): void {
+    this.filterForm.get(headerName)!.reset();
   }
 
   private moveColumn(headerName: string, direction: -1 | 1): void {

@@ -12,3 +12,7 @@
   display: inline-block;
   margin: 10px 0 10px 10px;
 }
+
+.modal-dialog {
+  max-width: calc(var(--bs-modal-width) / 2);
+}

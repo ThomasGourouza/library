@@ -77,4 +77,10 @@ export class UtilsService {
           ]
     );
   }
+
+  cleanList(list: any[]): string[] {
+    return list.filter(
+      (item) => item !== null && item !== undefined && item !== ''
+    );
+  }
 }

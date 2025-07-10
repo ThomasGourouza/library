@@ -54,7 +54,27 @@ img {
   }
 }
 
-.add-check {
+.plus-check {
   margin-left: 5px;
+  img.plus-check-hover {
+    display: none;
+  }
+  img:not(.plus-check-hover) {
+    display: block;
+  }
+}
+
+.plus-check:hover {
+  cursor: pointer;
+  img.plus-check-hover {
+    display: block;
+  }
+  img:not(.plus-check-hover) {
+    display: none;
+  }
+}
+
+.minus-check {
+  margin: 0 5px;
   cursor: pointer;
 }
