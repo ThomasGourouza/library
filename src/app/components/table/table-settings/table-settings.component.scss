@@ -3,21 +3,12 @@
   margin-right: 15px;
 }
 
+.check-box-label {
+  display: inline-block;
+  width: 60px;
+}
+
 .check-box-option {
+  display: inline-block;
   margin: 10px 0 10px 10px;
-}
-
-img {
-  height: 1.6em;
-  width: 1.6em;
-  cursor: pointer;
-}
-
-.two-options {
-  img:first-child {
-    margin-right: 15px;
-  }
-  img:last-child {
-    margin-left: 15px;
-  }
 }

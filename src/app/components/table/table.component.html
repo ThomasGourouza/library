@@ -12,7 +12,7 @@
         data-bs-toggle="modal"
         data-bs-target="#settingsModal"
       >
-        Table settings
+        Visibility
       </button>
     </div>
   </div>
@@ -61,12 +61,12 @@
             <td *ngFor="let header of headers | visible | order">
               <div class="flex">
                 <input
-                  [type]="header.hasMinMax ? 'number' : 'text'"
+                  [type]="header.type"
                   class="form-control"
                   [formControlName]="header.name"
                   placeholder="search..."
                 />
-                @if (header.hasMinMax) {
+                @if (header.type === 'number') {
                 <input
                   type="number"
                   class="form-control"
@@ -79,6 +79,29 @@
                   [formControlName]="header.name + max"
                   placeholder="max"
                 />
+                } @if (header.hasSelect) {
+                <select
+                  class="form-select"
+                  [value]="filterForm.get(header.name)!.value"
+                  (change)="
+                    onSelectChange($event, header.name, header.isSelectAdd)
+                  "
+                >
+                  <option value=""></option>
+                  <option
+                    *ngFor="let entry of data | unique : header.name"
+                    [value]="entry"
+                  >
+                    {{ entry }}
+                  </option>
+                </select>
+                <div class="d-flex align-items-center add-check">
+                  <img
+                    ngOptimizedImage
+                    [src]="header.isSelectAdd | plusSrc"
+                    (click)="header.isSelectAdd = !header.isSelectAdd"
+                  />
+                </div>
                 }
               </div>
             </td>

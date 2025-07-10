@@ -1,5 +1,10 @@
 import { inject, Injectable } from '@angular/core';
-import { Header, ROW_ID, toAllowedQueryParamsKeys } from '@shared/constants';
+import {
+  Header,
+  HeaderType,
+  ROW_ID,
+  toAllowedQueryParamsKeys,
+} from '@shared/constants';
 import { UtilsService } from './utils.service';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, shareReplay } from 'rxjs';
@@ -8,32 +13,40 @@ export const AUTHORS_HEADERS: Header[] = [
   {
     name: 'lastName',
     label: 'Last name',
-    hasMinMax: false,
+    type: HeaderType.TEXT,
     isVisible: true,
+    hasSelect: true,
+    isSelectAdd: false,
     sortDirection: null,
     rank: 1,
   },
   {
     name: 'firstName',
     label: 'First name',
-    hasMinMax: false,
+    type: HeaderType.TEXT,
     isVisible: true,
+    hasSelect: true,
+    isSelectAdd: false,
     sortDirection: null,
     rank: 2,
   },
   {
     name: 'birth',
     label: 'Birth',
-    hasMinMax: true,
+    type: HeaderType.NUMBER,
     isVisible: true,
+    hasSelect: false,
+    isSelectAdd: false,
     sortDirection: null,
     rank: 3,
   },
   {
     name: 'country',
     label: 'Country',
-    hasMinMax: false,
+    type: HeaderType.TEXT,
     isVisible: true,
+    hasSelect: true,
+    isSelectAdd: false,
     sortDirection: null,
     rank: 4,
   },

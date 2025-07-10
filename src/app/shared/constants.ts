@@ -21,8 +21,8 @@ export const DEFAULT_QUERY_PARAMS = {
 } as const;
 
 export function toAllowedFilterParamsKeys(list: Header[]) {
-  return list.flatMap(({ name, hasMinMax }) =>
-    hasMinMax
+  return list.flatMap(({ name, type }) =>
+    type === HeaderType.NUMBER
       ? [name, `${name}${Between.MIN}`, `${name}${Between.MAX}`]
       : [name]
   );
@@ -35,11 +35,18 @@ export function toAllowedQueryParamsKeys(list: Header[]) {
   ];
 }
 
+export enum HeaderType {
+  TEXT = 'text',
+  NUMBER = 'number',
+}
+
 export interface Header {
   name: string;
   label: string;
-  hasMinMax: boolean;
+  type: HeaderType;
   isVisible: boolean;
+  hasSelect: boolean;
+  isSelectAdd: boolean;
   sortDirection: SortDirection | null;
   rank: number;
 }

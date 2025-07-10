@@ -35,6 +35,8 @@ import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
 import { TableSettingsComponent } from './table-settings/table-settings.component';
 import { TableColumnVisiblePipe } from 'app/pipes/table-column-visible.pipe';
 import { OrderPipe } from 'app/pipes/order.pipe';
+import { UniquePipe } from 'app/pipes/unique.pipe';
+import { PlusSrcPipe } from 'app/pipes/plus-src.pipe';
 
 @Component({
   selector: 'app-table',
@@ -49,6 +51,8 @@ import { OrderPipe } from 'app/pipes/order.pipe';
     IconSrcPipe,
     TableColumnVisiblePipe,
     OrderPipe,
+    UniquePipe,
+    PlusSrcPipe,
     TableSettingsComponent,
   ],
   templateUrl: './table.component.html',
@@ -209,6 +213,13 @@ export class TableComponent {
 
   onRight(headerName: string): void {
     this.moveColumn(headerName, 1);
+  }
+
+  onSelectChange(event: Event, headerName: string, isSelectAdd: boolean): void {
+    const value = (event.target as HTMLSelectElement).value;
+    const formValue = this.filterForm.get(headerName)!.value;
+    const valueAdd = [...new Set(`${formValue},${value}`.split(','))].join(',');
+    this.filterForm.get(headerName)!.setValue(isSelectAdd ? valueAdd : value);
   }
 
   private moveColumn(headerName: string, direction: -1 | 1): void {
