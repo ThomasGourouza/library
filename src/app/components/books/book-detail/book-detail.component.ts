@@ -5,13 +5,13 @@ import { ROW_ID } from '@shared/constants';
 import { map } from 'rxjs';
 
 @Component({
-  selector: 'app-author',
+  selector: 'app-book',
   standalone: true,
   imports: [],
-  templateUrl: './author.component.html',
-  styleUrl: './author.component.scss',
+  templateUrl: './book-detail.component.html',
+  styleUrl: './book-detail.component.scss',
 })
-export class AuthorComponent {
+export class BookDetailComponent {
   private route = inject(ActivatedRoute);
 
   readonly id = toSignal(

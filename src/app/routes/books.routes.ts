@@ -1,9 +1,9 @@
 import { Routes } from '@angular/router';
-import { BookComponent } from '../components/books/book/book.component';
-import { BooksComponent } from '../components/books/books.component';
-import { booksGuard } from './guards/books.guard';
-import { bookGuard } from './guards/book.guard';
 import { ROW_ID } from '@shared/constants';
+import { BookDetailComponent } from '../components/books/book-detail/book-detail.component';
+import { BooksComponent } from '../components/books/books.component';
+import { bookGuard } from './guards/book.guard';
+import { booksGuard } from './guards/books.guard';
 
 export const routes: Routes = [
   {
@@ -14,7 +14,7 @@ export const routes: Routes = [
     children: [
       {
         path: `:${ROW_ID}`,
-        component: BookComponent,
+        component: BookDetailComponent,
         canActivate: [bookGuard],
       },
     ],
