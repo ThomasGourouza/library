@@ -1,11 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, Output } from '@angular/core';
+import { Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
 import {
-  ReactiveFormsModule,
-  NonNullableFormBuilder,
   FormGroup,
+  NonNullableFormBuilder,
+  ReactiveFormsModule,
 } from '@angular/forms';
 import { Header } from '@shared/constants';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-table-settings',
@@ -14,10 +15,11 @@ import { Header } from '@shared/constants';
   templateUrl: './table-settings.component.html',
   styleUrl: './table-settings.component.scss',
 })
-export class TableSettingsComponent {
+export class TableSettingsComponent implements OnDestroy {
   private fb = inject(NonNullableFormBuilder);
 
   settingsForm!: FormGroup;
+  settingsFormValuesSubscription = new Subscription();
 
   @Output() newHeaders = new EventEmitter<Header[]>();
   @Input() set headers(value: Header[]) {
@@ -32,10 +34,23 @@ export class TableSettingsComponent {
         }),
       ])
     );
+    this.settingsFormValuesSubscription =
+      this.settingsForm.valueChanges.subscribe((values) => {
+        this.newHeaders.emit(
+          this.headers.map((header) => ({
+            ...header,
+            isVisible: values[header.name] ?? false,
+          }))
+        );
+      });
   }
   private _headers: Header[] = [];
   get headers(): Header[] {
     return this._headers;
+  }
+
+  ngOnDestroy(): void {
+    this.settingsFormValuesSubscription.unsubscribe();
   }
 
   onDown(currentOrder: number): void {
@@ -54,14 +69,5 @@ export class TableSettingsComponent {
       if (currentOrder - 1 === rank)
         this.settingsForm.get(`${name}Rank`)?.setValue(currentOrder);
     });
-  }
-
-  onSubmit(): void {
-    this.newHeaders.emit(
-      this.headers.map((header) => ({
-        ...header,
-        isVisible: this.settingsForm.get(header.name)?.value ?? false,
-      }))
-    );
   }
 }

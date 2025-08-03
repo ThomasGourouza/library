@@ -171,18 +171,20 @@
           alt=""
           (mouseover)="eyeIcon.src = 'assets/icons/eye-fill.svg'"
           (mouseout)="eyeIcon.src = 'assets/icons/eye.svg'"
+          title="Open columns visibility settings"
         />
       </button>
     </div>
     <div class="reset-filters-icon">
       <img
         ngOptimizedImage
+        #filterIcon
         class="filter-icon"
         src="assets/icons/dash-circle.svg"
         (mouseover)="filterIcon.src = 'assets/icons/dash-circle-fill.svg'"
         (mouseout)="filterIcon.src = 'assets/icons/dash-circle.svg'"
         (click)="resetForm()"
-        #filterIcon
+        title="Reset all filters"
       />
     </div>
   </div>
