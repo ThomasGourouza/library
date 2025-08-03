@@ -60,9 +60,6 @@ Wikipedia
 
 ---
 
-- reset all filters: gros icon "-" (dash-circle) a la fin de la ligne des filtres (2e ligne du tableau), hors du tableau
-- columns visibility: icon "oeil" a la fin de la ligne des headers (1e ligne du tableau), hors du tableau
-
 - table settings: local storage
   show/hide columns
   change columns order

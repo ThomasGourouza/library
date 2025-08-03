@@ -1,3 +1,29 @@
+.row {
+  display: flex;
+}
+
+.main-table {
+  padding: 0;
+  flex: 1;
+}
+
+.icons {
+  width: 50px;
+  .visible-column-icon {
+    margin-top: 7px;
+    button {
+      padding: 0;
+      border: 0;
+      background: transparent;
+      line-height: 0;
+    }
+  }
+  .reset-filters-icon {
+    margin-top: 19px;
+  }
+}
+
+
 .table-row-clickable {
   transition: background-color 0.2s;
 }
@@ -25,8 +51,19 @@
 
 img {
   cursor: pointer;
-  width: var(--icon-size);
-  height: var(--icon-size);
+  &:not(.eye-icon):not(.filter-icon) {
+    width: var(--icon-size);
+    height: var(--icon-size);
+  }
+  &.filter-icon {
+    margin-left: 2px;
+    width: var(--icon-middle-size);
+    height: var(--icon-middle-size);
+  }
+  &.eye-icon {
+    width: var(--icon-big-size);
+    height: var(--icon-big-size);
+  }
 }
 
 .header-label {
@@ -40,17 +77,6 @@ img {
   padding: 0 var(--icon-padding);
   img {
     cursor: pointer;
-  }
-}
-
-.settings {
-  text-align: right;
-  margin-bottom: var(--reset-filter-padding);
-  div {
-    display: inline-block;
-    &:last-child {
-      padding-left: 10px;
-    }
   }
 }
 
