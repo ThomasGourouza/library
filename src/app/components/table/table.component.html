@@ -1,167 +1,163 @@
-<div class="container mt-5">
-  <div class="settings">
-    <div>
-      <button class="btn btn-primary" (click)="resetForm()">
-        Reset filters
-      </button>
-    </div>
-    <div>
-      <button
-        type="button"
-        class="btn btn-secondary"
-        data-bs-toggle="modal"
-        data-bs-target="#settingsModal"
-      >
-        Visibility
-      </button>
-    </div>
+<div class="settings">
+  <div>
+    <button class="btn btn-primary" (click)="resetForm()">Reset filters</button>
   </div>
-  <div class="rounded overflow-hidden border">
-    <form [formGroup]="filterForm">
-      <table
-        class="table table-bordered table-striped mb-0"
-        style="table-layout: fixed"
-      >
-        <thead class="header">
-          <tr>
-            <th *ngFor="let header of headers | visible | order">
-              <div class="flex">
-                <div class="order-icon">
-                  @if (header.rank !== 1) {
-                  <img
-                    ngOptimizedImage
-                    src="assets/icons/arrow-left.svg"
-                    (click)="onLeft(header.name)"
-                  />
-                  }
-                </div>
-                <div class="header-label">
-                  {{ header.label }}
-                  <img
-                    ngOptimizedImage
-                    [src]="header.sortDirection | iconSrc"
-                    (click)="onSort(header.name, header.sortDirection)"
-                  />
-                </div>
-                <div class="order-icon">
-                  @if (header.rank !== headers.length) {
-                  <img
-                    ngOptimizedImage
-                    src="assets/icons/arrow-right.svg"
-                    (click)="onRight(header.name)"
-                  />
-                  }
-                </div>
-              </div>
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr>
-            <td *ngFor="let header of headers | visible | order">
-              <div class="flex">
-                <input
-                  [type]="header.type"
-                  class="form-control"
-                  [formControlName]="header.name"
-                  placeholder="search..."
+  <div>
+    <button
+      type="button"
+      class="btn btn-secondary"
+      data-bs-toggle="modal"
+      data-bs-target="#settingsModal"
+    >
+      Visibility
+    </button>
+  </div>
+</div>
+<div class="rounded overflow-hidden border">
+  <form [formGroup]="filterForm">
+    <table
+      class="table table-bordered table-striped mb-0"
+      style="table-layout: fixed"
+    >
+      <thead class="header">
+        <tr>
+          <th *ngFor="let header of headers | visible | order">
+            <div class="flex">
+              <div class="order-icon">
+                @if (header.rank !== 1) {
+                <img
+                  ngOptimizedImage
+                  src="assets/icons/arrow-left.svg"
+                  (click)="onLeft(header.name)"
                 />
-                <div class="d-flex align-items-center minus-check">
-                  <img
-                    ngOptimizedImage
-                    src="assets/icons/dash-circle.svg"
-                    onmouseover="this.src='assets/icons/dash-circle-fill.svg'"
-                    onmouseout="this.src='assets/icons/dash-circle.svg'"
-                    (click)="onReset(header.name)"
-                  />
-                </div>
-                @if (header.type === 'number') {
-                <input
-                  type="number"
-                  class="form-control"
-                  [formControlName]="header.name + min"
-                  placeholder="min"
-                />
-                <div class="d-flex align-items-center minus-check">
-                  <img
-                    ngOptimizedImage
-                    src="assets/icons/dash-circle.svg"
-                    onmouseover="this.src='assets/icons/dash-circle-fill.svg'"
-                    onmouseout="this.src='assets/icons/dash-circle.svg'"
-                    (click)="onReset(header.name + min)"
-                  />
-                </div>
-                <input
-                  type="number"
-                  class="form-control"
-                  [formControlName]="header.name + max"
-                  placeholder="max"
-                />
-                <div class="d-flex align-items-center minus-check">
-                  <img
-                    ngOptimizedImage
-                    src="assets/icons/dash-circle.svg"
-                    onmouseover="this.src='assets/icons/dash-circle-fill.svg'"
-                    onmouseout="this.src='assets/icons/dash-circle.svg'"
-                    (click)="onReset(header.name + max)"
-                  />
-                </div>
-                } @if (header.hasSelect) {
-                <select
-                  class="form-select"
-                  [value]="filterForm.get(header.name)!.value"
-                  (change)="
-                    onSelectChange($event, header.name, header.isSelectAdd)
-                  "
-                >
-                  <option value=""></option>
-                  <option
-                    *ngFor="let entry of data | unique : header.name"
-                    [value]="entry"
-                  >
-                    {{ entry }}
-                  </option>
-                </select>
-                <div class="d-flex align-items-center plus-check">
-                  <img ngOptimizedImage [src]="header.isSelectAdd | plusSrc" />
-                  <img
-                    ngOptimizedImage
-                    src="assets/icons/plus-circle-fill.svg"
-                    class="plus-check-hover"
-                    (click)="header.isSelectAdd = !header.isSelectAdd"
-                  />
-                </div>
                 }
               </div>
-            </td>
-          </tr>
-          <tr
-            *ngFor="
-              let row of data
-                | filter : filterParams()
-                | sort : sortParams()
-                | paginate : currentPage()! : pageLimit()!
-            "
-            (click)="onRowClick(rowId(), row[id])"
-            [class.content]="true"
-            [class.table-row-clickable]="row[id] !== rowId()"
-            [class.selected]="row[id] === rowId()"
-          >
-            <td *ngFor="let header of headers | visible | order">
-              {{ row[header.name] }}
-            </td>
-          </tr>
-        </tbody>
-      </table>
-    </form>
-  </div>
-
-  <app-paginator
-    [currentPage]="currentPage()!"
-    [dataLength]="(data | filter : filterParams()).length"
-    [pageLimit]="pageLimit()!"
-  ></app-paginator>
+              <div class="header-label">
+                {{ header.label }}
+                <img
+                  ngOptimizedImage
+                  [src]="header.sortDirection | iconSrc"
+                  (click)="onSort(header.name, header.sortDirection)"
+                />
+              </div>
+              <div class="order-icon">
+                @if (header.rank !== headers.length) {
+                <img
+                  ngOptimizedImage
+                  src="assets/icons/arrow-right.svg"
+                  (click)="onRight(header.name)"
+                />
+                }
+              </div>
+            </div>
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td *ngFor="let header of headers | visible | order">
+            <div class="flex">
+              <input
+                [type]="header.type"
+                class="form-control"
+                [formControlName]="header.name"
+                placeholder="search..."
+              />
+              <div class="d-flex align-items-center minus-check">
+                <img
+                  ngOptimizedImage
+                  src="assets/icons/dash-circle.svg"
+                  onmouseover="this.src='assets/icons/dash-circle-fill.svg'"
+                  onmouseout="this.src='assets/icons/dash-circle.svg'"
+                  (click)="onReset(header.name)"
+                />
+              </div>
+              @if (header.type === 'number') {
+              <input
+                type="number"
+                class="form-control"
+                [formControlName]="header.name + min"
+                placeholder="min"
+              />
+              <div class="d-flex align-items-center minus-check">
+                <img
+                  ngOptimizedImage
+                  src="assets/icons/dash-circle.svg"
+                  onmouseover="this.src='assets/icons/dash-circle-fill.svg'"
+                  onmouseout="this.src='assets/icons/dash-circle.svg'"
+                  (click)="onReset(header.name + min)"
+                />
+              </div>
+              <input
+                type="number"
+                class="form-control"
+                [formControlName]="header.name + max"
+                placeholder="max"
+              />
+              <div class="d-flex align-items-center minus-check">
+                <img
+                  ngOptimizedImage
+                  src="assets/icons/dash-circle.svg"
+                  onmouseover="this.src='assets/icons/dash-circle-fill.svg'"
+                  onmouseout="this.src='assets/icons/dash-circle.svg'"
+                  (click)="onReset(header.name + max)"
+                />
+              </div>
+              } @if (header.hasSelect) {
+              <select
+                class="form-select"
+                [value]="filterForm.get(header.name)!.value"
+                (change)="
+                  onSelectChange($event, header.name, header.isSelectAdd)
+                "
+              >
+                <option value=""></option>
+                <option
+                  *ngFor="let entry of data | unique : header.name"
+                  [value]="entry"
+                >
+                  {{ entry }}
+                </option>
+              </select>
+              <div class="d-flex align-items-center plus-check">
+                <img ngOptimizedImage [src]="header.isSelectAdd | plusSrc" />
+                <img
+                  ngOptimizedImage
+                  src="assets/icons/plus-circle-fill.svg"
+                  class="plus-check-hover"
+                  (click)="header.isSelectAdd = !header.isSelectAdd"
+                />
+              </div>
+              }
+            </div>
+          </td>
+        </tr>
+        <tr
+          *ngFor="
+            let row of data
+              | filter : filterParams()
+              | sort : sortParams()
+              | paginate : currentPage()! : pageLimit()!
+          "
+          (click)="onRowClick(rowId(), row[id])"
+          [class.content]="true"
+          [class.table-row-clickable]="row[id] !== rowId()"
+          [class.selected]="row[id] === rowId()"
+        >
+          <td *ngFor="let header of headers | visible | order">
+            {{ row[header.name] }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </form>
 </div>
+
+<app-paginator
+  [currentPage]="currentPage()!"
+  [dataLength]="(data | filter : filterParams()).length"
+  [pageLimit]="pageLimit()!"
+></app-paginator>
 
 <app-table-settings
   [headers]="headers"

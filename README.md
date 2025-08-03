@@ -60,8 +60,6 @@ Wikipedia
 
 ---
 
-- table naviguate through rows with arrows up and down
-
 - reset all filters: gros icon "-" (dash-circle) a la fin de la ligne des filtres (2e ligne du tableau), hors du tableau
 - columns visibility: icon "oeil" a la fin de la ligne des headers (1e ligne du tableau), hors du tableau
 

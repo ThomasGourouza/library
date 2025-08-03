@@ -1,0 +1,13 @@
+html, body { height: 100%; margin: 0; }
+.layout {
+  display: grid;
+  grid-template-columns: 2fr 1fr;
+}
+
+.container:first-child {
+  padding: 20px 10px 0 50px;
+}
+.container:last-child {
+  padding: 20px 50px 0 20px;
+  background-color: lightcyan;
+}
