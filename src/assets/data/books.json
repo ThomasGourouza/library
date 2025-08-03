@@ -58,5 +58,22 @@
     "author": "Erich Gamma",
     "year": "1900",
     "genre": "Roman"
+  },{
+    "title": "Clean Code 3",
+    "author": "Robert C. Martin",
+    "year": "1000",
+    "genre": "Essai"
+  },
+  {
+    "title": "The Pragmatic Programmer 3",
+    "author": "Andrew Hunt",
+    "year": "1500",
+    "genre": "Roman"
+  },
+  {
+    "title": "Design Patterns 3",
+    "author": "Erich Gamma",
+    "year": "1900",
+    "genre": "Roman"
   }
 ]

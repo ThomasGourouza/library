@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, effect, inject, input, Input } from '@angular/core';
+import {
+  Component,
+  effect,
+  HostListener,
+  inject,
+  input,
+  Input,
+} from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import {
   FormGroup,
@@ -20,6 +27,25 @@ export class PaginatorComponent {
   private router = inject(Router);
   private route = inject(ActivatedRoute);
   private fb = inject(NonNullableFormBuilder);
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    const { key } = event;
+    if (key === 'ArrowLeft' || key === 'ArrowRight') {
+      this.onChangePage(
+        (key === 'ArrowRight' && this.currentPage < this.totalPages) ||
+          (key === 'ArrowLeft' && this.currentPage > 1)
+          ? key === 'ArrowLeft'
+            ? this.currentPage - 1
+            : this.currentPage + 1
+          : key === 'ArrowLeft'
+          ? this.totalPages
+          : 1
+      );
+      event.preventDefault();
+      return;
+    }
+  }
 
   @Input() currentPage!: number;
   @Input() dataLength!: number;

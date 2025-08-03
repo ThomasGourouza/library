@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   effect,
+  HostListener,
   inject,
   Injector,
   Input,
@@ -10,33 +11,33 @@ import {
   Signal,
 } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { PaginatorComponent } from './paginator/paginator.component';
-import {
-  toAllowedFilterParamsKeys,
-  Header,
-  AllowedQueryParamsCommon,
-  ROW_ID,
-  TableItem,
-  Between,
-  SortDirection,
-} from '@shared/constants';
 import {
   FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import {
+  AllowedQueryParamsCommon,
+  Between,
+  Header,
+  ROW_ID,
+  SortDirection,
+  TableItem,
+  toAllowedFilterParamsKeys,
+} from '@shared/constants';
+import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
+import { OrderPipe } from 'app/pipes/order.pipe';
+import { PaginatePipe } from 'app/pipes/paginate.pipe';
+import { PlusSrcPipe } from 'app/pipes/plus-src.pipe';
+import { TableColumnVisiblePipe } from 'app/pipes/table-column-visible.pipe';
 import { TableFilterPipe } from 'app/pipes/table-filter.pipe';
 import { TableSortPipe } from 'app/pipes/table-sort.pipe';
-import { PaginatePipe } from 'app/pipes/paginate.pipe';
-import { UtilsService } from 'app/services/utils.service';
-import { map, distinctUntilChanged, filter, startWith } from 'rxjs';
-import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
-import { TableSettingsComponent } from './table-settings/table-settings.component';
-import { TableColumnVisiblePipe } from 'app/pipes/table-column-visible.pipe';
-import { OrderPipe } from 'app/pipes/order.pipe';
 import { UniquePipe } from 'app/pipes/unique.pipe';
-import { PlusSrcPipe } from 'app/pipes/plus-src.pipe';
+import { UtilsService } from 'app/services/utils.service';
+import { distinctUntilChanged, filter, map, startWith } from 'rxjs';
+import { PaginatorComponent } from './paginator/paginator.component';
+import { TableSettingsComponent } from './table-settings/table-settings.component';
 
 @Component({
   selector: 'app-table',
@@ -65,6 +66,42 @@ export class TableComponent {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
+  id = ROW_ID;
+  min = Between.MIN;
+  max = Between.MAX;
+
+  @HostListener('window:keydown', ['$event'])
+  handleKeyDown(event: KeyboardEvent) {
+    const { key } = event;
+    if (key === 'ArrowDown' || key === 'ArrowUp') {
+      const indexes = this.currentPageIndexes(
+        this.currentPage(),
+        this.pageLimit(),
+        this.data.length
+      );
+      const currentIndex = this.data.findIndex(
+        (item) => item[this.id] === this.rowId()
+      );
+      const isInPage = indexes.includes(currentIndex);
+      const first = indexes[0];
+      const last = indexes[indexes.length - 1];
+      let nextIndex: number;
+      if (key === 'ArrowDown') {
+        nextIndex = isInPage && currentIndex < last ? currentIndex + 1 : first;
+      } else {
+        nextIndex = isInPage && currentIndex > first ? currentIndex - 1 : last;
+      }
+      this.onRowClick(this.rowId(), this.data[nextIndex][this.id]);
+      event.preventDefault();
+      return;
+    }
+    if (key === 'Escape') {
+      this.onRowClick(this.rowId(), this.rowId());
+      event.preventDefault();
+      return;
+    }
+  }
+
   private _headers: Header[] = [];
   filterForm!: FormGroup;
   filterFormValues!: Signal<{ [k: string]: string | undefined }>;
@@ -81,7 +118,6 @@ export class TableComponent {
         })
       )
     );
-
     runInInjectionContext(this.injector, () => {
       this.filterFormValues = toSignal(this.filterForm.valueChanges);
       this.filterParams = computed(() =>
@@ -101,8 +137,8 @@ export class TableComponent {
   rowId = toSignal(
     this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      map(() => this.urlRowId),
-      startWith(this.urlRowId),
+      map(() => this.route.snapshot.firstChild?.params?.[this.id]),
+      startWith(this.route.snapshot.firstChild?.params?.[this.id]),
       distinctUntilChanged()
     )
   );
@@ -125,10 +161,6 @@ export class TableComponent {
       AllowedQueryParamsCommon.SORT_DIRECTION
     ) as SortDirection | null,
   }));
-
-  id = ROW_ID;
-  min = Between.MIN;
-  max = Between.MAX;
 
   constructor() {
     effect(() => {
@@ -253,7 +285,13 @@ export class TableComponent {
     this._headers = headers;
   }
 
-  private get urlRowId(): string {
-    return this.route.snapshot.firstChild?.params?.[this.id];
+  private currentPageIndexes(
+    currentPage: number,
+    pageLimit: number,
+    totalItems: number
+  ): number[] {
+    const start = (currentPage - 1) * pageLimit;
+    const end = Math.min(start + pageLimit, totalItems);
+    return Array.from({ length: end - start }, (_, i) => start + i);
   }
 }
