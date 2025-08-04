@@ -4,9 +4,19 @@ export function saveInLocalStorage(key: string, value: ColumnSettings[]): void {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function loadFromLocalStorage(key: string): ColumnSettings[] {
-  const raw = localStorage.getItem(key);
-  return safeParse(raw);
+export function getHeadersWithLocalStorage(headers: Header[]): Header[] {
+  const columnSettings: ColumnSettings[] =
+    loadFromLocalStorage(COLUMN_SETTINGS_KEY);
+  return headers.map((header) => {
+    const settings = columnSettings.find(
+      (setting) => setting.name === header.name
+    );
+    return {
+      ...header,
+      isVisible: settings?.isVisible ?? header.isVisible,
+      rank: settings?.rank ?? header.rank,
+    };
+  });
 }
 
 export function removeFromLocalStorage(key: string): void {
@@ -21,19 +31,9 @@ export function mapToColumnSettings(headers: Header[]): ColumnSettings[] {
   }));
 }
 
-export function headersWithLocalStorage(headers: Header[]): Header[] {
-  const columnSettings: ColumnSettings[] =
-    loadFromLocalStorage(COLUMN_SETTINGS_KEY);
-  return headers.map((header) => {
-    const settings = columnSettings.find(
-      (setting) => setting.name === header.name
-    );
-    return {
-      ...header,
-      isVisible: settings?.isVisible ?? header.isVisible,
-      rank: settings?.rank ?? header.rank,
-    };
-  });
+function loadFromLocalStorage(key: string): ColumnSettings[] {
+  const raw = localStorage.getItem(key);
+  return safeParse(raw);
 }
 
 function safeParse(raw: string | null): ColumnSettings[] {

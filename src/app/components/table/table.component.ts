@@ -41,8 +41,7 @@ import { distinctUntilChanged, filter, map, startWith } from 'rxjs';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { TableSettingsComponent } from './table-settings/table-settings.component';
 import {
-  headersWithLocalStorage,
-  loadFromLocalStorage,
+  getHeadersWithLocalStorage,
   mapToColumnSettings,
   saveInLocalStorage,
 } from '@shared/local-storage-helper';
@@ -117,7 +116,7 @@ export class TableComponent {
 
   @Input() data: TableItem[] = [];
   @Input() set headers(value: Header[]) {
-    this._headers = headersWithLocalStorage(value);
+    this._headers = getHeadersWithLocalStorage(value);
     const allowedFilterParamsKeys = toAllowedFilterParamsKeys(value);
     this.filterForm = this.fb.group(
       Object.fromEntries(
@@ -272,24 +271,29 @@ export class TableComponent {
   }
 
   private moveColumn(headerName: string, direction: -1 | 1): void {
-    const orderedHeaders = [...this._headers];
-    const currentColumn = orderedHeaders.find(
+    const headers = [...this._headers];
+    const orderedVisibleHeaders = headers
+      .filter(({ isVisible }) => isVisible)
+      .sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
+    const currentColumnIndex = orderedVisibleHeaders.findIndex(
       ({ name }) => name === headerName
-    )!;
-    const neighborColumn = orderedHeaders.find(
-      ({ rank }) => rank === currentColumn.rank + direction
-    )!;
-    const farNeighborColumn = orderedHeaders.find(
-      ({ rank }) => rank === currentColumn.rank + direction * 2
     );
-    const targetColumn = neighborColumn.isVisible
-      ? neighborColumn
-      : farNeighborColumn;
-    [currentColumn.rank, targetColumn!.rank] = [
-      targetColumn!.rank,
+    const currentColumnName = orderedVisibleHeaders[currentColumnIndex].name;
+    const targetColumnName =
+      orderedVisibleHeaders[currentColumnIndex + direction].name;
+
+    const currentColumn = headers.find(
+      ({ name }) => name === currentColumnName
+    )!;
+    const targetColumn = headers.find(
+      ({ name }) => name === targetColumnName
+    )!;
+
+    [currentColumn.rank, targetColumn.rank] = [
+      targetColumn.rank,
       currentColumn.rank,
     ];
-    this._headers = orderedHeaders;
+    this._headers = headers;
     saveInLocalStorage(COLUMN_SETTINGS_KEY, mapToColumnSettings(this._headers));
   }
 
