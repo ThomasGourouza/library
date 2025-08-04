@@ -8,10 +8,10 @@ export const ensurePagingGuard: CanActivateFn = (
   const router = inject(Router);
   const utilsService = inject(UtilsService);
 
-  const { page, page_limit, ...rest } = route.queryParams;
+  const { page, rows, ...rest } = route.queryParams;
   if (
     utilsService.isCorrectPage(page) &&
-    utilsService.isCorrectPageLimit(page_limit)
+    utilsService.isCorrectRowsLimit(rows)
   ) {
     return true;
   }
@@ -19,7 +19,7 @@ export const ensurePagingGuard: CanActivateFn = (
   return router.createUrlTree([], {
     queryParams: {
       page: utilsService.toCorrectPage(page),
-      page_limit: utilsService.toCorrectPageLimit(page_limit),
+      rows: utilsService.toCorrectRowsLimit(rows),
       ...rest,
     },
   });

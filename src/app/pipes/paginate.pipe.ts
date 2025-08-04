@@ -9,9 +9,9 @@ export class PaginatePipe implements PipeTransform {
   transform(
     list: TableItem[],
     currentPage: number,
-    pageLimit: number
+    rowsLimit: number
   ): TableItem[] {
-    const start = (currentPage - 1) * pageLimit;
-    return list.slice(start, start + pageLimit);
+    const start = (currentPage - 1) * rowsLimit;
+    return list.slice(start, start + rowsLimit);
   }
 }

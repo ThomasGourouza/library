@@ -42,27 +42,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 - formulaire de creation et d'edition (create, update)
 - formulaire de suppression (delete)
 
-Époque
-date simple
-Date de parution
-Titre
-Auteur
-% Europe
-% Russie
-Titre original
-Âge
-Nationalité
-Courant
-Genre
-Catégorie
-Description
-Wikipedia
-
 ---
 
 - table settings: local storage
   show/hide columns
   change columns order
-  page_limit: url + localStorage
+  rows_limit: url + localStorage
 
 - detail page

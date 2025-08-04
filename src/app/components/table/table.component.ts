@@ -76,7 +76,7 @@ export class TableComponent {
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       const indexes = this.currentPageIndexes(
         this.currentPage(),
-        this.pageLimit(),
+        this.rowsLimit(),
         this.data.length
       );
       const currentIndex = this.data.findIndex(
@@ -149,8 +149,8 @@ export class TableComponent {
     () => +this.paramMap()!.get(AllowedQueryParamsCommon.PAGE)!
   );
 
-  pageLimit = computed(
-    () => +this.paramMap()!.get(AllowedQueryParamsCommon.PAGE_LIMIT)!
+  rowsLimit = computed(
+    () => +this.paramMap()!.get(AllowedQueryParamsCommon.ROWS_LIMIT)!
   );
 
   sortParams = computed(() => ({
@@ -287,11 +287,11 @@ export class TableComponent {
 
   private currentPageIndexes(
     currentPage: number,
-    pageLimit: number,
+    rowsLimit: number,
     totalItems: number
   ): number[] {
-    const start = (currentPage - 1) * pageLimit;
-    const end = Math.min(start + pageLimit, totalItems);
+    const start = (currentPage - 1) * rowsLimit;
+    const end = Math.min(start + rowsLimit, totalItems);
     return Array.from({ length: end - start }, (_, i) => start + i);
   }
 }

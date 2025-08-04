@@ -14,7 +14,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { PAGE_LIMITS } from '@shared/constants';
+import { ROWS_LIMIT_LIST } from '@shared/constants';
 
 @Component({
   selector: 'app-paginator',
@@ -49,26 +49,26 @@ export class PaginatorComponent {
 
   @Input() currentPage!: number;
   @Input() dataLength!: number;
-  readonly pageLimit = input<number>();
+  readonly rowsLimit = input<number>();
 
-  pageLimitForm: FormGroup = this.fb.group({ pageLimit: [undefined] });
-  pageLimitFormValues = toSignal(this.pageLimitForm.valueChanges);
+  rowsLimitForm: FormGroup = this.fb.group({ rowsLimit: [undefined] });
+  rowsLimitFormValues = toSignal(this.rowsLimitForm.valueChanges);
 
-  pageLimits = PAGE_LIMITS;
+  rowsLimitList = ROWS_LIMIT_LIST;
 
   constructor() {
     effect(() => {
-      const pageLimit = this.pageLimit();
-      this.pageLimitForm.patchValue(pageLimit ? { pageLimit } : {}, {
+      const rowsLimit = this.rowsLimit();
+      this.rowsLimitForm.patchValue(rowsLimit ? { rowsLimit } : {}, {
         emitEvent: false,
       });
     });
     effect(() => {
-      if (this.pageLimitFormValues()) {
-        const page_limit = this.pageLimitFormValues()['pageLimit'];
+      if (this.rowsLimitFormValues()) {
+        const rows = this.rowsLimitFormValues()['rowsLimit'];
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { page_limit },
+          queryParams: { rows },
           queryParamsHandling: 'merge',
         });
       }
@@ -77,7 +77,7 @@ export class PaginatorComponent {
 
   get totalPages(): number {
     const totalPages =
-      this.dataLength > 0 ? Math.ceil(this.dataLength / this.pageLimit()!) : 1;
+      this.dataLength > 0 ? Math.ceil(this.dataLength / this.rowsLimit()!) : 1;
     if (this.currentPage > totalPages) {
       this.router.navigate([], {
         relativeTo: this.route,
@@ -91,9 +91,9 @@ export class PaginatorComponent {
   get resultsOnPage(): number {
     if (this.currentPage < 1 || this.currentPage > this.totalPages) return 0;
     const resultsOnLastPage =
-      this.dataLength - (this.totalPages - 1) * this.pageLimit()!;
+      this.dataLength - (this.totalPages - 1) * this.rowsLimit()!;
     return this.currentPage < this.totalPages
-      ? this.pageLimit()!
+      ? this.rowsLimit()!
       : resultsOnLastPage;
   }
 

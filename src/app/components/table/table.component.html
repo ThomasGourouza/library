@@ -127,7 +127,7 @@
                 let row of data
                   | filter : filterParams()
                   | sort : sortParams()
-                  | paginate : currentPage()! : pageLimit()!
+                  | paginate : currentPage()! : rowsLimit()!
               "
               (click)="onRowClick(rowId(), row[id])"
               [class.content]="true"
@@ -145,7 +145,7 @@
     <app-paginator
       [currentPage]="currentPage()!"
       [dataLength]="(data | filter : filterParams()).length"
-      [pageLimit]="pageLimit()!"
+      [rowsLimit]="rowsLimit()!"
     ></app-paginator>
 
     <app-table-settings

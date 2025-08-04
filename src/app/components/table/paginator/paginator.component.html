@@ -1,9 +1,9 @@
 <div class="flex">
   <div class="item-per-page">
     <div class="box">
-      <form [formGroup]="pageLimitForm">
-        <select class="form-select" formControlName="pageLimit">
-          <option *ngFor="let p of pageLimits" [value]="p">
+      <form [formGroup]="rowsLimitForm">
+        <select class="form-select" formControlName="rowsLimit">
+          <option *ngFor="let p of rowsLimitList" [value]="p">
             {{ p }}
           </option>
         </select>

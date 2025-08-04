@@ -1,6 +1,6 @@
 export enum AllowedQueryParamsCommon {
   PAGE = 'page',
-  PAGE_LIMIT = 'page_limit',
+  ROWS_LIMIT = 'rows',
   SORT_COLUMN = 'sort_column',
   SORT_DIRECTION = 'sort_direction',
 }
@@ -13,11 +13,11 @@ export enum Between {
 export const ROW_ID = 'id' as const;
 
 export const DEFAULT_PAGE = 1;
-export const PAGE_LIMITS = [5, 10, 15, 20, 30, 50, 100];
-export const DEFAULT_PAGE_LIMIT = PAGE_LIMITS[2];
+export const ROWS_LIMIT_LIST = [5, 10, 15, 20, 30, 50, 100];
+export const DEFAULT_ROWS_LIMIT = ROWS_LIMIT_LIST[2];
 export const DEFAULT_QUERY_PARAMS = {
   page: DEFAULT_PAGE,
-  page_limit: DEFAULT_PAGE_LIMIT,
+  rows: DEFAULT_ROWS_LIMIT,
 } as const;
 
 export function toAllowedFilterParamsKeys(list: Header[]) {
@@ -48,6 +48,12 @@ export interface Header {
   hasSelect: boolean;
   isSelectAdd: boolean;
   sortDirection: SortDirection | null;
+  rank: number;
+}
+
+export interface HeaderStorage {
+  name: string;
+  isVisible: boolean;
   rank: number;
 }
 
