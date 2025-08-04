@@ -1,58 +1,14 @@
 import { inject, Injectable } from '@angular/core';
 import {
-  Header,
-  HeaderType,
   ROW_ID,
   toAllowedQueryParamsKeys,
 } from '@shared/constants';
 import { UtilsService } from './utils.service';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, shareReplay } from 'rxjs';
+import { BOOKS_HEADERS } from 'app/models/book';
 
-export const BOOKS_HEADERS: Header[] = [
-  {
-    name: 'title',
-    label: 'Titre',
-    type: HeaderType.TEXT,
-    isVisible: true,
-    hasSelect: false,
-    isSelectAdd: false,
-    sortDirection: null,
-    rank: 1,
-  },
-  {
-    name: 'author',
-    label: 'Auteur',
-    type: HeaderType.TEXT,
-    isVisible: true,
-    hasSelect: true,
-    isSelectAdd: false,
-    sortDirection: null,
-    rank: 2,
-  },
-  {
-    name: 'year',
-    label: 'Année',
-    type: HeaderType.NUMBER,
-    isVisible: true,
-    hasSelect: false,
-    isSelectAdd: false,
-    sortDirection: null,
-    rank: 3,
-  },
-  {
-    name: 'genre',
-    label: 'Genre',
-    type: HeaderType.TEXT,
-    isVisible: true,
-    hasSelect: true,
-    isSelectAdd: false,
-    sortDirection: null,
-    rank: 4,
-  },
-] as const;
-
-export const BOOK_MANDATORY_COLUMN = 'title';
+export const BOOK_MANDATORY_COLUMN = 'title' as const;
 
 type BookHeaderName = (typeof BOOKS_HEADERS)[number]['name'];
 

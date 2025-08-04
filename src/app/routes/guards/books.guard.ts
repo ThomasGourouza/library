@@ -5,10 +5,8 @@ import {
   AllowedQueryParamsCommon,
   SortDirection,
 } from '@shared/constants';
-import {
-  ALLOWED_BOOK_QUERY_PARAMS_KEYS,
-  BOOKS_HEADERS,
-} from 'app/services/book.service';
+import { ALLOWED_BOOK_QUERY_PARAMS_KEYS } from 'app/services/book.service';
+import { BOOKS_HEADERS } from 'app/models/book';
 
 export const booksGuard: CanActivateFn = (route, _state) => {
   const router = inject(Router);
