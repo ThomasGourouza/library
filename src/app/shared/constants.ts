@@ -51,7 +51,7 @@ export interface Header {
   rank: number;
 }
 
-export interface HeaderStorage {
+export interface ColumnSettings {
   name: string;
   isVisible: boolean;
   rank: number;
@@ -72,3 +72,5 @@ export const DEFAULT_SORT_DIRECTION = SortDirection.ASC as const;
 export type TableItem = { [ROW_ID]: string } & {
   [k: string]: string | undefined;
 };
+
+export const COLUMN_SETTINGS_KEY = 'columnSettings' as const;

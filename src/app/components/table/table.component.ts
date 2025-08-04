@@ -20,6 +20,8 @@ import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
 import {
   AllowedQueryParamsCommon,
   Between,
+  COLUMN_SETTINGS_KEY,
+  ColumnSettings,
   Header,
   ROW_ID,
   SortDirection,
@@ -38,6 +40,12 @@ import { UtilsService } from 'app/services/utils.service';
 import { distinctUntilChanged, filter, map, startWith } from 'rxjs';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { TableSettingsComponent } from './table-settings/table-settings.component';
+import {
+  headersWithLocalStorage,
+  loadFromLocalStorage,
+  mapToColumnSettings,
+  saveInLocalStorage,
+} from '@shared/local-storage-helper';
 
 @Component({
   selector: 'app-table',
@@ -109,7 +117,7 @@ export class TableComponent {
 
   @Input() data: TableItem[] = [];
   @Input() set headers(value: Header[]) {
-    this._headers = value;
+    this._headers = headersWithLocalStorage(value);
     const allowedFilterParamsKeys = toAllowedFilterParamsKeys(value);
     this.filterForm = this.fb.group(
       Object.fromEntries(
@@ -265,20 +273,24 @@ export class TableComponent {
 
   private moveColumn(headerName: string, direction: -1 | 1): void {
     const orderedHeaders = [...this._headers];
-
     const currentColumn = orderedHeaders.find(
       ({ name }) => name === headerName
     )!;
-    const targetColumn = orderedHeaders.find(
+    const neighborColumn = orderedHeaders.find(
       ({ rank }) => rank === currentColumn.rank + direction
     )!;
-
-    [currentColumn.rank, targetColumn.rank] = [
-      targetColumn.rank,
+    const farNeighborColumn = orderedHeaders.find(
+      ({ rank }) => rank === currentColumn.rank + direction * 2
+    );
+    const targetColumn = neighborColumn.isVisible
+      ? neighborColumn
+      : farNeighborColumn;
+    [currentColumn.rank, targetColumn!.rank] = [
+      targetColumn!.rank,
       currentColumn.rank,
     ];
-
     this._headers = orderedHeaders;
+    saveInLocalStorage(COLUMN_SETTINGS_KEY, mapToColumnSettings(this._headers));
   }
 
   onNewHeaders(headers: Header[]): void {

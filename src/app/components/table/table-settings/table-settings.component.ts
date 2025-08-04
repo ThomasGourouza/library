@@ -1,11 +1,22 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, inject, Input, OnDestroy, Output } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  inject,
+  Input,
+  OnDestroy,
+  Output,
+} from '@angular/core';
 import {
   FormGroup,
   NonNullableFormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { Header } from '@shared/constants';
+import { COLUMN_SETTINGS_KEY, ColumnSettings, Header } from '@shared/constants';
+import {
+  mapToColumnSettings,
+  saveInLocalStorage,
+} from '@shared/local-storage-helper';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -18,13 +29,13 @@ import { Subscription } from 'rxjs';
 export class TableSettingsComponent implements OnDestroy {
   private fb = inject(NonNullableFormBuilder);
 
-  settingsForm!: FormGroup;
+  visibleColumnForm!: FormGroup;
   settingsFormValuesSubscription = new Subscription();
 
   @Output() newHeaders = new EventEmitter<Header[]>();
   @Input() set headers(value: Header[]) {
     this._headers = [...value].sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
-    this.settingsForm = this.fb.group(
+    this.visibleColumnForm = this.fb.group(
       Object.fromEntries([
         ...value.map(({ name, isVisible }) => {
           return [name, [isVisible]];
@@ -35,12 +46,15 @@ export class TableSettingsComponent implements OnDestroy {
       ])
     );
     this.settingsFormValuesSubscription =
-      this.settingsForm.valueChanges.subscribe((values) => {
-        this.newHeaders.emit(
-          this.headers.map((header) => ({
-            ...header,
-            isVisible: values[header.name] ?? false,
-          }))
+      this.visibleColumnForm.valueChanges.subscribe((values) => {
+        const updatedHeaders = this.headers.map((header) => ({
+          ...header,
+          isVisible: values[header.name] ?? false,
+        }));
+        this.newHeaders.emit(updatedHeaders);
+        saveInLocalStorage(
+          COLUMN_SETTINGS_KEY,
+          mapToColumnSettings(updatedHeaders)
         );
       });
   }
@@ -56,18 +70,18 @@ export class TableSettingsComponent implements OnDestroy {
   onDown(currentOrder: number): void {
     this.headers.forEach(({ name, rank }) => {
       if (currentOrder === rank)
-        this.settingsForm.get(`${name}Rank`)?.setValue(currentOrder + 1);
+        this.visibleColumnForm.get(`${name}Rank`)?.setValue(currentOrder + 1);
       if (currentOrder + 1 === rank)
-        this.settingsForm.get(`${name}Rank`)?.setValue(currentOrder);
+        this.visibleColumnForm.get(`${name}Rank`)?.setValue(currentOrder);
     });
   }
 
   onUp(currentOrder: number): void {
     this.headers.forEach(({ name, rank }) => {
       if (currentOrder === rank)
-        this.settingsForm.get(`${name}Rank`)?.setValue(currentOrder - 1);
+        this.visibleColumnForm.get(`${name}Rank`)?.setValue(currentOrder - 1);
       if (currentOrder - 1 === rank)
-        this.settingsForm.get(`${name}Rank`)?.setValue(currentOrder);
+        this.visibleColumnForm.get(`${name}Rank`)?.setValue(currentOrder);
     });
   }
 }

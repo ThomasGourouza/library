@@ -1,27 +1,46 @@
-export function save<T>(key: string, value: T): void {
+import { COLUMN_SETTINGS_KEY, ColumnSettings, Header } from './constants';
+
+export function saveInLocalStorage(key: string, value: ColumnSettings[]): void {
   localStorage.setItem(key, JSON.stringify(value));
 }
 
-export function load<T>(key: string): T | undefined {
+export function loadFromLocalStorage(key: string): ColumnSettings[] {
   const raw = localStorage.getItem(key);
-  return safeParse<T>(raw);
+  return safeParse(raw);
 }
 
-export function remove(key: string): void {
+export function removeFromLocalStorage(key: string): void {
   localStorage.removeItem(key);
 }
 
-function safeParse<T>(raw: string | null): T | undefined {
-  if (raw == null) return undefined;
-  try {
-    return JSON.parse(raw) as T;
-  } catch {
-    return undefined;
-  }
+export function mapToColumnSettings(headers: Header[]): ColumnSettings[] {
+  return headers.map(({ name, isVisible, rank }) => ({
+    name,
+    isVisible,
+    rank,
+  }));
 }
 
-// export interface HeaderStorage {
-//   name: string;
-//   isVisible: boolean;
-//   rank: number;
-// }
+export function headersWithLocalStorage(headers: Header[]): Header[] {
+  const columnSettings: ColumnSettings[] =
+    loadFromLocalStorage(COLUMN_SETTINGS_KEY);
+  return headers.map((header) => {
+    const settings = columnSettings.find(
+      (setting) => setting.name === header.name
+    );
+    return {
+      ...header,
+      isVisible: settings?.isVisible ?? header.isVisible,
+      rank: settings?.rank ?? header.rank,
+    };
+  });
+}
+
+function safeParse(raw: string | null): ColumnSettings[] {
+  if (raw == null) return [];
+  try {
+    return JSON.parse(raw) as ColumnSettings[];
+  } catch {
+    return [];
+  }
+}
