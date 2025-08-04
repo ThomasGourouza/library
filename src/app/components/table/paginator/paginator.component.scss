@@ -23,6 +23,30 @@ input {
   flex: 1;
 }
 
+.results-info {
+  margin-top: 7px;
+}
+
 select {
   width: 80px;
+}
+
+ul.pagination {
+  li.page-item {
+    .page-link {
+      color: black;
+    }
+    &.disabled {
+      .disabled > .page-link,
+      .page-link.disabled {
+        color: var(--bs-pagination-disabled-color);
+      }
+    }
+  }
+}
+.active > .page-link,
+.page-link.active {
+  color: black;
+  background-color: var(--header-color);
+  border-color: var(--bs-pagination-border-color);
 }

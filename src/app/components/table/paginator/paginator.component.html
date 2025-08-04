@@ -1,29 +1,40 @@
 <div class="flex">
-  <div>
-    <p>Showing {{ resultsOnPage }} results of {{ dataLength }}.</p>
+  <div class="results-info">
+    <p>
+      {{ resultsOnPage }} of {{ dataLength }} result{{
+        dataLength !== 1 ? "s" : ""
+      }}
+      ({{ totalPages }} page{{ totalPages !== 1 ? "s" : "" }})
+    </p>
   </div>
 
   <nav>
     <ul class="pagination justify-content-center">
       <li class="page-item" [class.disabled]="currentPage === 1">
+        <button class="page-link" (click)="onChangePage(1)">
+          <img ngOptimizedImage src="assets/icons/chevron-double-left.svg" />
+        </button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === 1">
         <button class="page-link" (click)="onChangePage(currentPage - 1)">
-          Précédent
+          <img ngOptimizedImage src="assets/icons/chevron-left.svg" />
         </button>
       </li>
 
-      <li
-        class="page-item"
-        *ngFor="let page of [].constructor(totalPages); let i = index"
-        [class.active]="currentPage === i + 1"
-      >
-        <button class="page-link" (click)="onChangePage(i + 1)">
-          {{ i + 1 }}
+      <li class="page-item active">
+        <button class="page-link">
+          {{ currentPage }}
         </button>
       </li>
 
       <li class="page-item" [class.disabled]="currentPage === totalPages">
         <button class="page-link" (click)="onChangePage(currentPage + 1)">
-          Suivant
+          <img ngOptimizedImage src="assets/icons/chevron-right.svg" />
+        </button>
+      </li>
+      <li class="page-item" [class.disabled]="currentPage === totalPages">
+        <button class="page-link" (click)="onChangePage(totalPages)">
+          <img ngOptimizedImage src="assets/icons/chevron-double-right.svg" />
         </button>
       </li>
     </ul>
