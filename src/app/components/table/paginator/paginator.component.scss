@@ -4,13 +4,17 @@ input {
 }
 
 .item-per-page {
-  text-align: right;
   .box {
     display: inline-block;
     &:last-child {
       padding-left: 10px;
     }
   }
+}
+
+.results-info {
+  margin-top: 7px;
+  text-align: right;
 }
 
 .flex {
@@ -21,10 +25,6 @@ input {
 
 .flex > * {
   flex: 1;
-}
-
-.results-info {
-  margin-top: 7px;
 }
 
 select {

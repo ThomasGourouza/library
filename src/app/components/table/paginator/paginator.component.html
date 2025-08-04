@@ -1,11 +1,17 @@
 <div class="flex">
-  <div class="results-info">
-    <p>
-      {{ resultsOnPage }} of {{ dataLength }} result{{
-        dataLength !== 1 ? "s" : ""
-      }}
-      ({{ totalPages }} page{{ totalPages !== 1 ? "s" : "" }})
-    </p>
+  <div class="item-per-page">
+    <div class="box">
+      <form [formGroup]="pageLimitForm">
+        <select class="form-select" formControlName="pageLimit">
+          <option *ngFor="let p of pageLimits" [value]="p">
+            {{ p }}
+          </option>
+        </select>
+      </form>
+    </div>
+    <div class="box">
+      <p>rows</p>
+    </div>
   </div>
 
   <nav>
@@ -40,18 +46,12 @@
     </ul>
   </nav>
 
-  <div class="item-per-page">
-    <div class="box">
-      <form [formGroup]="pageLimitForm">
-        <select class="form-select" formControlName="pageLimit">
-          <option *ngFor="let p of pageLimits" [value]="p">
-            {{ p }}
-          </option>
-        </select>
-      </form>
-    </div>
-    <div class="box">
-      <p>lines per page.</p>
-    </div>
+  <div class="results-info">
+    <p>
+      {{ resultsOnPage }} of {{ dataLength }} result{{
+        dataLength !== 1 ? "s" : ""
+      }}
+      ({{ totalPages }} page{{ totalPages !== 1 ? "s" : "" }})
+    </p>
   </div>
 </div>
