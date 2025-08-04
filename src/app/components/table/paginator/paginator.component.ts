@@ -81,7 +81,7 @@ export class PaginatorComponent {
     if (this.currentPage > totalPages) {
       this.router.navigate([], {
         relativeTo: this.route,
-        queryParams: { page: totalPages },
+        queryParams: { [AllowedQueryParamsCommon.PAGE]: totalPages },
         queryParamsHandling: 'merge',
       });
     }
@@ -100,7 +100,7 @@ export class PaginatorComponent {
   onChangePage(page: number): void {
     this.router.navigate([], {
       relativeTo: this.route,
-      queryParams: { page },
+      queryParams: { [AllowedQueryParamsCommon.PAGE]: page },
       queryParamsHandling: 'merge',
     });
   }
