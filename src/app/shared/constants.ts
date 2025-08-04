@@ -16,8 +16,8 @@ export const DEFAULT_PAGE = 1;
 export const ROWS_LIMIT_LIST = [5, 10, 15, 20, 30, 50, 100];
 export const DEFAULT_ROWS_LIMIT = ROWS_LIMIT_LIST[2];
 export const DEFAULT_QUERY_PARAMS = {
-  page: DEFAULT_PAGE,
-  rows: DEFAULT_ROWS_LIMIT,
+  [AllowedQueryParamsCommon.PAGE]: DEFAULT_PAGE,
+  [AllowedQueryParamsCommon.ROWS_LIMIT]: DEFAULT_ROWS_LIMIT,
 } as const;
 
 export function toAllowedFilterParamsKeys(list: Header[]) {

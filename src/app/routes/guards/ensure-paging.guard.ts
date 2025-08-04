@@ -1,5 +1,6 @@
 import { inject } from '@angular/core';
 import { CanActivateFn, ActivatedRouteSnapshot, Router } from '@angular/router';
+import { AllowedQueryParamsCommon } from '@shared/constants';
 import { UtilsService } from 'app/services/utils.service';
 
 export const ensurePagingGuard: CanActivateFn = (
@@ -8,18 +9,23 @@ export const ensurePagingGuard: CanActivateFn = (
   const router = inject(Router);
   const utilsService = inject(UtilsService);
 
-  const { page, rows, ...rest } = route.queryParams;
+  const {
+    [AllowedQueryParamsCommon.PAGE]: page,
+    [AllowedQueryParamsCommon.ROWS_LIMIT]: rowsLimit,
+    ...rest
+  } = route.queryParams;
   if (
     utilsService.isCorrectPage(page) &&
-    utilsService.isCorrectRowsLimit(rows)
+    utilsService.isCorrectRowsLimit(rowsLimit)
   ) {
     return true;
   }
 
   return router.createUrlTree([], {
     queryParams: {
-      page: utilsService.toCorrectPage(page),
-      rows: utilsService.toCorrectRowsLimit(rows),
+      [AllowedQueryParamsCommon.PAGE]: utilsService.toCorrectPage(page),
+      [AllowedQueryParamsCommon.ROWS_LIMIT]:
+        utilsService.toCorrectRowsLimit(rowsLimit),
       ...rest,
     },
   });

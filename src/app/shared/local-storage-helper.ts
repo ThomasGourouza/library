@@ -19,3 +19,9 @@ function safeParse<T>(raw: string | null): T | undefined {
     return undefined;
   }
 }
+
+// export interface HeaderStorage {
+//   name: string;
+//   isVisible: boolean;
+//   rank: number;
+// }

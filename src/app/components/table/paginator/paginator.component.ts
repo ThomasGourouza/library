@@ -14,7 +14,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ROWS_LIMIT_LIST } from '@shared/constants';
+import { AllowedQueryParamsCommon, ROWS_LIMIT_LIST } from '@shared/constants';
 
 @Component({
   selector: 'app-paginator',
@@ -65,10 +65,10 @@ export class PaginatorComponent {
     });
     effect(() => {
       if (this.rowsLimitFormValues()) {
-        const rows = this.rowsLimitFormValues()['rowsLimit'];
+        const rowsLimit = this.rowsLimitFormValues()['rowsLimit'];
         this.router.navigate([], {
           relativeTo: this.route,
-          queryParams: { rows },
+          queryParams: { [AllowedQueryParamsCommon.ROWS_LIMIT]: rowsLimit },
           queryParamsHandling: 'merge',
         });
       }
