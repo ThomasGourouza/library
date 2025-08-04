@@ -3,11 +3,12 @@ import { toSignal } from '@angular/core/rxjs-interop';
 import { RouterOutlet } from '@angular/router';
 import { AUTHORS_HEADERS, AuthorService } from 'app/services/author.service';
 import { TableComponent } from '../table/table.component';
+import { StructureComponent } from '../structure/structure.component';
 
 @Component({
   selector: 'app-authors',
   standalone: true,
-  imports: [RouterOutlet, TableComponent],
+  imports: [RouterOutlet, TableComponent, StructureComponent],
   templateUrl: './authors.component.html',
   styleUrl: './authors.component.scss',
 })

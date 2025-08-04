@@ -1,8 +1,4 @@
-<div class="layout">
-  <div class="container">
-    <app-table [data]="authors() ?? []" [headers]="authorsHeaders"></app-table>
-  </div>
-  <main class="container">
-    <router-outlet></router-outlet>
-  </main>
-</div>
+<app-structure>
+  <app-table table [data]="authors() ?? []" [headers]="authorsHeaders"></app-table>
+  <router-outlet detail></router-outlet>
+</app-structure>

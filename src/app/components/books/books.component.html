@@ -1,8 +1,4 @@
-<div class="layout">
-  <div class="container">
-    <app-table [data]="books() ?? []" [headers]="booksHeaders"></app-table>
-  </div>
-  <main class="container">
-    <router-outlet></router-outlet>
-  </main>
-</div>
+<app-structure>
+  <app-table table [data]="books() ?? []" [headers]="booksHeaders"></app-table>
+  <router-outlet detail></router-outlet>
+</app-structure>
