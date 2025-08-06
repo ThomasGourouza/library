@@ -59,23 +59,25 @@ export class UtilsService {
     return +rowsLimit;
   }
 
-  withTitleAndId(
-    items: TableItem[],
-    headers: Header[],
-    mandatoryColumn: string
-  ): TableItem[] {
-    return items.flatMap((item) =>
-      !item[mandatoryColumn]
-        ? []
-        : [
-            {
-              ...Object.fromEntries(
-                headers.map(({ name }) => [name, item[name]])
-              ),
-              [ROW_ID]: this.makeId(item[mandatoryColumn]!),
-            },
-          ]
-    );
+  // TODO: TableItem -> any -> ?
+  withTitleAndId(items: any[], headers: Header[]): TableItem[] {
+    return items.flatMap((item) => [
+      {
+        ...Object.fromEntries(headers.map(({ name }) => {
+          switch (name) {
+            case 'title':
+              return [name, item.title.french];
+            case 'author':
+              return [name, item.author.name];
+            case 'description':
+              return [name, item.description.french];
+            default:
+              return [name, item[name]];
+          }
+        })),
+        [ROW_ID]: item[ROW_ID],
+      },
+    ]);
   }
 
   cleanList(list: any[]): string[] {

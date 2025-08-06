@@ -5,12 +5,15 @@
 .main-table {
   padding: 0;
   flex: 1;
+  th {
+    max-height: 41px;
+  }
 }
 
 .icons {
   width: 50px;
   .visible-column-icon {
-    margin-top: 7px;
+    margin-top: 0;
     button {
       padding: 0;
       border: 0;
@@ -66,6 +69,7 @@ img {
 }
 
 .header-label {
+  text-align: center;
   img {
     margin-left: 5px;
   }
@@ -75,6 +79,16 @@ img {
   img {
     cursor: pointer;
   }
+}
+
+.hide {
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
+}
+.flex:hover .hide {
+  opacity: 1;
+  pointer-events: auto;
 }
 
 .plus-check {

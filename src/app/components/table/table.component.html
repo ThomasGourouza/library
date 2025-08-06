@@ -10,7 +10,7 @@
             <tr>
               <th *ngFor="let header of headers | visible | order">
                 <div class="flex">
-                  <div class="order-icon">
+                  <div class="order-icon hide">
                     @if (header.rank !== 1) {
                     <img
                       ngOptimizedImage
@@ -22,12 +22,13 @@
                   <div class="header-label">
                     {{ header.label }}
                     <img
+                      [class.hide]="!header.sortDirection"
                       ngOptimizedImage
                       [src]="header.sortDirection | iconSrc"
                       (click)="onSort(header.name, header.sortDirection)"
                     />
                   </div>
-                  <div class="order-icon">
+                  <div class="order-icon hide">
                     @if (header.rank !== headers.length) {
                     <img
                       ngOptimizedImage
@@ -44,12 +45,14 @@
             <tr>
               <td *ngFor="let header of headers | visible | order">
                 <div class="flex">
+                  @if (header.type !== 'number') {
                   <input
                     [type]="header.type"
                     class="form-control"
                     [formControlName]="header.name"
                     placeholder="search..."
                   />
+                  @if (!header.hasSelect || header.hasSelect && !rowId()) {
                   <div class="d-flex align-items-center minus-check">
                     <img
                       ngOptimizedImage
@@ -59,13 +62,14 @@
                       (click)="onReset(header.name)"
                     />
                   </div>
-                  @if (header.type === 'number') {
+                  } } @else {
                   <input
                     type="number"
                     class="form-control"
                     [formControlName]="header.name + min"
                     placeholder="min"
                   />
+                  @if (!rowId()) {
                   <div class="d-flex align-items-center minus-check">
                     <img
                       ngOptimizedImage
@@ -75,12 +79,14 @@
                       (click)="onReset(header.name + min)"
                     />
                   </div>
+                  }
                   <input
                     type="number"
                     class="form-control"
                     [formControlName]="header.name + max"
                     placeholder="max"
                   />
+                  @if (!rowId()) {
                   <div class="d-flex align-items-center minus-check">
                     <img
                       ngOptimizedImage
@@ -90,7 +96,7 @@
                       (click)="onReset(header.name + max)"
                     />
                   </div>
-                  } @if (header.hasSelect) {
+                  } } @if (header.hasSelect) {
                   <select
                     class="form-select"
                     [value]="filterForm.get(header.name)!.value"

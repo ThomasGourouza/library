@@ -3,8 +3,8 @@
   --background-color: white;
   --nav: var(--header-color);
   --table-header: var(--header-color);
-  --table-row-hover: rgb(240, 246, 255);
-  --table-row-selected: rgb(226, 237, 255);
+  --table-row-hover: rgb(247, 250, 255);
+  --table-row-selected: rgb(238, 244, 255);
   --icon-size: 20px;
   --icon-middle-size: 26px;
   --icon-big-size: 30px;
@@ -14,4 +14,5 @@
 html,
 body {
   background-color: var(--background-color);
+  margin-bottom: 50px;
 }

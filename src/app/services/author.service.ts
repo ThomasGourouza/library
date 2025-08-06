@@ -76,8 +76,7 @@ export class AuthorService {
       map((item) =>
         this.utilsService.withTitleAndId(
           item,
-          AUTHORS_HEADERS,
-          AUTHOR_MANDATORY_COLUMN
+          AUTHORS_HEADERS
         )
       ),
       catchError(() => of([])),

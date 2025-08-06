@@ -1,7 +1,14 @@
 export enum Language {
-    FRENCH,
-    ENGLISH,
-    SPANISH,
+    UNKNOWN,
+    FR,
+    EN,
+    ES,
+    DE,
+    IT,
+    JA,
+    ZH,
+    RU,
+    DA,
 }
 
 export enum Type {

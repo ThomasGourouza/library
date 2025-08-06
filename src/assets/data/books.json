@@ -1,79 +1,371 @@
 [
   {
-    "title": "Clean Code",
-    "author": "Robert C. Martin",
-    "year": "1000"
+    "id": "1",
+    "originalTitle": "Clean Code",
+    "title": {
+      "italian": "Codice Pulito",
+      "portuguese": "Código Limpo",
+      "german": "Sauberer Code",
+      "russian": "Чистый код",
+      "japanese": "クリーンコード",
+      "english": "Clean Code",
+      "french": "Code Propre",
+      "spanish": "Código Limpio"
+    },
+    "author": {
+      "id": "1",
+      "name": "Robert C. Martin",
+      "country": "USA",
+      "date": {
+        "birth": "1952-12-05",
+        "death": null
+      },
+      "description": {
+        "italian": "Robert C. Martin è un ingegnere software e autore.",
+        "portuguese": "Robert C. Martin é um engenheiro de software e autor.",
+        "russian": "Роберт С. Мартин — инженер-программист и автор.",
+        "japanese": "ロバート・C・マーチンはソフトウェアエンジニアであり、著者です。",
+        "german": "Robert C. Martin ist ein Software-Ingenieur und Autor.",
+        "english": "Robert C. Martin is a software engineer and author.",
+        "french": "Robert C. Martin est un ingénieur logiciel et auteur.",
+        "spanish": "Robert C. Martin es un ingeniero de software y autor."
+      },
+      "wikipediaLink": "https://en.wikipedia.org/wiki/Robert_C._Martin",
+      "books": null
+    },
+    "authorAgeAtPublication": 50,
+    "publicationDate": "2008-08-01",
+    "language": "EN",
+    "type": "ESSAI",
+    "category": "COMPUTER_SCIENCE",
+    "audience": "ADULTS",
+    "description": {
+      "english": "Clean Code is a book about software craftsmanship and best practices.",
+      "italian": "Codice Pulito è un libro sull'artigianato del software e le migliori pratiche.",
+      "portuguese": "Código Limpo é um livro sobre artesanato de software e melhores práticas.",
+      "german": "Sauberer Code ist ein Buch über Software-Handwerk und Best Practices.",
+      "russian": "Чистый код — это книга о программной культуре и лучших практиках.",
+      "japanese": "クリーンコードは、ソフトウェアの職人技とベストプラクティスについての本です。",
+      "french": "Code Propre est un livre sur l'artisanat logiciel et les meilleures pratiques.",
+      "spanish": "Código Limpio es un libro sobre la artesanía del software y las mejores prácticas."
+    },
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Clean_Code",
+    "status": "UNREAD",
+    "favorite": false,
+    "personalNotes": "This book is a must-read for any software developer. It emphasizes the importance of writing clean, maintainable code."
   },
   {
-    "title": "The Pragmatic Programmer",
-    "author": "Andrew Hunt",
-    "year": "1500",
-    "genre": "Roman",
-    "test": "test"
+    "id": "2",
+    "originalTitle": "Clean Code 2",
+    "title": {
+      "italian": "Codice Pulito 2",
+      "portuguese": "Código Limpo 2",
+      "german": "Sauberer Code 2",
+      "russian": "Чистый код 2",
+      "japanese": "クリーンコード 2",
+      "english": "Clean Code 2",
+      "french": "Code Propre 2",
+      "spanish": "Código Limpio 2"
+    },
+    "author": {
+      "id": "1",
+      "name": "Robert C. Martin",
+      "country": "USA",
+      "date": {
+        "birth": "1952-12-05",
+        "death": null
+      },
+      "description": {
+        "italian": "Robert C. Martin è un ingegnere software e autore.",
+        "portuguese": "Robert C. Martin é um engenheiro de software e autor.",
+        "russian": "Роберт С. Мартин — инженер-программист и автор.",
+        "japanese": "ロバート・C・マーチンはソフトウェアエンジニアであり、著者です。",
+        "german": "Robert C. Martin ist ein Software-Ingenieur und Autor.",
+        "english": "Robert C. Martin is a software engineer and author.",
+        "french": "Robert C. Martin est un ingénieur logiciel et auteur.",
+        "spanish": "Robert C. Martin es un ingeniero de software y autor."
+      },
+      "wikipediaLink": "https://en.wikipedia.org/wiki/Robert_C._Martin",
+      "books": null
+    },
+    "authorAgeAtPublication": 50,
+    "publicationDate": "2012-04-07",
+    "language": "EN",
+    "type": "ESSAI",
+    "category": "COMPUTER_SCIENCE",
+    "audience": "ADULTS",
+    "description": {
+      "english": "Clean Code is a book about software craftsmanship and best practices.",
+      "italian": "Codice Pulito è un libro sull'artigianato del software e le migliori pratiche.",
+      "portuguese": "Código Limpo é um livro sobre artesanato de software e melhores práticas.",
+      "german": "Sauberer Code ist ein Buch über Software-Handwerk und Best Practices.",
+      "russian": "Чистый код — это книга о программной культуре и лучших практиках.",
+      "japanese": "クリーンコードは、ソフトウェアの職人技とベストプラクティスについての本です。",
+      "french": "Code Propre est un livre sur l'artisanat logiciel et les meilleures pratiques.",
+      "spanish": "Código Limpio es un libro sobre la artesanía del software y las mejores prácticas."
+    },
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Clean_Code",
+    "status": "UNREAD",
+    "favorite": false,
+    "personalNotes": "This book is a must-read for any software developer. It emphasizes the importance of writing clean, maintainable code."
   },
   {
-    "title": "Design Patterns",
-    "author": "Erich Gamma",
-    "year": "1900",
-    "genre": "Roman"
+    "id": "3",
+    "originalTitle": "Clean Code 3",
+    "title": {
+      "italian": "Codice Pulito 3",
+      "portuguese": "Código Limpo 3",
+      "german": "Sauberer Code 3",
+      "russian": "Чистый код 3",
+      "japanese": "クリーンコード 3",
+      "english": "Clean Code 3",
+      "french": "Code Propre 3",
+      "spanish": "Código Limpio 3"
+    },
+    "author": {
+      "id": "1",
+      "name": "Robert C. Martin",
+      "country": "USA",
+      "date": {
+        "birth": "1952-12-05",
+        "death": null
+      },
+      "description": {
+        "italian": "Robert C. Martin è un ingegnere software e autore.",
+        "portuguese": "Robert C. Martin é um engenheiro de software e autor.",
+        "russian": "Роберт С. Мартин — инженер-программист и автор.",
+        "japanese": "ロバート・C・マーチンはソフトウェアエンジニアであり、著者です。",
+        "german": "Robert C. Martin ist ein Software-Ingenieur und Autor.",
+        "english": "Robert C. Martin is a software engineer and author.",
+        "french": "Robert C. Martin est un ingénieur logiciel et auteur.",
+        "spanish": "Robert C. Martin es un ingeniero de software y autor."
+      },
+      "wikipediaLink": "https://en.wikipedia.org/wiki/Robert_C._Martin",
+      "books": null
+    },
+    "authorAgeAtPublication": 50,
+    "publicationDate": "2018-02-03",
+    "language": "EN",
+    "type": "ESSAI",
+    "category": "COMPUTER_SCIENCE",
+    "audience": "ADULTS",
+    "description": {
+      "english": "Clean Code is a book about software craftsmanship and best practices.",
+      "italian": "Codice Pulito è un libro sull'artigianato del software e le migliori pratiche.",
+      "portuguese": "Código Limpo é um livro sobre artesanato de software e melhores práticas.",
+      "german": "Sauberer Code ist ein Buch über Software-Handwerk und Best Practices.",
+      "russian": "Чистый код — это книга о программной культуре и лучших практиках.",
+      "japanese": "クリーンコードは、ソフトウェアの職人技とベストプラクティスについての本です。",
+      "french": "Code Propre est un livre sur l'artisanat logiciel et les meilleures pratiques.",
+      "spanish": "Código Limpio es un libro sobre la artesanía del software y las mejores prácticas."
+    },
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Clean_Code",
+    "status": "UNREAD",
+    "favorite": false,
+    "personalNotes": "This book is a must-read for any software developer. It emphasizes the importance of writing clean, maintainable code."
   },
   {
-    "title": "Refactoring",
-    "author": "Martin Fowler",
-    "year": "2000",
-    "genre": "Manuel"
+    "id": "4",
+    "originalTitle": "Clean Code 4",
+    "title": {
+      "italian": "Codice Pulito 4",
+      "portuguese": "Código Limpo 4",
+      "german": "Sauberer Code 4",
+      "russian": "Чистый код 4",
+      "japanese": "クリーンコード 4",
+      "english": "Clean Code 4",
+      "french": "Code Propre 4",
+      "spanish": "Código Limpio 4"
+    },
+    "author": {
+      "id": "1",
+      "name": "Robert C. Martin",
+      "country": "USA",
+      "date": {
+        "birth": "1952-12-05",
+        "death": null
+      },
+      "description": {
+        "italian": "Robert C. Martin è un ingegnere software e autore.",
+        "portuguese": "Robert C. Martin é um engenheiro de software e autor.",
+        "russian": "Роберт С. Мартин — инженер-программист и автор.",
+        "japanese": "ロバート・C・マーチンはソフトウェアエンジニアであり、著者です。",
+        "german": "Robert C. Martin ist ein Software-Ingenieur und Autor.",
+        "english": "Robert C. Martin is a software engineer and author.",
+        "french": "Robert C. Martin est un ingénieur logiciel et auteur.",
+        "spanish": "Robert C. Martin es un ingeniero de software y autor."
+      },
+      "wikipediaLink": null,
+      "books": null
+    },
+    "authorAgeAtPublication": 50,
+    "publicationDate": null,
+    "language": null,
+    "type": null,
+    "category": null,
+    "audience": null,
+    "description": {
+      "english": null,
+      "italian": null,
+      "portuguese": null,
+      "german": null,
+      "russian": null,
+      "japanese": null,
+      "french": null,
+      "spanish": null
+    }
   },
   {
-    "title": "Code Review",
-    "author": "Martin Fowler",
-    "year": "2020",
-    "genre": "Philosophie"
+    "id": "5",
+    "originalTitle": "Clean Code 5",
+    "title": {
+      "italian": "Codice Pulito 5",
+      "portuguese": "Código Limpo 5",
+      "german": "Sauberer Code 5",
+      "russian": "Чистый код 5",
+      "japanese": "クリーンコード 5",
+      "english": "Clean Code 5",
+      "french": "Code Propre 5",
+      "spanish": "Código Limpio 5"
+    },
+    "author": {
+      "id": "1",
+      "name": "Robert C. Martin",
+      "country": null,
+      "date": {
+        "birth": null,
+        "death": null
+      },
+      "description": {
+        "italian": null,
+        "portuguese": null,
+        "russian": null,
+        "japanese": null,
+        "german": null,
+        "english": null,
+        "french": null,
+        "spanish": null
+      },
+      "wikipediaLink": null,
+      "books": null
+    },
+    "authorAgeAtPublication": null,
+    "publicationDate": null,
+    "language": null,
+    "type": null,
+    "category": null,
+    "audience": null,
+    "description": {
+      "english": null,
+      "italian": null,
+      "portuguese": null,
+      "german": null,
+      "russian": null,
+      "japanese": null,
+      "french": null,
+      "spanish": null
+    }
   },
   {
-    "title": "Refactoring 2",
-    "author": "Martin Fowler",
-    "year": "2000",
-    "genre": "Manuel"
+    "id": "6",
+    "originalTitle": "Clean Code 6",
+    "title": {
+      "italian": "Codice Pulito 6",
+      "portuguese": "Código Limpo 6",
+      "german": "Sauberer Code 6",
+      "russian": "Чистый код 6",
+      "japanese": "クリーンコード 6",
+      "english": "Clean Code 6",
+      "french": "Code Propre 6",
+      "spanish": "Código Limpio 6"
+    },
+    "author": {
+      "id": "1",
+      "name": null,
+      "country": null,
+      "date": {
+        "birth": null,
+        "death": null
+      },
+      "description": {
+        "italian": null,
+        "portuguese": null,
+        "russian": null,
+        "japanese": null,
+        "german": null,
+        "english": null,
+        "french": null,
+        "spanish": null
+      },
+      "wikipediaLink": null,
+      "books": null
+    },
+    "authorAgeAtPublication": null,
+    "publicationDate": null,
+    "language": null,
+    "type": null,
+    "category": null,
+    "audience": null,
+    "description": {
+      "english": null,
+      "italian": null,
+      "portuguese": null,
+      "german": null,
+      "russian": null,
+      "japanese": null,
+      "french": null,
+      "spanish": null
+    }
   },
   {
-    "title": "Code Review 2",
-    "author": "Martin Fowler",
-    "year": "2020",
-    "genre": "Philosophie"
-  },
-  {
-    "title": "Clean Code 2",
-    "author": "Robert C. Martin",
-    "year": "1000",
-    "genre": "Essai"
-  },
-  {
-    "title": "The Pragmatic Programmer 2",
-    "author": "Andrew Hunt",
-    "year": "1500",
-    "genre": "Roman"
-  },
-  {
-    "title": "Design Patterns 2",
-    "author": "Erich Gamma",
-    "year": "1900",
-    "genre": "Roman"
-  },{
-    "title": "Clean Code 3",
-    "author": "Robert C. Martin",
-    "year": "1000",
-    "genre": "Essai"
-  },
-  {
-    "title": "The Pragmatic Programmer 3",
-    "author": "Andrew Hunt",
-    "year": "1500",
-    "genre": "Roman"
-  },
-  {
-    "title": "Design Patterns 3",
-    "author": "Erich Gamma",
-    "year": "1900",
-    "genre": "Roman"
+    "id": "7",
+    "originalTitle": "Clean Code 7",
+    "title": {
+      "italian": "Codice Pulito 7",
+      "portuguese": "Código Limpo 7",
+      "german": "Sauberer Code 7",
+      "russian": "Чистый код 7",
+      "japanese": "クリーンコード 7",
+      "english": "Clean Code 7",
+      "french": "Code Propre 7",
+      "spanish": "Código Limpio 7"
+    },
+    "author": {
+      "id": null,
+      "name": null,
+      "country": null,
+      "date": {
+        "birth": null,
+        "death": null
+      },
+      "description": {
+        "italian": null,
+        "portuguese": null,
+        "russian": null,
+        "japanese": null,
+        "german": null,
+        "english": null,
+        "french": null,
+        "spanish": null
+      },
+      "wikipediaLink": null,
+      "books": null
+    },
+    "authorAgeAtPublication": null,
+    "publicationDate": null,
+    "language": null,
+    "type": null,
+    "category": null,
+    "audience": null,
+    "description": {
+      "english": null,
+      "italian": null,
+      "portuguese": null,
+      "german": null,
+      "russian": null,
+      "japanese": null,
+      "french": null,
+      "spanish": null
+    }
   }
 ]

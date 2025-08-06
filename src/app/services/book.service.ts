@@ -33,7 +33,6 @@ export class BookService {
         this.utilsService.withTitleAndId(
           item,
           BOOKS_HEADERS,
-          BOOK_MANDATORY_COLUMN
         )
       ),
       catchError(() => of([])),

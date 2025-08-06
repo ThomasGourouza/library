@@ -1,8 +1,11 @@
-<div class="layout">
-  <div class="container">
+<div class="layout" [class.two-columns]="!!rowId()">
+  <div class="table">
     <ng-content select="[table]"></ng-content>
   </div>
-  <main class="container">
-     <ng-content select="[detail]"></ng-content>
-  </main>
+
+  <div class="detail">
+    <div>
+      <ng-content select="[detail]"></ng-content>
+    </div>
+  </div>
 </div>

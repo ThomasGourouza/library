@@ -9,7 +9,7 @@ export interface Author {
     date: AuthorDate;
     description: Multilingual;
     wikipediaLink: string;
-    books: Book[];
+    books: Book[] | null;
 }
 
 interface AuthorDate {

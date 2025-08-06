@@ -79,13 +79,22 @@ export class TableComponent {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    const { key } = event;
+    const { key, target } = event;
+    const isTextInput =
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      (target instanceof HTMLElement && target.isContentEditable);
+    if (isTextInput) {
+      return;
+    }
     if (key === 'ArrowDown' || key === 'ArrowUp') {
       const indexes = this.currentPageIndexes(
         this.currentPage(),
         this.rowsLimit(),
+        // TODO
         this.data.length
       );
+        // TODO
       const currentIndex = this.data.findIndex(
         (item) => item[this.id] === this.rowId()
       );
@@ -98,6 +107,7 @@ export class TableComponent {
       } else {
         nextIndex = isInPage && currentIndex > first ? currentIndex - 1 : last;
       }
+      // TODO
       this.onRowClick(this.rowId(), this.data[nextIndex][this.id]);
       event.preventDefault();
       return;
@@ -273,6 +283,7 @@ export class TableComponent {
   private moveColumn(headerName: string, direction: -1 | 1): void {
     const headers = [...this._headers];
     const orderedVisibleHeaders = headers
+      // TODO
       .filter(({ isVisible }) => isVisible)
       .sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
     const currentColumnIndex = orderedVisibleHeaders.findIndex(
@@ -285,9 +296,7 @@ export class TableComponent {
     const currentColumn = headers.find(
       ({ name }) => name === currentColumnName
     )!;
-    const targetColumn = headers.find(
-      ({ name }) => name === targetColumnName
-    )!;
+    const targetColumn = headers.find(({ name }) => name === targetColumnName)!;
 
     [currentColumn.rank, targetColumn.rank] = [
       targetColumn.rank,

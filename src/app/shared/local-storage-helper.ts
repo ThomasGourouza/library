@@ -1,7 +1,22 @@
 import { COLUMN_SETTINGS_KEY, ColumnSettings, Header } from './constants';
 
+function isBrowser(): boolean {
+  return typeof window !== 'undefined' && typeof localStorage !== 'undefined';
+}
+
+function getFromLocalStorage(key: string): string | null {
+  if (!isBrowser()) return null;
+  return localStorage.getItem(key);
+}
+
+function setToLocalStorage(key: string, value: string): void {
+  if (!isBrowser()) return;
+  localStorage.setItem(key, value);
+}
+
+
 export function saveInLocalStorage(key: string, value: ColumnSettings[]): void {
-  localStorage.setItem(key, JSON.stringify(value));
+  setToLocalStorage(key, JSON.stringify(value));
 }
 
 export function getHeadersWithLocalStorage(headers: Header[]): Header[] {
@@ -19,10 +34,6 @@ export function getHeadersWithLocalStorage(headers: Header[]): Header[] {
   });
 }
 
-export function removeFromLocalStorage(key: string): void {
-  localStorage.removeItem(key);
-}
-
 export function mapToColumnSettings(headers: Header[]): ColumnSettings[] {
   return headers.map(({ name, isVisible, rank }) => ({
     name,
@@ -32,7 +43,7 @@ export function mapToColumnSettings(headers: Header[]): ColumnSettings[] {
 }
 
 function loadFromLocalStorage(key: string): ColumnSettings[] {
-  const raw = localStorage.getItem(key);
+  const raw = getFromLocalStorage(key);
   return safeParse(raw);
 }
 

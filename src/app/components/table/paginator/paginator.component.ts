@@ -30,7 +30,14 @@ export class PaginatorComponent {
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {
-    const { key } = event;
+    const { key, target } = event;
+    const isTextInput =
+      target instanceof HTMLInputElement ||
+      target instanceof HTMLTextAreaElement ||
+      (target instanceof HTMLElement && target.isContentEditable);
+    if (isTextInput) {
+      return;
+    }
     if (key === 'ArrowLeft' || key === 'ArrowRight') {
       this.onChangePage(
         (key === 'ArrowRight' && this.currentPage < this.totalPages) ||

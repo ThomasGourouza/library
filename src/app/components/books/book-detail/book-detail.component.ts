@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { ActivatedRoute } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ROW_ID } from '@shared/constants';
 import { BookService } from 'app/services/book.service';
 import { combineLatest, map } from 'rxjs';
@@ -14,11 +14,21 @@ import { combineLatest, map } from 'rxjs';
 })
 export class BookDetailComponent {
   private bookService = inject(BookService);
-  private route = inject(ActivatedRoute);
+  private readonly router = inject(Router);
+  private readonly route = inject(ActivatedRoute);
 
   book = toSignal(
     combineLatest([this.bookService.books$, this.route.params]).pipe(
       map(([books, params]) => books.find((b) => b.id === params[ROW_ID]))
     )
   );
+
+  closeDetails() {
+    const root = this.router.parseUrl(this.router.url).root.children['primary']
+      ?.segments[0]?.path;
+    if (!root) return;
+    this.router.navigate([`/${root}`], {
+      queryParamsHandling: 'preserve',
+    });
+  }
 }

@@ -34,6 +34,7 @@ export class TableSettingsComponent implements OnDestroy {
 
   @Output() newHeaders = new EventEmitter<Header[]>();
   @Input() set headers(value: Header[]) {
+    // TODO
     this._headers = [...value].sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
     this.visibleColumnForm = this.fb.group(
       Object.fromEntries([

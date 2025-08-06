@@ -21,6 +21,18 @@ export interface Book {
   personalNotes: string;
 }
 
+type Header = {
+  name: keyof Book;
+  label: string;
+  type: HeaderType;
+  isVisible: boolean;
+  hasSelect: boolean;
+  isSelectAdd: boolean;
+  sortDirection: 'asc' | 'desc' | null;
+  rank: number;
+};
+
+// export const BOOKS_HEADERS: Header[] = [
 export const BOOKS_HEADERS = [
   {
     name: 'originalTitle',
@@ -47,7 +59,7 @@ export const BOOKS_HEADERS = [
     label: 'Author',
     type: HeaderType.TEXT,
     isVisible: true,
-    hasSelect: false,
+    hasSelect: true,
     isSelectAdd: false,
     sortDirection: null,
     rank: 3,
@@ -121,15 +133,5 @@ export const BOOKS_HEADERS = [
     isSelectAdd: false,
     sortDirection: null,
     rank: 10,
-  },
-  {
-    name: 'favorite',
-    label: 'Favorite',
-    type: HeaderType.TEXT,
-    isVisible: true,
-    hasSelect: true,
-    isSelectAdd: false,
-    sortDirection: null,
-    rank: 11,
   }
 ];
