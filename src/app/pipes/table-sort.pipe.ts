@@ -1,4 +1,4 @@
-import { inject, Pipe, PipeTransform } from '@angular/core';
+import { inject, Injectable, Pipe, PipeTransform } from '@angular/core';
 import {
   AllowedQueryParamsCommon,
   SortParams,
@@ -10,6 +10,7 @@ import { UtilsService } from 'app/services/utils.service';
   name: 'sort',
   standalone: true,
 })
+@Injectable({ providedIn: 'root' })
 export class TableSortPipe implements PipeTransform {
   utilsService = inject(UtilsService);
 

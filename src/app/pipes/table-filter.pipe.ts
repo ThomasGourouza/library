@@ -1,4 +1,4 @@
-import { inject, Pipe, PipeTransform } from '@angular/core';
+import { inject, Injectable, Pipe, PipeTransform } from '@angular/core';
 import { Params } from '@angular/router';
 import { Between, TableItem } from '@shared/constants';
 import { UtilsService } from 'app/services/utils.service';
@@ -7,6 +7,7 @@ import { UtilsService } from 'app/services/utils.service';
   name: 'filter',
   standalone: true,
 })
+@Injectable({ providedIn: 'root' })
 export class TableFilterPipe implements PipeTransform {
   utilsService = inject(UtilsService);
 

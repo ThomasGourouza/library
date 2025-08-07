@@ -17,6 +17,7 @@ import {
   mapToColumnSettings,
   saveInLocalStorage,
 } from '@shared/local-storage-helper';
+import { OrderPipe } from 'app/pipes/order.pipe';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -28,14 +29,14 @@ import { Subscription } from 'rxjs';
 })
 export class TableSettingsComponent implements OnDestroy {
   private fb = inject(NonNullableFormBuilder);
+  private readonly orderPipe = inject(OrderPipe);
 
   visibleColumnForm!: FormGroup;
   settingsFormValuesSubscription = new Subscription();
 
   @Output() newHeaders = new EventEmitter<Header[]>();
   @Input() set headers(value: Header[]) {
-    // TODO
-    this._headers = [...value].sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
+    this._headers = this.orderPipe.transform([...value]);
     this.visibleColumnForm = this.fb.group(
       Object.fromEntries([
         ...value.map(({ name, isVisible }) => {

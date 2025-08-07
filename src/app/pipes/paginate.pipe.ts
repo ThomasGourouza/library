@@ -1,10 +1,11 @@
-import { Pipe, PipeTransform } from '@angular/core';
+import { Injectable, Pipe, PipeTransform } from '@angular/core';
 import { TableItem } from '@shared/constants';
 
 @Pipe({
   name: 'paginate',
   standalone: true,
 })
+@Injectable({ providedIn: 'root' })
 export class PaginatePipe implements PipeTransform {
   transform(
     list: TableItem[],

@@ -73,6 +73,12 @@ export class TableComponent {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
 
+  private readonly tableFilterPipe = inject(TableFilterPipe);
+  private readonly orderPipe = inject(OrderPipe);
+  private readonly tableSortPipe = inject(TableSortPipe);
+  private readonly paginatePipe = inject(PaginatePipe);
+  private readonly tableColumnVisiblePipe = inject(TableColumnVisiblePipe);
+
   id = ROW_ID;
   min = Between.MIN;
   max = Between.MAX;
@@ -88,27 +94,27 @@ export class TableComponent {
       return;
     }
     if (key === 'ArrowDown' || key === 'ArrowUp') {
-      const indexes = this.currentPageIndexes(
+      const displayedData = this.paginatePipe.transform(
+        this.tableSortPipe.transform(
+          this.tableFilterPipe.transform(this.data, this.filterParams()),
+          this.sortParams()
+        ),
         this.currentPage(),
-        this.rowsLimit(),
-        // TODO
-        this.data.length
+        this.rowsLimit()
       );
-        // TODO
-      const currentIndex = this.data.findIndex(
+      const currentIndex = displayedData.findIndex(
         (item) => item[this.id] === this.rowId()
       );
-      const isInPage = indexes.includes(currentIndex);
-      const first = indexes[0];
-      const last = indexes[indexes.length - 1];
+      const isInPage = currentIndex !== -1;
+      const first = 0;
+      const last = displayedData.length - 1;
       let nextIndex: number;
       if (key === 'ArrowDown') {
         nextIndex = isInPage && currentIndex < last ? currentIndex + 1 : first;
       } else {
         nextIndex = isInPage && currentIndex > first ? currentIndex - 1 : last;
       }
-      // TODO
-      this.onRowClick(this.rowId(), this.data[nextIndex][this.id]);
+      this.onRowClick(this.rowId(), displayedData[nextIndex][this.id]);
       event.preventDefault();
       return;
     }
@@ -282,10 +288,9 @@ export class TableComponent {
 
   private moveColumn(headerName: string, direction: -1 | 1): void {
     const headers = [...this._headers];
-    const orderedVisibleHeaders = headers
-      // TODO
-      .filter(({ isVisible }) => isVisible)
-      .sort((a, b) => (a.rank ?? 0) - (b.rank ?? 0));
+    const orderedVisibleHeaders = this.orderPipe.transform(
+      this.tableColumnVisiblePipe.transform(headers)
+    );
     const currentColumnIndex = orderedVisibleHeaders.findIndex(
       ({ name }) => name === headerName
     );
@@ -308,15 +313,5 @@ export class TableComponent {
 
   onNewHeaders(headers: Header[]): void {
     this._headers = headers;
-  }
-
-  private currentPageIndexes(
-    currentPage: number,
-    rowsLimit: number,
-    totalItems: number
-  ): number[] {
-    const start = (currentPage - 1) * rowsLimit;
-    const end = Math.min(start + rowsLimit, totalItems);
-    return Array.from({ length: end - start }, (_, i) => start + i);
   }
 }

@@ -133,7 +133,7 @@
                 let row of data
                   | filter : filterParams()
                   | sort : sortParams()
-                  | paginate : currentPage()! : rowsLimit()!
+                  | paginate : currentPage() : rowsLimit()
               "
               (click)="onRowClick(rowId(), row[id])"
               [class.content]="true"
