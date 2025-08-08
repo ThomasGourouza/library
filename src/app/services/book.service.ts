@@ -6,7 +6,7 @@ import {
 import { UtilsService } from './utils.service';
 import { HttpClient } from '@angular/common/http';
 import { catchError, map, Observable, of, shareReplay } from 'rxjs';
-import { BOOKS_HEADERS } from 'app/models/book';
+import { BOOKS_HEADERS } from 'app/models/book/book-table-headers';
 
 export const BOOK_MANDATORY_COLUMN = 'title' as const;
 

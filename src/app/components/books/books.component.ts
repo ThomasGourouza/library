@@ -4,7 +4,7 @@ import { TableComponent } from '../table/table.component';
 import { BookService } from 'app/services/book.service';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { StructureComponent } from '../structure/structure.component';
-import { BOOKS_HEADERS } from 'app/models/book';
+import { BOOKS_HEADERS } from 'app/models/book/book-table-headers';
 
 @Component({
   selector: 'app-books',

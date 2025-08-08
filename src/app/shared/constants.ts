@@ -40,7 +40,7 @@ export enum HeaderType {
   NUMBER = 'number',
 }
 
-export interface Header {
+export type Header = {
   name: string;
   label: string;
   type: HeaderType;
@@ -49,7 +49,7 @@ export interface Header {
   isSelectAdd: boolean;
   sortDirection: SortDirection | null;
   rank: number;
-}
+};
 
 export interface ColumnSettings {
   name: string;

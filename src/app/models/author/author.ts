@@ -1,4 +1,4 @@
-import { Book } from "../book/Book";
+import { Book } from "../book/book";
 import { Country } from "../enums";
 import { Multilingual } from "../multilingual";
 
