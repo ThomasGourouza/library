@@ -11,7 +11,7 @@ export const bookGuard: CanActivateFn = (route, _state) => {
 
   return bookService.books$.pipe(
     map((books) =>
-      books.some((book) => book['id'] === bookId)
+      books.some((book) => book.id === bookId)
         ? true
         : router.createUrlTree(['/not-found'])
     )

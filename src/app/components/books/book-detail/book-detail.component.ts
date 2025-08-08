@@ -18,7 +18,7 @@ export class BookDetailComponent {
 
   book = toSignal(
     combineLatest([this.bookService.books$, this.route.params]).pipe(
-      map(([books, params]) => books.find((b) => b['id'] === params['id']))
+      map(([books, params]) => books.find((b) => b.id === params['id']))
     )
   );
 

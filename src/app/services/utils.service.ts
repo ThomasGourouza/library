@@ -62,26 +62,26 @@ export class UtilsService {
   withTitleAndId(items: any[], headers: Header[]): TableItem[] {
     return items.flatMap((item) => [
       {
-        ...Object.fromEntries(headers.map(({ name }) => {
-          switch (name) {
-            case 'title':
-              return [name, item.title.french];
-            case 'author':
-              return [name, item.author.name];
-            case 'description':
-              return [name, item.description.french];
-            default:
-              return [name, item[name]];
-          }
-        })),
+        ...Object.fromEntries(
+          headers.map(({ name }) => {
+            switch (name) {
+              case 'title':
+                return [name, item.title.french];
+              case 'author':
+                return [name, item.author.name];
+              case 'description':
+                return [name, item.description.french];
+              default:
+                return [name, item[name]];
+            }
+          })
+        ),
         id: item.id,
       },
     ]);
   }
 
-  cleanList(list: any[]): string[] {
-    return list.filter(
-      (item) => item !== null && item !== undefined && item !== ''
-    );
+  cleanList(list: (string | undefined | null)[]): string[] {
+    return list.filter((item): item is string => !!item && item.trim() !== '');
   }
 }

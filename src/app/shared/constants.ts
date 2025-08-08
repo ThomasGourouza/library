@@ -61,7 +61,6 @@ export interface SortParams {
 
 export const DEFAULT_SORT_DIRECTION = SortDirection.ASC as const;
 
-// TODO
 export type TableItem = { id: string } & {
   [k: string]: string | undefined;
 };

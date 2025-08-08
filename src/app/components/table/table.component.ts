@@ -100,7 +100,7 @@ export class TableComponent {
         this.rowsLimit()
       );
       const currentIndex = displayedData.findIndex(
-        (item) => item['id'] === this.rowId()
+        (item) => item.id === this.rowId()
       );
       const isInPage = currentIndex !== -1;
       const first = 0;
@@ -111,7 +111,7 @@ export class TableComponent {
       } else {
         nextIndex = isInPage && currentIndex > first ? currentIndex - 1 : last;
       }
-      this.onRowClick(this.rowId(), displayedData[nextIndex]['id']!);
+      this.onRowClick(this.rowId(), displayedData[nextIndex].id);
       event.preventDefault();
       return;
     }

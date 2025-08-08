@@ -135,10 +135,10 @@
                   | sort : sortParams()
                   | paginate : currentPage() : rowsLimit()
               "
-              (click)="onRowClick(rowId(), row['id']!)"
+              (click)="onRowClick(rowId(), row.id)"
               [class.content]="true"
-              [class.table-row-clickable]="row['id'] !== rowId()"
-              [class.selected]="row['id'] === rowId()"
+              [class.table-row-clickable]="row.id !== rowId()"
+              [class.selected]="row.id === rowId()"
             >
               <td *ngFor="let header of headers | visible | order">
                 {{ row[header.name] }}
