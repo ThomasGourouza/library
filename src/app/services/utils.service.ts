@@ -58,7 +58,7 @@ export class UtilsService {
     return +rowsLimit;
   }
 
-  // TODO: TableItem -> any -> ?
+  // TODO: creer deux methodes, une pour Book et une pour Author
   withTitleAndId(items: any[], headers: Header[]): TableItem[] {
     return items.flatMap((item) => [
       {
