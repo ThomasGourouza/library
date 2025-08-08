@@ -1,6 +1,6 @@
-import { Author } from './author';
-import { Multilingual } from './multilingual';
-import { Language, Category, Audience, Status, Type } from './enums';
+import { Author } from '../author/Author';
+import { Multilingual } from '../multilingual';
+import { Language, Category, Audience, Status, Type } from '../enums';
 import { HeaderType } from '@shared/constants';
 
 export interface Book {

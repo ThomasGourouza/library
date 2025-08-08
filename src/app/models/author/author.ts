@@ -1,6 +1,6 @@
-import { Book } from "./book";
-import { Country } from "./enums";
-import { Multilingual } from "./multilingual";
+import { Book } from "../book/Book";
+import { Country } from "../enums";
+import { Multilingual } from "../multilingual";
 
 export interface Author {
     id: string;
