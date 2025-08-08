@@ -1,4 +1,10 @@
-import { COLUMN_SETTINGS_KEY, ColumnSettings, Header } from './constants';
+import { Header, COLUMN_SETTINGS_KEY } from './constants';
+
+type ColumnSettings = {
+  name: string;
+  isVisible: boolean;
+  rank: number;
+};
 
 function isBrowser(): boolean {
   return typeof window !== 'undefined' && typeof localStorage !== 'undefined';

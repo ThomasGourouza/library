@@ -12,7 +12,7 @@ import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { COLUMN_SETTINGS_KEY, ColumnSettings, Header } from '@shared/constants';
+import { COLUMN_SETTINGS_KEY, Header } from '@shared/constants';
 import {
   mapToColumnSettings,
   saveInLocalStorage,

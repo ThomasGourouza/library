@@ -4,7 +4,6 @@ import {
   DEFAULT_PAGE,
   TableItem,
   Header,
-  ROW_ID,
   ROWS_LIMIT_LIST,
 } from '@shared/constants';
 
@@ -75,7 +74,7 @@ export class UtilsService {
               return [name, item[name]];
           }
         })),
-        [ROW_ID]: item[ROW_ID],
+        id: item.id,
       },
     ]);
   }

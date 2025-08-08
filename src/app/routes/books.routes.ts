@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { ROW_ID } from '@shared/constants';
 import { BookDetailComponent } from '../components/books/book-detail/book-detail.component';
 import { BooksComponent } from '../components/books/books.component';
 import { bookGuard } from './guards/book.guard';
@@ -13,7 +12,7 @@ export const routes: Routes = [
     runGuardsAndResolvers: 'always',
     children: [
       {
-        path: `:${ROW_ID}`,
+        path: ':id',
         component: BookDetailComponent,
         canActivate: [bookGuard],
       },

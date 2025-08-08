@@ -21,9 +21,7 @@ import {
   AllowedQueryParamsCommon,
   Between,
   COLUMN_SETTINGS_KEY,
-  ColumnSettings,
   Header,
-  ROW_ID,
   SortDirection,
   TableItem,
   toAllowedFilterParamsKeys,
@@ -79,7 +77,6 @@ export class TableComponent {
   private readonly paginatePipe = inject(PaginatePipe);
   private readonly tableColumnVisiblePipe = inject(TableColumnVisiblePipe);
 
-  id = ROW_ID;
   min = Between.MIN;
   max = Between.MAX;
 
@@ -103,7 +100,7 @@ export class TableComponent {
         this.rowsLimit()
       );
       const currentIndex = displayedData.findIndex(
-        (item) => item[this.id] === this.rowId()
+        (item) => item['id'] === this.rowId()
       );
       const isInPage = currentIndex !== -1;
       const first = 0;
@@ -114,7 +111,7 @@ export class TableComponent {
       } else {
         nextIndex = isInPage && currentIndex > first ? currentIndex - 1 : last;
       }
-      this.onRowClick(this.rowId(), displayedData[nextIndex][this.id]);
+      this.onRowClick(this.rowId(), displayedData[nextIndex]['id']!);
       event.preventDefault();
       return;
     }
@@ -160,8 +157,8 @@ export class TableComponent {
   rowId = toSignal(
     this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      map(() => this.route.snapshot.firstChild?.params?.[this.id]),
-      startWith(this.route.snapshot.firstChild?.params?.[this.id]),
+      map(() => this.route.snapshot.firstChild?.params?.['id']),
+      startWith(this.route.snapshot.firstChild?.params?.['id']),
       distinctUntilChanged()
     )
   );

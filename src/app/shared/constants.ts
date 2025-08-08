@@ -10,8 +10,6 @@ export enum Between {
   MAX = '_max',
 }
 
-export const ROW_ID = 'id' as const;
-
 export const DEFAULT_PAGE = 1;
 export const ROWS_LIMIT_LIST = [5, 10, 15, 20, 30, 50, 100];
 export const DEFAULT_ROWS_LIMIT = ROWS_LIMIT_LIST[2];
@@ -51,12 +49,6 @@ export type Header = {
   rank: number;
 };
 
-export interface ColumnSettings {
-  name: string;
-  isVisible: boolean;
-  rank: number;
-}
-
 export enum SortDirection {
   ASC = 'asc',
   DESC = 'desc',
@@ -69,7 +61,8 @@ export interface SortParams {
 
 export const DEFAULT_SORT_DIRECTION = SortDirection.ASC as const;
 
-export type TableItem = { [ROW_ID]: string } & {
+// TODO
+export type TableItem = { id: string } & {
   [k: string]: string | undefined;
 };
 
