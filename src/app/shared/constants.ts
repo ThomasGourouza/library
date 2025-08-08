@@ -33,31 +33,44 @@ export function toAllowedQueryParamsKeys(list: Header[]) {
   ];
 }
 
+// TODO: put into its own file
+export class Header {
+  name: string;
+  label: string;
+  type: HeaderType;
+  hasSelect: boolean;
+  isVisible: boolean = true;
+  isSelectAdd: boolean = false;
+  sortDirection: SortDirection | null = null;
+  rank: number = 0;
+
+  constructor(
+    name: string,
+    label: string,
+    type: HeaderType = HeaderType.TEXT,
+    hasSelect: boolean = type === HeaderType.TEXT
+  ) {
+    this.name = name;
+    this.label = label;
+    this.type = type;
+    this.hasSelect = hasSelect;
+  }
+}
+
 export enum HeaderType {
   TEXT = 'text',
   NUMBER = 'number',
 }
-
-export type Header = {
-  name: string;
-  label: string;
-  type: HeaderType;
-  isVisible: boolean;
-  hasSelect: boolean;
-  isSelectAdd: boolean;
-  sortDirection: SortDirection | null;
-  rank: number;
-};
 
 export enum SortDirection {
   ASC = 'asc',
   DESC = 'desc',
 }
 
-export interface SortParams {
+export type SortParams = {
   [AllowedQueryParamsCommon.SORT_COLUMN]: string | null;
   [AllowedQueryParamsCommon.SORT_DIRECTION]: SortDirection | null;
-}
+};
 
 export const DEFAULT_SORT_DIRECTION = SortDirection.ASC as const;
 

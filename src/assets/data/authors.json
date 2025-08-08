@@ -1,38 +1,57 @@
 [
   {
-    "lastName": "Hugo",
-    "firstName": "Victor",
-    "birth": "1786",
-    "country": "France"
+    "id": 1,
+    "name": "Victor Hugo",
+    "country": "France",
+    "date": {
+      "birth": "1802-02-26",
+      "death": "1885-05-22"
+    },
+    "description": "Victor Hugo was a French poet, novelist, and dramatist of the Romantic movement.",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Victor_Hugo",
   },
   {
-    "lastName": "Dostoevsky",
-    "firstName": "Fyodor",
-    "birth": "1821",
-    "country": "Russia"
+    "id": 2,
+    "name": "Jane Austen",
+    "country": "United Kingdom",
+    "date": {
+      "birth": "1775-12-16",
+      "death": "1817-07-18"
+    },
+    "description": "Jane Austen was an English novelist known primarily for her six major novels.",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Jane_Austen",
   },
   {
-    "lastName": "Orwell",
-    "firstName": "George",
-    "birth": "1903",
-    "country": "United Kingdom"
+    "id": 3,
+    "name": "Mark Twain",
+    "country": "United States",
+    "date": {
+      "birth": "1835-11-30",
+      "death": "1910-04-21"
+    },
+    "description": "Mark Twain was an American writer, humorist, entrepreneur, publisher, and lecturer.",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Mark_Twain",
   },
   {
-    "lastName": "Austen",
-    "firstName": "Jane",
-    "birth": "1775",
-    "country": "United Kingdom"
+    "id": 4,
+    "name": "Leo Tolstoy",
+    "country": "Russia",
+    "date": {
+      "birth": "1828-09-09",
+      "death": "1910-11-20"
+    },
+    "description": "Leo Tolstoy was a Russian writer, widely regarded as one of the greatest authors of all time.",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Leo_Tolstoy",
   },
   {
-    "lastName": "Kafka",
-    "firstName": "Franz",
-    "birth": "1883",
-    "country": "Czech Republic"
-  },
-  {
-    "lastName": "",
-    "firstName": "Test",
-    "birth": "1883",
-    "country": "Czech Republic"
+    "id": 5,
+    "name": "Gabriel García Márquez",
+    "country": "Colombia",
+    "date": {
+      "birth": "1927-03-06",
+      "death": "2014-04-17"
+    },
+    "description": "Gabriel García Márquez was a Colombian novelist, short-story writer",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Gabriel_García_Márquez",
   }
 ]
