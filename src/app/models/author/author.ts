@@ -12,7 +12,7 @@ export interface Author {
     books: Book[] | null;
 }
 
-interface AuthorDate {
+export interface AuthorDate {
     birth: Date;
     death: Date | null;
 }

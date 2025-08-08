@@ -12,31 +12,62 @@ export enum Language {
 }
 
 export enum Type {
-    FICTION,
-    NON_FICTION,
-    ANTHOLOGY,
+    UNKNOWN,
+    THEATER,
+    NOVEL,
+    POETRY,
+    ESSAY,
+    COMICS,
+    BIOGRAPHY,
+    TALE,
+    FABLE,
 }
 
 export enum Category {
-    MYSTERY,
-    SCIFI,
-    BIOGRAPHY,
+    UNKNOWN,
+    HISTORY,
+    GEOGRAPHY,
+    ECONOMY,
+    POLITICS,
+    GEOPOLITICS,
+    PHILOSOPHY,
+    LITERATURE,
+    RELIGION,
+    PSYCHOLOGY,
+    SOCIOLOGY,
+    SCIENCE,
+    MATHEMATICS,
+    COMPUTER_SCIENCE,
+    ART,
 }
 
 export enum Audience {
-    ADULT,
-    TEEN,
-    CHILD,
+    UNKNOWN,
+    CHILDREN,
+    YOUNG_ADULTS,
+    ADULTS,
+    GENERAL_AUDIENCE,
 }
 
 export enum Status {
-    AVAILABLE,
-    CHECKED_OUT,
-    RESERVED,
+    UNREAD,
+    TO_READ,
+    READING,
+    READ,
 }
 
 export enum Country {
+    UNKNOWN,
     FRANCE,
-    GERMANY,
+    GREAT_BRITAIN,
     SPAIN,
+    GERMANY,
+    ITALY,
+    USA,
+    CANADA,
+    JAPAN,
+    CHINA,
+    RUSSIA,
+    NETHERLANDS,
+    DENMARK,
 }
