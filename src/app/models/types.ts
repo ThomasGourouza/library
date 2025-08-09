@@ -1,3 +1,5 @@
+import { Header, HeaderType } from "app/models/header";
+
 export enum AllowedQueryParamsCommon {
   PAGE = 'page',
   ROWS_LIMIT = 'rows',
@@ -33,35 +35,6 @@ export function toAllowedQueryParamsKeys(list: Header[]) {
   ];
 }
 
-// TODO: put into its own file
-export class Header {
-  name: string;
-  label: string;
-  type: HeaderType;
-  hasSelect: boolean;
-  isVisible: boolean = true;
-  isSelectAdd: boolean = false;
-  sortDirection: SortDirection | null = null;
-  rank: number = 0;
-
-  constructor(
-    name: string,
-    label: string,
-    type: HeaderType = HeaderType.TEXT,
-    hasSelect: boolean = type === HeaderType.TEXT
-  ) {
-    this.name = name;
-    this.label = label;
-    this.type = type;
-    this.hasSelect = hasSelect;
-  }
-}
-
-export enum HeaderType {
-  TEXT = 'text',
-  NUMBER = 'number',
-}
-
 export enum SortDirection {
   ASC = 'asc',
   DESC = 'desc',
@@ -75,7 +48,7 @@ export type SortParams = {
 export const DEFAULT_SORT_DIRECTION = SortDirection.ASC as const;
 
 export type TableItem = { id: string } & {
-  [k: string]: string | undefined;
+  [k: string]: string;
 };
 
 export const COLUMN_SETTINGS_KEY = 'columnSettings' as const;

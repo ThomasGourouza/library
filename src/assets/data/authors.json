@@ -2,24 +2,24 @@
   {
     "id": 1,
     "name": "Victor Hugo",
-    "country": "France",
+    "country": "FRANCE",
     "date": {
       "birth": "1802-02-26",
       "death": "1885-05-22"
     },
     "description": "Victor Hugo was a French poet, novelist, and dramatist of the Romantic movement.",
-    "wikipediaLink": "https://en.wikipedia.org/wiki/Victor_Hugo",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Victor_Hugo"
   },
   {
     "id": 2,
     "name": "Jane Austen",
-    "country": "United Kingdom",
+    "country": null,
     "date": {
       "birth": "1775-12-16",
       "death": "1817-07-18"
     },
     "description": "Jane Austen was an English novelist known primarily for her six major novels.",
-    "wikipediaLink": "https://en.wikipedia.org/wiki/Jane_Austen",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Jane_Austen"
   },
   {
     "id": 3,
@@ -30,7 +30,7 @@
       "death": "1910-04-21"
     },
     "description": "Mark Twain was an American writer, humorist, entrepreneur, publisher, and lecturer.",
-    "wikipediaLink": "https://en.wikipedia.org/wiki/Mark_Twain",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Mark_Twain"
   },
   {
     "id": 4,
@@ -41,7 +41,7 @@
       "death": "1910-11-20"
     },
     "description": "Leo Tolstoy was a Russian writer, widely regarded as one of the greatest authors of all time.",
-    "wikipediaLink": "https://en.wikipedia.org/wiki/Leo_Tolstoy",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Leo_Tolstoy"
   },
   {
     "id": 5,
@@ -49,9 +49,9 @@
     "country": "Colombia",
     "date": {
       "birth": "1927-03-06",
-      "death": "2014-04-17"
+      "death": null
     },
     "description": "Gabriel García Márquez was a Colombian novelist, short-story writer",
-    "wikipediaLink": "https://en.wikipedia.org/wiki/Gabriel_García_Márquez",
+    "wikipediaLink": "https://en.wikipedia.org/wiki/Gabriel_García_Márquez"
   }
 ]

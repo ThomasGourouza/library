@@ -17,15 +17,14 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
+import { Header } from 'app/models/header';
 import {
   AllowedQueryParamsCommon,
   Between,
-  COLUMN_SETTINGS_KEY,
-  Header,
   SortDirection,
   TableItem,
   toAllowedFilterParamsKeys,
-} from '@shared/constants';
+} from 'app/models/types';
 import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
 import { OrderPipe } from 'app/pipes/order.pipe';
 import { PaginatePipe } from 'app/pipes/paginate.pipe';
@@ -34,15 +33,11 @@ import { TableColumnVisiblePipe } from 'app/pipes/table-column-visible.pipe';
 import { TableFilterPipe } from 'app/pipes/table-filter.pipe';
 import { TableSortPipe } from 'app/pipes/table-sort.pipe';
 import { UniquePipe } from 'app/pipes/unique.pipe';
+import { LocalStorageService } from 'app/services/local-storage.service';
 import { UtilsService } from 'app/services/utils.service';
 import { distinctUntilChanged, filter, map, startWith } from 'rxjs';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { TableSettingsComponent } from './table-settings/table-settings.component';
-import {
-  getHeadersWithLocalStorage,
-  mapToColumnSettings,
-  saveInLocalStorage,
-} from '@shared/local-storage-helper';
 
 @Component({
   selector: 'app-table',
@@ -67,6 +62,7 @@ import {
 export class TableComponent {
   private readonly injector = inject(Injector);
   private readonly utilsService = inject(UtilsService);
+  private readonly localStorageService = inject(LocalStorageService);
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
@@ -91,6 +87,9 @@ export class TableComponent {
       return;
     }
     if (key === 'ArrowDown' || key === 'ArrowUp') {
+      if (this.data.length === 0) {
+        return;
+      }
       const displayedData = this.paginatePipe.transform(
         this.tableSortPipe.transform(
           this.tableFilterPipe.transform(this.data, this.filterParams()),
@@ -129,7 +128,7 @@ export class TableComponent {
 
   @Input() data: TableItem[] = [];
   @Input() set headers(value: Header[]) {
-    this._headers = getHeadersWithLocalStorage(value);
+    this._headers = this.localStorageService.getHeadersFromLocalStorage(value);
     const allowedFilterParamsKeys = toAllowedFilterParamsKeys(value);
     this.filterForm = this.fb.group(
       Object.fromEntries(
@@ -305,7 +304,7 @@ export class TableComponent {
       currentColumn.rank,
     ];
     this._headers = headers;
-    saveInLocalStorage(COLUMN_SETTINGS_KEY, mapToColumnSettings(this._headers));
+    this.localStorageService.saveHeadersInLocalStorage(this._headers);
   }
 
   onNewHeaders(headers: Header[]): void {

@@ -1,5 +1,5 @@
 import { inject, Pipe, PipeTransform } from '@angular/core';
-import { TableItem } from '@shared/constants';
+import { TableItem } from 'app/models/types';
 import { UtilsService } from 'app/services/utils.service';
 
 @Pipe({

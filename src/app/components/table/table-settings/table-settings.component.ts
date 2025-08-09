@@ -12,12 +12,9 @@ import {
   NonNullableFormBuilder,
   ReactiveFormsModule,
 } from '@angular/forms';
-import { COLUMN_SETTINGS_KEY, Header } from '@shared/constants';
-import {
-  mapToColumnSettings,
-  saveInLocalStorage,
-} from '@shared/local-storage-helper';
+import { Header } from 'app/models/header';
 import { OrderPipe } from 'app/pipes/order.pipe';
+import { LocalStorageService } from 'app/services/local-storage.service';
 import { Subscription } from 'rxjs';
 
 @Component({
@@ -29,6 +26,7 @@ import { Subscription } from 'rxjs';
 })
 export class TableSettingsComponent implements OnDestroy {
   private fb = inject(NonNullableFormBuilder);
+  private readonly localStorageService = inject(LocalStorageService);
   private readonly orderPipe = inject(OrderPipe);
 
   visibleColumnForm!: FormGroup;
@@ -54,10 +52,7 @@ export class TableSettingsComponent implements OnDestroy {
           isVisible: values[header.name] ?? false,
         }));
         this.newHeaders.emit(updatedHeaders);
-        saveInLocalStorage(
-          COLUMN_SETTINGS_KEY,
-          mapToColumnSettings(updatedHeaders)
-        );
+        this.localStorageService.saveHeadersInLocalStorage(updatedHeaders);
       });
   }
   private _headers: Header[] = [];

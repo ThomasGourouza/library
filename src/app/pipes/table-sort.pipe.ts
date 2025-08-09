@@ -3,7 +3,7 @@ import {
   AllowedQueryParamsCommon,
   SortParams,
   TableItem,
-} from '@shared/constants';
+} from 'app/models/types';
 import { UtilsService } from 'app/services/utils.service';
 
 @Pipe({

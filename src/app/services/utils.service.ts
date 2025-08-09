@@ -1,30 +1,14 @@
 import { Injectable } from '@angular/core';
 import {
-  DEFAULT_ROWS_LIMIT,
   DEFAULT_PAGE,
-  TableItem,
-  Header,
+  DEFAULT_ROWS_LIMIT,
   ROWS_LIMIT_LIST,
-} from '@shared/constants';
+} from 'app/models/types';
 
 @Injectable({
   providedIn: 'root',
 })
 export class UtilsService {
-  makeId(text: string): string {
-    return text
-      .replace(/ä/g, 'ae')
-      .replace(/ö/g, 'oe')
-      .replace(/ü/g, 'ue')
-      .replace(/ß/g, 'ss')
-      .replace(/œ/g, 'oe')
-      .normalize('NFD') // sépare les accents
-      .replace(/[\u0300-\u036f]/g, '') // supprime les accents
-      .toLowerCase()
-      .replace(/['\s]+/g, '_') // espaces & apostrophes: _
-      .replace(/[^a-z0-9_]/g, ''); // retire le reste
-  }
-
   isNumericString(s: string): boolean {
     return /^\d+$/.test(s);
   }
@@ -56,29 +40,6 @@ export class UtilsService {
     )
       return DEFAULT_ROWS_LIMIT;
     return +rowsLimit;
-  }
-
-  // TODO: creer deux methodes, une pour Book et une pour Author
-  withTitleAndId(items: any[], headers: Header[]): TableItem[] {
-    return items.flatMap((item) => [
-      {
-        ...Object.fromEntries(
-          headers.map(({ name }) => {
-            switch (name) {
-              case 'title':
-                return [name, item.title.french];
-              case 'author':
-                return [name, item.author.name];
-              case 'description':
-                return [name, item.description.french];
-              default:
-                return [name, item[name]];
-            }
-          })
-        ),
-        id: item.id,
-      },
-    ]);
   }
 
   cleanList(list: (string | undefined | null)[]): string[] {

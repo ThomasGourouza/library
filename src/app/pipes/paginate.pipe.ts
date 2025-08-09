@@ -1,5 +1,5 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
-import { TableItem } from '@shared/constants';
+import { TableItem } from 'app/models/types';
 
 @Pipe({
   name: 'paginate',

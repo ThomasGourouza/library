@@ -1,6 +1,6 @@
 import { inject, Injectable, Pipe, PipeTransform } from '@angular/core';
 import { Params } from '@angular/router';
-import { Between, TableItem } from '@shared/constants';
+import { Between, TableItem } from 'app/models/types';
 import { UtilsService } from 'app/services/utils.service';
 
 @Pipe({
@@ -29,7 +29,7 @@ export class TableFilterPipe implements PipeTransform {
     return keyMinMax.replace(Between.MIN, '').replace(Between.MAX, '');
   }
 
-  private like(text: string | undefined, filters: string): boolean {
+  private like(text: string, filters: string): boolean {
     return filters
       .split(',')
       .some((filter) =>
@@ -39,7 +39,7 @@ export class TableFilterPipe implements PipeTransform {
 
   private between(
     keyMinMax: string,
-    value: string | undefined,
+    value: string,
     valueMinMax: string
   ): boolean {
     if (
@@ -55,8 +55,7 @@ export class TableFilterPipe implements PipeTransform {
     }
   }
 
-  private toSimpleText(text: string | undefined): string {
-    if (!text) return '';
+  private toSimpleText(text: string): string {
     return text
       .normalize('NFD')
       .replace(/[\u0300-\u036f]/g, '')

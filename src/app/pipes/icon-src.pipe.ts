@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { SortDirection } from '@shared/constants';
+import { SortDirection } from 'app/models/types';
 
 @Pipe({
   name: 'iconSrc',

@@ -1,5 +1,5 @@
 import { Injectable, Pipe, PipeTransform } from '@angular/core';
-import { Header } from '@shared/constants';
+import { Header } from "app/models/header";
 
 @Pipe({
   name: 'visible',

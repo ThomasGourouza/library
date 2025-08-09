@@ -1,6 +1,6 @@
 import { Component, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
-import { Router, ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { BookService } from 'app/services/book.service';
 import { combineLatest, map } from 'rxjs';
 
@@ -29,5 +29,9 @@ export class BookDetailComponent {
     this.router.navigate([`/${root}`], {
       queryParamsHandling: 'preserve',
     });
+  }
+
+  seeData() {
+    console.log(this.book());
   }
 }

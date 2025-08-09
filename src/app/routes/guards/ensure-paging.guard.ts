@@ -1,6 +1,6 @@
 import { inject } from '@angular/core';
-import { CanActivateFn, ActivatedRouteSnapshot, Router } from '@angular/router';
-import { AllowedQueryParamsCommon } from '@shared/constants';
+import { ActivatedRouteSnapshot, CanActivateFn, Router } from '@angular/router';
+import { AllowedQueryParamsCommon } from 'app/models/types';
 import { UtilsService } from 'app/services/utils.service';
 
 export const ensurePagingGuard: CanActivateFn = (

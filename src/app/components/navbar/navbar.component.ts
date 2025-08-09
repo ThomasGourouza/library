@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterModule } from '@angular/router';
-import { DEFAULT_QUERY_PARAMS } from '@shared/constants';
+import { DEFAULT_QUERY_PARAMS } from 'app/models/types';
 
 @Component({
   selector: 'app-navbar',

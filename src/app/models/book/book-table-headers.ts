@@ -1,4 +1,4 @@
-import { Header, HeaderType } from 'app/shared/constants';
+import { Header, HeaderType } from "app/models/header";
 
 export const BOOKS_HEADERS: Header[] = [
   new Header('originalTitle', 'Original Title', HeaderType.TEXT, false),

@@ -1,11 +1,9 @@
-import { inject, Injectable } from '@angular/core';
-import { TableItem, toAllowedQueryParamsKeys } from '@shared/constants';
-import { UtilsService } from './utils.service';
 import { HttpClient } from '@angular/common/http';
-import { catchError, map, Observable, of, shareReplay } from 'rxjs';
-import { BOOKS_HEADERS } from 'app/models/book/book-table-headers';
+import { inject, Injectable } from '@angular/core';
 import { Book } from 'app/models/book/book';
-
+import { BOOKS_HEADERS } from 'app/models/book/book-table-headers';
+import { toAllowedQueryParamsKeys } from 'app/models/types';
+import { catchError, Observable, of, shareReplay } from 'rxjs';
 
 export const ALLOWED_BOOK_QUERY_PARAMS_KEYS =
   toAllowedQueryParamsKeys(BOOKS_HEADERS);
@@ -14,13 +12,11 @@ export const ALLOWED_BOOK_QUERY_PARAMS_KEYS =
   providedIn: 'root',
 })
 export class BookService {
-  utilsService = inject(UtilsService);
   http = inject(HttpClient);
   private readonly url = 'assets/data/books.json';
 
-  get books$(): Observable<TableItem[]> {
+  get books$(): Observable<Book[]> {
     return this.http.get<Book[]>(this.url).pipe(
-      map((item) => this.utilsService.withTitleAndId(item, BOOKS_HEADERS)),
       catchError(() => of([])),
       shareReplay({ bufferSize: 1, refCount: true })
     );
