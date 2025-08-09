@@ -9,7 +9,7 @@
           <thead class="header">
             <tr>
               <th *ngFor="let header of headers | visible | order">
-                <div class="flex">
+                <div class="flex" [title]="header.label">
                   <div class="order-icon hide">
                     @if (header.rank !== 1) {
                     <img
@@ -20,7 +20,7 @@
                     }
                   </div>
                   <div class="header-label">
-                    {{ header.label }}
+                    {{ header.labelMin }}
                     <img
                       [class.hide]="!header.sortDirection"
                       ngOptimizedImage
