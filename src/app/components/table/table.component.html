@@ -45,14 +45,14 @@
             <tr>
               <td *ngFor="let header of headers | visible | order">
                 <div class="flex">
-                  @if (header.hasSearch) {
+                  @if (hasSearch(header)) {
                   <input
                     type="text"
                     class="form-control"
                     [formControlName]="header.name"
                     placeholder="search..."
                   />
-                  @if (!header.hasSelect || header.hasSelect && !rowId()) {
+                  @if (!hasSelect(header) || hasSelect(header) && !rowId()) {
                   <div class="d-flex align-items-center minus-check">
                     <img
                       ngOptimizedImage
@@ -62,7 +62,7 @@
                       (click)="onReset(header.name)"
                     />
                   </div>
-                  } } @if (header.hasBetween) {
+                  } } @if (hasBetween(header)) {
                   <input
                     type="number"
                     class="form-control"
@@ -96,7 +96,7 @@
                       (click)="onReset(header.name + max)"
                     />
                   </div>
-                  } } @if (header.hasSelect) {
+                  } } @if (hasSelect(header)) {
                   <select
                     class="form-select"
                     [value]="filterForm.get(header.name)!.value"

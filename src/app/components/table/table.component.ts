@@ -17,7 +17,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Header } from 'app/models/header';
+import { Header, HeaderType } from 'app/models/header';
 import {
   AllowedQueryParamsCommon,
   Between,
@@ -284,6 +284,22 @@ export class TableComponent {
     this.filterForm.get(headerName)!.reset();
   }
 
+  onNewHeaders(headers: Header[]): void {
+    this._headers = headers;
+  }
+
+  hasBetween(header: Header): boolean {
+    return header.type === HeaderType.NUMBER;
+  }
+
+  hasSearch(header: Header): boolean {
+    return [HeaderType.TEXT, HeaderType.ENUM].includes(header.type);
+  }
+
+  hasSelect(header: Header): boolean {
+    return [HeaderType.BOOLEAN, HeaderType.ENUM].includes(header.type);
+  }
+
   private moveColumn(headerName: string, direction: -1 | 1): void {
     const headers = [...this._headers];
     const orderedVisibleHeaders = this.orderPipe.transform(
@@ -307,9 +323,5 @@ export class TableComponent {
     ];
     this._headers = headers;
     this.localStorageService.saveHeadersInLocalStorage(this._headers);
-  }
-
-  onNewHeaders(headers: Header[]): void {
-    this._headers = headers;
   }
 }
