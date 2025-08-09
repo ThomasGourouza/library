@@ -25,14 +25,15 @@ import {
   TableItem,
   toAllowedFilterParamsKeys,
 } from 'app/models/types';
+import { DisplayPipe } from 'app/pipes/display.pipe';
 import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
 import { OrderPipe } from 'app/pipes/order.pipe';
 import { PaginatePipe } from 'app/pipes/paginate.pipe';
 import { PlusSrcPipe } from 'app/pipes/plus-src.pipe';
+import { SelectListPipe } from 'app/pipes/select-list.pipe';
 import { TableColumnVisiblePipe } from 'app/pipes/table-column-visible.pipe';
 import { TableFilterPipe } from 'app/pipes/table-filter.pipe';
 import { TableSortPipe } from 'app/pipes/table-sort.pipe';
-import { UniquePipe } from 'app/pipes/unique.pipe';
 import { LocalStorageService } from 'app/services/local-storage.service';
 import { UtilsService } from 'app/services/utils.service';
 import { distinctUntilChanged, filter, map, startWith } from 'rxjs';
@@ -52,8 +53,9 @@ import { TableSettingsComponent } from './table-settings/table-settings.componen
     IconSrcPipe,
     TableColumnVisiblePipe,
     OrderPipe,
-    UniquePipe,
+    DisplayPipe,
     PlusSrcPipe,
+    SelectListPipe,
     TableSettingsComponent,
   ],
   templateUrl: './table.component.html',

@@ -30,4 +30,5 @@ export enum HeaderType {
   TEXT = 'text',
   NUMBER = 'number',
   BOOLEAN = 'boolean',
+  ENUM = 'enum',
 }

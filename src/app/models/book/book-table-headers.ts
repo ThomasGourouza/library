@@ -1,9 +1,10 @@
 import { Header, HeaderType } from "app/models/header";
 
+// TODO
 export const BOOKS_HEADERS: Header[] = [
   new Header('originalTitle', 'Original Title', HeaderType.TEXT, true, false),
   new Header('title', 'Translated Title', HeaderType.TEXT, true, false),
-  new Header('author', 'Author'),
+  new Header('author', 'Author', HeaderType.TEXT, true, false),
   new Header('publicationDate', 'Publication Date', HeaderType.NUMBER),
   new Header('language', 'Language'),
   new Header('type', 'Type'),

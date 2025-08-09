@@ -106,10 +106,10 @@
                   >
                     <option value=""></option>
                     <option
-                      *ngFor="let entry of data | unique : header.name"
-                      [value]="entry"
+                      *ngFor="let option of 'data' | selectList: header.name"
+                      [value]="option"
                     >
-                      {{ entry }}
+                      {{ option | display: header.name }}
                     </option>
                   </select>
                   <div class="d-flex align-items-center plus-check">
@@ -141,7 +141,7 @@
               [class.selected]="row.id === rowId()"
             >
               <td *ngFor="let header of headers | visible | order">
-                {{ row[header.name] }}
+                {{ row[header.name] | display: header.name }}
               </td>
             </tr>
           </tbody>
