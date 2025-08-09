@@ -45,9 +45,9 @@
             <tr>
               <td *ngFor="let header of headers | visible | order">
                 <div class="flex">
-                  @if (header.type !== 'number') {
+                  @if (header.hasSearch) {
                   <input
-                    [type]="header.type"
+                    type="text"
                     class="form-control"
                     [formControlName]="header.name"
                     placeholder="search..."
@@ -62,7 +62,7 @@
                       (click)="onReset(header.name)"
                     />
                   </div>
-                  } } @else {
+                  } } @if (header.type === 'number') {
                   <input
                     type="number"
                     class="form-control"
