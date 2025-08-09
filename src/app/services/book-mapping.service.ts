@@ -23,29 +23,29 @@ export class BookMappingService {
         ...book.author,
         country:
           !!book.author.country && book.author.country in Country
-            ? Country[+Country[book.author.country as keyof typeof Country]]
-            : Country[+Country.UNKNOWN],
+            ? Country[book.author.country]
+            : Country.UNKNOWN,
       },
       language:
         !!book.language && book.language in Language
-          ? Language[+Language[book.language as keyof typeof Language]]
-          : Language[+Language.UNKNOWN],
+          ? Language[book.language]
+          : Language.UNKNOWN,
       type:
         !!book.type && book.type in Type
-          ? Type[+Type[book.type as keyof typeof Type]]
-          : Type[+Type.UNKNOWN],
+          ? Type[book.type]
+          : Type.UNKNOWN,
       category:
         !!book.category && book.category in Category
-          ? Category[+Category[book.category as keyof typeof Category]]
-          : Category[+Category.UNKNOWN],
+          ? Category[book.category]
+          : Category.UNKNOWN,
       audience:
         !!book.audience && book.audience in Audience
-          ? Audience[+Audience[book.audience as keyof typeof Audience]]
-          : Audience[+Audience.UNKNOWN],
+          ? Audience[book.audience]
+          : Audience.UNKNOWN,
       status:
         !!book.status && book.status in Status
-          ? Status[+Status[book.status as keyof typeof Status]]
-          : Status[+Status.UNREAD],
+          ? Status[book.status]
+          : Status.UNREAD,
       favorite: !!book.favorite,
     }));
   }

@@ -19,8 +19,8 @@ export class AuthorMappingService {
         : [],
       country:
         !!author.country && author.country in Country
-          ? Country[+Country[author.country as keyof typeof Country]]
-          : Country[+Country.UNKNOWN],
+          ? Country[author.country]
+          : Country.UNKNOWN,
     }));
   }
 

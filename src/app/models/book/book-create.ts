@@ -6,13 +6,13 @@ export interface BookCreate {
   title: Multilingual;
   authorId: string;
   publicationDate: Date;
-  language: Language | string;
-  type: Type | string;
-  category: Category | string;
-  audience: Audience | string;
+  language: Language;
+  type: Type;
+  category: Category;
+  audience: Audience;
   description: Multilingual;
   wikipediaLink: string;
-  status: Status | string;
+  status: Status;
   favorite: boolean;
   personalNotes: string;
 }

@@ -5,7 +5,7 @@ import { Multilingual } from "../multilingual";
 export interface Author {
     id: string;
     name: string;
-    country: Country | string;
+    country: Country;
     date: AuthorDate;
     description: Multilingual;
     wikipediaLink: string;

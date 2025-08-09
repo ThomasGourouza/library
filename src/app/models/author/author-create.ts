@@ -4,7 +4,7 @@ import { AuthorDate } from "./author";
 
 export interface AuthorCreate {
     name: string;
-    country: Country | string;
+    country: Country;
     date: AuthorDate;
     description: Multilingual;
     wikipediaLink: string;
