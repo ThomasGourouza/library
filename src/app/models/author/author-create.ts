@@ -1,10 +1,10 @@
 import { Country } from "../enums";
 import { Multilingual } from "../multilingual";
-import { AuthorDate } from "./Author";
+import { AuthorDate } from "./author";
 
 export interface AuthorCreate {
     name: string;
-    country: Country;
+    country: Country | string;
     date: AuthorDate;
     description: Multilingual;
     wikipediaLink: string;

@@ -1,13 +1,28 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 import { Author } from 'app/models/author/author';
 import { AUTHORS_HEADERS } from 'app/models/author/author-table-headers';
 import { Country } from 'app/models/enums';
 import { TableItem } from 'app/models/types';
+import { BookMappingService } from './book-mapping.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
-export class AuthorTableMappingService {
+export class AuthorMappingService {
+  private readonly bookMappingService = inject(BookMappingService);
+
+  mapAuthorWithEnums(authors: Author[]): Author[] {
+    return authors.map((author) => ({
+      ...author,
+      books: !!author.books
+        ? this.bookMappingService.mapBookWithEnums(author.books)
+        : [],
+      country:
+        !!author.country && author.country in Country
+          ? Country[+Country[author.country as keyof typeof Country]]
+          : Country[+Country.UNKNOWN],
+    }));
+  }
 
   mapToTableItem(authors: Author[]): TableItem[] {
     return authors.map((author) => ({
@@ -25,15 +40,10 @@ export class AuthorTableMappingService {
     let value: string | number = '';
     switch (name) {
       case 'name':
-        if (!!author.name) {
-          value = author.name;
-        }
+        value = author.name;
         break;
       case 'country':
-        value =
-          !!author.country && author.country in Country
-            ? Country[+Country[author.country]]
-            : Country[+Country.UNKNOWN];
+        value = author.country;
         break;
       case 'birthYear':
         if (!!author.date.birth) {

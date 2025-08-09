@@ -1,4 +1,4 @@
-import { Language, Category, Audience, Status, Type } from "../enums";
+import { Audience, Category, Language, Status, Type } from "../enums";
 import { Multilingual } from "../multilingual";
 
 export interface BookCreate {
@@ -6,13 +6,13 @@ export interface BookCreate {
   title: Multilingual;
   authorId: string;
   publicationDate: Date;
-  language: Language;
-  type: Type;
-  category: Category;
-  audience: Audience;
+  language: Language | string;
+  type: Type | string;
+  category: Category | string;
+  audience: Audience | string;
   description: Multilingual;
   wikipediaLink: string;
-  status: Status;
+  status: Status | string;
   favorite: boolean;
   personalNotes: string;
 }

@@ -1,6 +1,6 @@
 import { Author } from '../author/author';
+import { Audience, Category, Language, Status, Type } from '../enums';
 import { Multilingual } from '../multilingual';
-import { Language, Category, Audience, Status, Type } from '../enums';
 
 export interface Book {
   id: string;
@@ -9,13 +9,13 @@ export interface Book {
   author: Author;
   authorAgeAtPublication: number;
   publicationDate: Date;
-  language: Language;
-  type: Type;
-  category: Category;
-  audience: Audience;
+  language: Language | string;
+  type: Type | string;
+  category: Category | string;
+  audience: Audience | string;
   description: Multilingual;
   wikipediaLink: string;
-  status: Status;
+  status: Status | string;
   favorite: boolean;
   personalNotes: string;
 }
