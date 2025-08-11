@@ -13,7 +13,7 @@
 .icons {
   width: 50px;
   .visible-column-icon {
-    margin-top: 0;
+    margin-top: 2px;
     button {
       padding: 0;
       border: 0;
@@ -22,7 +22,7 @@
     }
   }
   .reset-filters-icon {
-    margin-top: 19px;
+    margin-top: 23px;
   }
 }
 
@@ -85,14 +85,17 @@ img {
   }
 }
 
-.edge-col {
-  width: 20px;
-}
-
 .order-icon {
   img {
     cursor: pointer;
   }
+}
+
+.hidden {
+  margin-top: 2px;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  pointer-events: none;
 }
 
 .hide {
@@ -101,6 +104,7 @@ img {
   transition: opacity 0.3s ease;
   pointer-events: none;
 }
+
 .flex:hover .hide {
   opacity: 1;
   pointer-events: auto;

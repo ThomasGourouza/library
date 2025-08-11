@@ -4,8 +4,15 @@
 }
 
 .check-box-label {
+  margin-left: 15px;
   display: inline-block;
-  width: 60px;
+  span {
+    margin-left: 5px;
+  }
+  img {
+    width: var(--icon-size);
+    height: var(--icon-size);
+  }
 }
 
 .check-box-option {
@@ -14,5 +21,5 @@
 }
 
 .modal-dialog {
-  max-width: calc(var(--bs-modal-width) / 2);
+  max-width: 400px;
 }

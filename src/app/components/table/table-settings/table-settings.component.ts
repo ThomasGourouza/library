@@ -13,6 +13,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { Header } from 'app/models/header';
+import { HeaderIconSrcPipe } from 'app/pipes/header-icon-src.pipe';
 import { OrderPipe } from 'app/pipes/order.pipe';
 import { LocalStorageService } from 'app/services/local-storage.service';
 import { Subscription } from 'rxjs';
@@ -20,7 +21,7 @@ import { Subscription } from 'rxjs';
 @Component({
   selector: 'app-table-settings',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule],
+  imports: [CommonModule, ReactiveFormsModule, HeaderIconSrcPipe],
   templateUrl: './table-settings.component.html',
   styleUrl: './table-settings.component.scss',
 })

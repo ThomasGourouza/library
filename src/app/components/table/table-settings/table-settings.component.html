@@ -22,15 +22,22 @@
             *ngFor="let header of headers; let i = index"
             class="d-flex align-items-center"
           >
-            <div class="check-box-label">
-              {{ header.label }}
-            </div>
             <div class="form-check form-switch check-box-option">
               <input
                 class="form-check-input big-check"
                 type="checkbox"
                 [formControlName]="header.name"
               />
+            </div>
+            <div class="check-box-label">
+              <img
+                ngOptimizedImage
+                class="header-icon"
+                [src]="header.icon | headerIconSrc"
+              />
+              <span>
+                {{ header.label }}
+              </span>
             </div>
           </div>
         </div>

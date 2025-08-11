@@ -10,17 +10,13 @@
             <tr>
               <th *ngFor="let header of headers | visible | order">
                 <div class="flex" [title]="header.label">
-                  <div
-                    class="order-icon hide"
-                    [class.edge-col]="header.rank === 1"
-                  >
-                    @if (header.rank !== 1) {
+                  <div class="order-icon hide">
                     <img
+                      [class.hidden]="header.rank === 1"
                       ngOptimizedImage
                       src="assets/icons/arrow-left.svg"
                       (click)="onLeft(header.name)"
                     />
-                    }
                   </div>
                   <div class="header-label">
                     <img
@@ -38,17 +34,13 @@
                     />
                     <div [class.adjust]="!header.sortDirection"></div>
                   </div>
-                  <div
-                    class="order-icon hide"
-                    [class.edge-col]="header.rank === headers.length"
-                  >
-                    @if (header.rank !== headers.length) {
+                  <div class="order-icon hide">
                     <img
+                      [class.hidden]="header.rank === headers.length"
                       ngOptimizedImage
                       src="assets/icons/arrow-right.svg"
                       (click)="onRight(header.name)"
                     />
-                    }
                   </div>
                 </div>
               </th>
@@ -118,8 +110,7 @@
                         (click)="header.isSelectAdd = !header.isSelectAdd"
                       />
                     </div>
-                    }
-                    @if (hasSearch(header)) {
+                    } @if (hasSearch(header)) {
                     <div class="d-flex align-items-center pointer">
                       <img
                         ngOptimizedImage
@@ -138,8 +129,7 @@
                         (click)="onAddSearch(header.name)"
                       />
                     </div>
-                    }
-                    @if (hasBetween(header)) {
+                    } @if (hasBetween(header)) {
                     <div class="d-flex align-items-center pointer">
                       <img
                         ngOptimizedImage
