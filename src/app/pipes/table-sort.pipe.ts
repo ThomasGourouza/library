@@ -1,6 +1,7 @@
 import { inject, Injectable, Pipe, PipeTransform } from '@angular/core';
 import {
   AllowedQueryParamsCommon,
+  SortDirection,
   SortParams,
   TableItem,
 } from 'app/models/types';
@@ -24,7 +25,7 @@ export class TableSortPipe implements PipeTransform {
     }
     const sortColumnValue = sortParams[AllowedQueryParamsCommon.SORT_COLUMN];
     const dir =
-      sortParams[AllowedQueryParamsCommon.SORT_DIRECTION] === 'asc' ? 1 : -1;
+      sortParams[AllowedQueryParamsCommon.SORT_DIRECTION] === SortDirection.DESC ? 1 : -1;
 
     return [...list].sort((a, b) => {
       const av = a[sortColumnValue];

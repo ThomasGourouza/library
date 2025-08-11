@@ -3,6 +3,7 @@ import {
   Component,
   computed,
   effect,
+  ElementRef,
   HostListener,
   inject,
   Injector,
@@ -26,7 +27,7 @@ import {
   toAllowedFilterParamsKeys,
 } from 'app/models/types';
 import { DisplayPipe } from 'app/pipes/display.pipe';
-import { IconSrcPipe } from 'app/pipes/icon-src.pipe';
+import { SortIconSrcPipe } from 'app/pipes/sort-icon-src.pipe';
 import { OrderPipe } from 'app/pipes/order.pipe';
 import { PaginatePipe } from 'app/pipes/paginate.pipe';
 import { PlusSrcPipe } from 'app/pipes/plus-src.pipe';
@@ -39,6 +40,7 @@ import { UtilsService } from 'app/services/utils.service';
 import { distinctUntilChanged, filter, map, startWith } from 'rxjs';
 import { PaginatorComponent } from './paginator/paginator.component';
 import { TableSettingsComponent } from './table-settings/table-settings.component';
+import { HeaderIconSrcPipe } from 'app/pipes/header-icon-src.pipe';
 
 @Component({
   selector: 'app-table',
@@ -50,12 +52,13 @@ import { TableSettingsComponent } from './table-settings/table-settings.componen
     TableFilterPipe,
     TableSortPipe,
     PaginatePipe,
-    IconSrcPipe,
+    SortIconSrcPipe,
     TableColumnVisiblePipe,
     OrderPipe,
     DisplayPipe,
     PlusSrcPipe,
     SelectListPipe,
+    HeaderIconSrcPipe,
     TableSettingsComponent,
   ],
   templateUrl: './table.component.html',
@@ -68,6 +71,7 @@ export class TableComponent {
   private readonly fb = inject(NonNullableFormBuilder);
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly elRef = inject(ElementRef<HTMLElement>);
 
   private readonly tableFilterPipe = inject(TableFilterPipe);
   private readonly orderPipe = inject(OrderPipe);
@@ -284,6 +288,29 @@ export class TableComponent {
     this.filterForm.get(headerName)!.reset();
   }
 
+  onAddSearch(headerName: string): void {
+    const control = this.filterForm.get(headerName);
+    const current = control!.value ?? '';
+    const needsComma = current.length > 0 && !current.endsWith(',');
+    const next = needsComma ? `${current},` : current;
+    control!.setValue(next, { emitEvent: false });
+
+    setTimeout(() => {
+      const el = this.elRef.nativeElement.querySelector(
+        `#${headerName}-search`
+      ) as HTMLInputElement | null;
+      if (el) {
+        el.focus();
+        const end = el.value.length;
+        try {
+          el.setSelectionRange(end, end);
+        } catch {
+          console.error("Not a text input");
+        }
+      }
+    });
+  }
+
   onNewHeaders(headers: Header[]): void {
     this._headers = headers;
   }
@@ -293,7 +320,7 @@ export class TableComponent {
   }
 
   hasSearch(header: Header): boolean {
-    return [HeaderType.TEXT, HeaderType.ENUM].includes(header.type);
+    return header.type === HeaderType.TEXT;
   }
 
   hasSelect(header: Header): boolean {

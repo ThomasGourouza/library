@@ -53,9 +53,13 @@
 
 img {
   cursor: pointer;
-  &:not(.eye-icon):not(.filter-icon) {
+  &:not(.eye-icon):not(.filter-icon):not(.header-icon) {
     width: var(--icon-size);
     height: var(--icon-size);
+  }
+  &.header-icon {
+    width: var(--icon-middle-size);
+    height: var(--icon-middle-size);
   }
   &.filter-icon {
     margin-left: 2px;
@@ -68,11 +72,21 @@ img {
   }
 }
 
+.adjust {
+  width: 3px;
+}
+
 .header-label {
+  display: flex;
   text-align: center;
+  margin: 0 5px;
   img {
     margin-left: 5px;
   }
+}
+
+.edge-col {
+  width: 20px;
 }
 
 .order-icon {
@@ -82,6 +96,7 @@ img {
 }
 
 .hide {
+  margin-top: 2px;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;
@@ -92,26 +107,30 @@ img {
 }
 
 .plus-check {
+  img.plus-check-hover {
+    display: none;
+  }
+  img:not(.plus-check-hover) {
+    display: block;
+  }
+  &.plus-check:hover {
+    cursor: pointer;
+    img.plus-check-hover {
+      display: block;
+    }
+    img:not(.plus-check-hover) {
+      display: none;
+    }
+  }
+}
+
+.pointer {
+  cursor: pointer;
+}
+
+.minus-plus {
   margin-left: 5px;
-  img.plus-check-hover {
-    display: none;
-  }
-  img:not(.plus-check-hover) {
-    display: block;
-  }
-}
-
-.plus-check:hover {
-  cursor: pointer;
-  img.plus-check-hover {
-    display: block;
-  }
-  img:not(.plus-check-hover) {
-    display: none;
-  }
-}
-
-.minus-check {
-  margin: 0 5px;
-  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
 }
