@@ -16,13 +16,14 @@ import { TableItem } from 'app/models/types';
   providedIn: 'root',
 })
 export class BookMappingService {
-  mapBookWithEnums(books: Book[]): Book[] {
-    return books.map((book) => ({
+
+  mapBookWithEnums(book: Book): Book {
+    return {
       ...book,
       author: {
         ...book.author,
         country:
-          !!book.author.country && book.author.country in Country
+          !!book.author?.country && book.author.country in Country
             ? Country[book.author.country]
             : Country.UNKNOWN,
       },
@@ -44,7 +45,7 @@ export class BookMappingService {
           ? Status[book.status]
           : Status.UNREAD,
       favorite: !!book.favorite,
-    }));
+    };
   }
 
   mapToTableItem(books: Book[]): TableItem[] {

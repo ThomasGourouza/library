@@ -12,17 +12,17 @@ import { HeaderNameBook, HeaderNameAuthor } from 'app/models/header';
 export class AuthorMappingService {
   private readonly bookMappingService = inject(BookMappingService);
 
-  mapAuthorWithEnums(authors: Author[]): Author[] {
-    return authors.map((author) => ({
+  mapAuthorWithEnums(author: Author): Author {
+    return {
       ...author,
       books: !!author.books
-        ? this.bookMappingService.mapBookWithEnums(author.books)
+        ? author.books.map(this.bookMappingService.mapBookWithEnums)
         : [],
       country:
         !!author.country && author.country in Country
           ? Country[author.country]
           : Country.UNKNOWN,
-    }));
+    };
   }
 
   mapToTableItem(authors: Author[]): TableItem[] {
@@ -37,7 +37,10 @@ export class AuthorMappingService {
     }));
   }
 
-  private getValue(name: HeaderNameBook | HeaderNameAuthor, author: Author): string | number {
+  private getValue(
+    name: HeaderNameBook | HeaderNameAuthor,
+    author: Author
+  ): string | number {
     let value: string | number = '';
     switch (name) {
       case HeaderNameAuthor.NAME:
@@ -47,12 +50,12 @@ export class AuthorMappingService {
         value = author.country;
         break;
       case HeaderNameAuthor.BIRTH_YEAR:
-        if (!!author.date.birth) {
+        if (!!author.date?.birth) {
           value = new Date(author.date.birth).getFullYear();
         }
         break;
       case HeaderNameAuthor.DEATH_YEAR:
-        if (!!author.date.death) {
+        if (!!author.date?.death) {
           value = new Date(author.date.death).getFullYear();
         }
         break;
