@@ -1,7 +1,7 @@
 import { SortDirection } from 'app/models/types';
 
 export class Header {
-  name: string;
+  name: HeaderNameBook | HeaderNameAuthor;
   label: string;
   icon: string;
   type: HeaderType;
@@ -10,7 +10,12 @@ export class Header {
   sortDirection: SortDirection | null = null;
   rank: number = 0;
 
-  constructor(name: string, label: string, icon: string,type: HeaderType) {
+  constructor(
+    name: HeaderNameBook | HeaderNameAuthor,
+    label: string,
+    icon: string,
+    type: HeaderType
+  ) {
     this.name = name;
     this.label = label;
     this.icon = icon;
@@ -23,4 +28,24 @@ export enum HeaderType {
   NUMBER = 'number',
   BOOLEAN = 'boolean',
   ENUM = 'enum',
+}
+
+export enum HeaderNameBook {
+  ORIGINAL_TITLE = 'originalTitle',
+  TITLE = 'title',
+  AUTHOR = 'author',
+  PUBLICATION_DATE = 'publicationDate',
+  LANGUAGE = 'language',
+  TYPE = 'type',
+  CATEGORY = 'category',
+  AUDIENCE = 'audience',
+  STATUS = 'status',
+  FAVORITE = 'favorite',
+}
+
+export enum HeaderNameAuthor {
+  NAME = 'name',
+  COUNTRY = 'country',
+  BIRTH_YEAR = 'birthYear',
+  DEATH_YEAR = 'deathYear',
 }

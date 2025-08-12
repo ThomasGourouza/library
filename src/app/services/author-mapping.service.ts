@@ -4,6 +4,7 @@ import { AUTHORS_HEADERS } from 'app/models/author/author-table-headers';
 import { Country } from 'app/models/enums';
 import { TableItem } from 'app/models/types';
 import { BookMappingService } from './book-mapping.service';
+import { HeaderNameBook, HeaderNameAuthor } from 'app/models/header';
 
 @Injectable({
   providedIn: 'root',
@@ -36,21 +37,21 @@ export class AuthorMappingService {
     }));
   }
 
-  private getValue(name: string, author: Author): string | number {
+  private getValue(name: HeaderNameBook | HeaderNameAuthor, author: Author): string | number {
     let value: string | number = '';
     switch (name) {
-      case 'name':
+      case HeaderNameAuthor.NAME:
         value = author.name;
         break;
-      case 'country':
+      case HeaderNameAuthor.COUNTRY:
         value = author.country;
         break;
-      case 'birthYear':
+      case HeaderNameAuthor.BIRTH_YEAR:
         if (!!author.date.birth) {
           value = new Date(author.date.birth).getFullYear();
         }
         break;
-      case 'deathYear':
+      case HeaderNameAuthor.DEATH_YEAR:
         if (!!author.date.death) {
           value = new Date(author.date.death).getFullYear();
         }

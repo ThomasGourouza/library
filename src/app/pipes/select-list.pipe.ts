@@ -1,35 +1,43 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { Audience, Category, Country, Language, Status, Type } from 'app/models/enums';
+import {
+  Audience,
+  Category,
+  Country,
+  Language,
+  Status,
+  Type,
+} from 'app/models/enums';
+import { HeaderNameAuthor, HeaderNameBook } from 'app/models/header';
+import { BOOLEAN } from 'app/models/types';
 
 @Pipe({
   name: 'selectList',
-  standalone: true
+  standalone: true,
 })
 export class SelectListPipe implements PipeTransform {
-
-  transform(headerName: string): string[] {
+  transform(headerName: HeaderNameBook | HeaderNameAuthor): string[] {
     let options: string[] = [];
     switch (headerName) {
-      case 'language':
+      case HeaderNameBook.LANGUAGE:
         options = Object.values(Language);
         break;
-      case 'type':
+      case HeaderNameBook.TYPE:
         options = Object.values(Type);
         break;
-      case 'category':
+      case HeaderNameBook.CATEGORY:
         options = Object.values(Category);
         break;
-      case 'audience':
+      case HeaderNameBook.AUDIENCE:
         options = Object.values(Audience);
         break;
-      case 'status':
+      case HeaderNameBook.STATUS:
         options = Object.values(Status);
         break;
-        case 'country':
-          options = Object.values(Country);
-          break;
-      case 'favorite':
-        options = ['true', 'false'];
+      case HeaderNameAuthor.COUNTRY:
+        options = Object.values(Country);
+        break;
+      case HeaderNameBook.FAVORITE:
+        options = [BOOLEAN.TRUE, BOOLEAN.FALSE];
         break;
       default:
         options = [];

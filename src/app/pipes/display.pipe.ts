@@ -1,4 +1,6 @@
 import { Pipe, PipeTransform } from '@angular/core';
+import { Language } from 'app/models/enums';
+import { HeaderNameBook, HeaderNameAuthor } from 'app/models/header';
 
 @Pipe({
   name: 'display',
@@ -7,12 +9,12 @@ import { Pipe, PipeTransform } from '@angular/core';
 export class DisplayPipe implements PipeTransform {
   transform(
     option: string,
-    headerName: string,
+    headerName: HeaderNameBook | HeaderNameAuthor,
     birthYear?: string,
     deathYear?: string
   ): string {
     // TODO: Translate
-    if (!option && headerName !== 'deathYear') {
+    if (!option && headerName !== HeaderNameAuthor.DEATH_YEAR) {
       return '-';
     }
     const lowerCaseOption = (
@@ -20,25 +22,25 @@ export class DisplayPipe implements PipeTransform {
     )
       .replace('_', ' ')
       .trim();
-    if (headerName === 'language') {
+    if (headerName === HeaderNameBook.LANGUAGE) {
       switch (option) {
-        case 'EN':
+        case Language.EN:
           return 'English';
-        case 'FR':
+        case Language.FR:
           return 'French';
-        case 'ES':
+        case Language.ES:
           return 'Spanish';
-        case 'DE':
+        case Language.DE:
           return 'German';
-        case 'IT':
+        case Language.IT:
           return 'Italian';
-        case 'ZH':
+        case Language.ZH:
           return 'Chinese';
-        case 'JA':
+        case Language.JA:
           return 'Japanese';
-        case 'RU':
+        case Language.RU:
           return 'Russian';
-        case 'DA':
+        case Language.DA:
           return 'Danish';
         default:
           return lowerCaseOption;
@@ -46,17 +48,17 @@ export class DisplayPipe implements PipeTransform {
     }
     if (
       [
-        'type',
-        'category',
-        'audience',
-        'status',
-        'country',
-        'favorite',
+        HeaderNameBook.TYPE,
+        HeaderNameBook.CATEGORY,
+        HeaderNameBook.AUDIENCE,
+        HeaderNameBook.STATUS,
+        HeaderNameAuthor.COUNTRY,
+        HeaderNameBook.FAVORITE,
       ].includes(headerName)
     ) {
       return lowerCaseOption;
     }
-    if (headerName === 'deathYear') {
+    if (headerName === HeaderNameAuthor.DEATH_YEAR) {
       if (this.isNullOrEmpty(birthYear)) {
         if (this.isNullOrEmpty(deathYear)) {
           return '-';

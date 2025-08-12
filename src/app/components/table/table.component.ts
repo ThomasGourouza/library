@@ -18,7 +18,7 @@ import {
   ReactiveFormsModule,
 } from '@angular/forms';
 import { ActivatedRoute, NavigationEnd, Router } from '@angular/router';
-import { Header, HeaderType } from 'app/models/header';
+import { Header, HeaderNameAuthor, HeaderType } from 'app/models/header';
 import {
   AllowedQueryParamsCommon,
   Between,
@@ -81,6 +81,8 @@ export class TableComponent {
 
   min = Between.MIN;
   max = Between.MAX;
+  birthYear = HeaderNameAuthor.BIRTH_YEAR;
+  deathYear = HeaderNameAuthor.DEATH_YEAR;
 
   @HostListener('window:keydown', ['$event'])
   handleKeyDown(event: KeyboardEvent) {

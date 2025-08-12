@@ -52,3 +52,8 @@ export type TableItem = { id: string } & {
 };
 
 export const COLUMN_SETTINGS_KEY = 'columnSettings' as const;
+
+export enum BOOLEAN {
+  TRUE = 'true',
+  FALSE = 'false',
+}
