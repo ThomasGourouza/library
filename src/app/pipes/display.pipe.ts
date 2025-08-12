@@ -5,8 +5,16 @@ import { Pipe, PipeTransform } from '@angular/core';
   standalone: true,
 })
 export class DisplayPipe implements PipeTransform {
-  transform(option: string, headerName: string): string {
+  transform(
+    option: string,
+    headerName: string,
+    birthYear?: string,
+    deathYear?: string
+  ): string {
     // TODO: Translate
+    if (!option && headerName !== 'deathYear') {
+      return '-';
+    }
     const lowerCaseOption = (
       option.charAt(0).toUpperCase() + option.slice(1).toLowerCase()
     )
@@ -48,6 +56,25 @@ export class DisplayPipe implements PipeTransform {
     ) {
       return lowerCaseOption;
     }
+    if (headerName === 'deathYear') {
+      if (this.isNullOrEmpty(birthYear)) {
+        if (this.isNullOrEmpty(deathYear)) {
+          return '-';
+        }
+        return deathYear + ' (?)';
+      }
+      const maxYear = !this.isNullOrEmpty(deathYear)
+        ? deathYear!
+        : new Date().getFullYear();
+      const age = +maxYear - +birthYear!;
+      return (
+        (!this.isNullOrEmpty(deathYear) ? deathYear : '-') + ' (' + age + ')'
+      );
+    }
     return option;
+  }
+
+  private isNullOrEmpty(value: string | undefined): boolean {
+    return !value || value === '';
   }
 }

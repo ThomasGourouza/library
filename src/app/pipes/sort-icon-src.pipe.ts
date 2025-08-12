@@ -12,22 +12,12 @@ export class SortIconSrcPipe implements PipeTransform {
     headerType: HeaderType
   ): string {
     if (headerType === HeaderType.NUMBER) {
-      switch (sortDirection) {
-        case SortDirection.ASC:
-          return 'assets/icons/arrow-numeric-up.svg';
-        case SortDirection.DESC:
-          return 'assets/icons/arrow-numeric-down.svg';
-        default:
-          return 'assets/icons/arrow-down-up.svg';
-      }
+      return sortDirection === SortDirection.ASC
+        ? 'assets/icons/arrow-numeric-asc.svg'
+        : 'assets/icons/arrow-numeric-desc.svg';
     }
-    switch (sortDirection) {
-      case SortDirection.ASC:
-        return 'assets/icons/arrow-up.svg';
-      case SortDirection.DESC:
-        return 'assets/icons/arrow-down.svg';
-      default:
-        return 'assets/icons/arrow-down-up.svg';
-    }
+    return sortDirection === SortDirection.ASC
+      ? 'assets/icons/arrow-asc.svg'
+      : 'assets/icons/arrow-desc.svg';
   }
 }

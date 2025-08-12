@@ -52,7 +52,9 @@
 }
 
 img {
-  cursor: pointer;
+  &:not(.header-icon.sort) {
+    cursor: pointer;
+  }
   &:not(.eye-icon):not(.filter-icon):not(.header-icon) {
     width: var(--icon-size);
     height: var(--icon-size);
@@ -72,10 +74,6 @@ img {
   }
 }
 
-.adjust {
-  width: 3px;
-}
-
 .header-label {
   display: flex;
   text-align: center;
@@ -92,7 +90,6 @@ img {
 }
 
 .hidden {
-  margin-top: 2px;
   opacity: 0;
   transition: opacity 0.3s ease;
   pointer-events: none;

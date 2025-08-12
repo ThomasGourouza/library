@@ -26,7 +26,7 @@
     "name": "Mark Twain",
     "country": "United States",
     "date": {
-      "birth": "1835-11-30",
+      "birth": null,
       "death": "1910-04-21"
     },
     "description": "Mark Twain was an American writer, humorist, entrepreneur, publisher, and lecturer.",

@@ -55,13 +55,6 @@ export class AuthorMappingService {
           value = new Date(author.date.death).getFullYear();
         }
         break;
-      case 'deathAge':
-        if (!!author.date.death) {
-          value =
-            new Date(author.date.death).getFullYear() -
-            new Date(author.date.birth).getFullYear();
-        }
-        break;
       default:
         break;
     }

@@ -23,16 +23,14 @@
                       ngOptimizedImage
                       class="header-icon"
                       [src]="header.icon | headerIconSrc"
-                    />
-                    <div [class.adjust]="!header.sortDirection"></div>
-                    <img
-                      [class.hide]="!header.sortDirection"
-                      [class.header-icon]="!!header.sortDirection"
-                      ngOptimizedImage
-                      [src]="header.sortDirection | sortIconSrc : header.type"
                       (click)="onSort(header.name, header.sortDirection)"
                     />
-                    <div [class.adjust]="!header.sortDirection"></div>
+                    <img
+                      [class.hidden]="!header.sortDirection"
+                      class="header-icon sort"
+                      ngOptimizedImage
+                      [src]="header.sortDirection | sortIconSrc : header.type"
+                    />
                   </div>
                   <div class="order-icon hide">
                     <img
@@ -80,7 +78,7 @@
                     "
                   >
                     <option
-                      *ngFor="let option of 'data' | selectList : header.name"
+                      *ngFor="let option of header.name | selectList"
                       [value]="option"
                     >
                       {{ option | display : header.name }}
@@ -166,7 +164,13 @@
               [class.selected]="row.id === rowId()"
             >
               <td *ngFor="let header of headers | visible | order">
-                {{ row[header.name] | display : header.name }}
+                {{
+                  row[header.name]
+                    | display
+                      : header.name
+                      : row["birthYear"]
+                      : row["deathYear"]
+                }}
               </td>
             </tr>
           </tbody>

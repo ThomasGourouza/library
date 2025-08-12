@@ -7,7 +7,7 @@ import { Audience, Category, Country, Language, Status, Type } from 'app/models/
 })
 export class SelectListPipe implements PipeTransform {
 
-  transform(value: string, headerName: string): string[] {
+  transform(headerName: string): string[] {
     let options: string[] = [];
     switch (headerName) {
       case 'language':
