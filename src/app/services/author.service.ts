@@ -23,7 +23,9 @@ export class AuthorService {
   get authors$(): Observable<Author[]> {
     return this.http.get<Author[]>(this.baseUrl).pipe(
       map((authors) =>
-        authors.map((author) => this.authorMappingService.mapAuthorWithEnums(author))
+        authors.map((author) =>
+          this.authorMappingService.mapAuthorWithEnums(author)
+        )
       ),
       catchError((e) => {
         console.error(e);
@@ -37,19 +39,29 @@ export class AuthorService {
     return this.http.delete<void>(`${this.baseUrl}/${id}`);
   }
 
-  createAuthor(authorCreate: AuthorCreate): Observable<Author> {
-    return this.http.post<Author>(this.baseUrl, authorCreate);
+  createAuthor(authorCreate: AuthorCreate): Observable<Author | null> {
+    return this.http.post<Author>(this.baseUrl, authorCreate).pipe(
+      map(this.authorMappingService.mapAuthorWithEnums),
+      catchError((e) => {
+        console.error(e);
+        return of(null);
+      })
+    );
   }
 
   /**
    * Returns the Location header /authors/{id} (for routing)
    */
-  createAuthorWithLocation(payload: AuthorCreate): Observable<{ author: Author; location: string | null }> {
-    return this.http.post<Author>(this.baseUrl, payload, { observe: 'response' }).pipe(
-      map((res: HttpResponse<Author>) => ({
-        author: res.body as Author,
-        location: res.headers.get('Location'),
-      }))
-    );
+  createAuthorWithLocation(
+    payload: AuthorCreate
+  ): Observable<{ author: Author; location: string | null }> {
+    return this.http
+      .post<Author>(this.baseUrl, payload, { observe: 'response' })
+      .pipe(
+        map((res: HttpResponse<Author>) => ({
+          author: res.body as Author,
+          location: res.headers.get('Location'),
+        }))
+      );
   }
 }
